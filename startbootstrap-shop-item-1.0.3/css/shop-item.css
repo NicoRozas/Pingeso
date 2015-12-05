@@ -8,6 +8,11 @@ body {
     padding-top: 70px; /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
 }
 
+#contenedor {
+  width: 300px;
+  text-align: center;
+  margin: 0 auto;
+}
 .thumbnail img {
     width: 100%;
 }
@@ -19,6 +24,7 @@ body {
 }
 
 .thumbnail {
+	text-align: center;
     padding: 0;
 }
 

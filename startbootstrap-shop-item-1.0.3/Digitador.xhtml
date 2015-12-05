@@ -1,0 +1,282 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <!-- head -->
+    <h:head>
+        <meta content="" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>
+            Servicio Médico Legal
+        </title>
+        <!--  Bootstrap Core CSS -->
+        <link href="css/bootstrap.min.css" rel="stylesheet" />
+        <!--  Custom CSS -->
+        <link href="css/shop-item.css" rel="stylesheet" />
+    </h:head>
+    <!-- head -->
+
+    <h:body>
+
+        <div class="container">
+
+
+<!-- Usuario logeado -->
+            <div class="thumbnail" style="padding:15px;">
+                <h:form>
+                    <h:outputLabel class="input-group-addon" for="NombreUsuario" value="#{funcionGetNombreUsuario}">(Acá saldrá nombre de usuario)</h:outputLabel>
+                    <h:commandButton class="btn btn-primary btn-lg" id="btnSalir" value="Salir" action="#{funcSalir()}"/> (Acá Saldrá el boton de salir)
+                </h:form> 
+            </div>
+                                <!-- usuario logeado -->
+            <!-- Nav -->
+            <div class="row" style="background:rgba(255, 255, 255, 0.8); padding:5px; border-radius: 0 0 7px 7px; margin-top:5px">
+                <div  class="col-md-3" align="center"> <!-- Barra de navegación -->
+                    <a class="navbar-brand" align="center" href="#">SERVICIO MÉDICO LEGAL</a>
+                </div>
+                <div class="col-md-9"> <!-- Barra de navegación -->
+                    <ul class="nav nav-tabs nav-justified">
+                        <li role="presentation"><a href="inicio.xhtml">Inicio</a></li>
+                        <li role="presentation" class="active"><a href="#">Cadena de Custodia</a></li>
+                        <li role="presentation"><a href="asignaciones.xhtml">Asignaciones</a></li>
+                        <li role="presentation"><a href="estadisticas.xhtml">Estadísticas</a></li>
+                    </ul>
+                </div>
+            </div>   	
+
+            <!-- Nav -->
+            <!-- Barra lateral izquierda -->
+
+            <div class="container-fluid">       
+                <div class="row" style="background:rgba(255, 255, 255, 0.8); padding:5px; border-radius: 0 0 7px 7px; margin-top:10px">
+                    <div class="col-md-3">
+                        <p class="lead">
+                            <a href="http://www.sml.cl/sml/" target="_blank" ><img class="img-responsive" src="imagenes/logoSML.jpg" alt="" /> </a>
+                        </p><hr />
+                        <p class="lead">
+                            <img class="img-responsive" src="imagenes/camioneta.jpg" alt="" />
+                        </p><hr />
+                        <h4> Misión </h4>
+                        <p>
+                            Otorgar un servicio altamente calificado en materias médico legales y forenses a los órganos de la administración de justicia y la ciudadanía en general, a través de la realización de pericias médico-legales, garantizando calidad, confiabilidad, oportunidad, imparcialidad y trato digno a mujeres y hombres. Desarrollando, asimismo, la investigación científica, docencia y extensión en materias propias de su competencia. 
+                        </p><hr />
+                        <h4> Visión </h4>
+                        <p>
+                            Ser como institución del Estado el principal referente científico-técnico en materias médico legales y forenses, con un accionar de calidad, eficiente, oportuno e imparcial. Estructurado, organizado y altamente valorado por la comunidad, aportando a una mejor administración de justicia. 
+                        </p><hr />                        
+                        <p class="lead">
+                            <a href="https://www.facebook.com/smlchile" target="_blank"><img class="img-responsive" src="imagenes/fb_logo1.png" alt=" "/></a>
+                        </p><hr />                       
+                    </div>
+
+                    <!-- Barra lateral izquierda -->
+                    <!-- formulario -->
+                    <div class="col-md-9">
+                        <div class="thumbnail" style="padding:15px;">
+                            <h4 class="pull-center">ROTULO - FORMULARIO ÚNICO</h4>
+                            <h4 class="pull-center">DE CADENA DE CUSTODIA</h4>
+                            <p>(Acompaña a la evidencia en todo momento)</p>
+                            <h:form>
+                                <h:panelGrid columns="4" cellpadding="5" class="ui-grid">
+                                    <h:outputLabel class="input-group-addon" for="ruc" value="R.U.C.:" style="width:120px"></h:outputLabel>
+                                    <h:inputText id="ruc" value="" label="rucz" required="true"></h:inputText>
+
+                                    <h:outputLabel class="input-group-addon" for="rit" value="R.I.T.:" style="width:120px"></h:outputLabel>
+                                    <h:inputText id="rit" value="" label="rit" required="true"></h:inputText>
+
+                                    <h:outputLabel class="input-group-addon" for="nue" value="N.U.E.:" style="width:120px"></h:outputLabel>
+                                    <h:inputNumber type="" id="nue" value="" label="nue" required="true"></h:inputNumber>
+
+                                    <h:outputLabel class="input-group-addon" for="del" value="Delito:" style="width:120px"></h:outputLabel>
+                                    <h:inputText id="del" value="" label="Delito" required="true"></h:inputText>
+
+                                    <h:outputLabel class="input-group-addon" for="fecha" value="Fecha:" style="width:120px"></h:outputLabel>
+                                    <h:inputText id="fecha" value="" label="Fecha" required="true"></h:inputText>
+
+                                    <h:outputLabel class="input-group-addon" for="hora" value="Hora:" style="width:120px"></h:outputLabel>
+                                    <h:inputText id="hora" value="" label="Hora" required="true"></h:inputText>        	
+
+                                    <h:outputLabel class="input-group-addon" for="dir" value="Dirección:" style="width:120px"></h:outputLabel>
+                                    <h:inputText id="dir" value="" label="Dirección" required="true"></h:inputText>
+
+                                    <h:outputLabel class="input-group-addon" for="lu" value="Lugar:" style="width:120px"></h:outputLabel>
+                                    <h:inputText id="lu" value="" label="Lugar" required="true"></h:inputText>
+
+                                    <h:outputLabel class="input-group-addon" for="parte" value="N° Parte:" style="width:120px"></h:outputLabel>
+                                    <h:inputNumber id="parte" value="" label="N° Parte" required="true"></h:inputNumber>
+
+                                    <h:outputLabel class="input-group-addon" for="uni" value="Unidad:" style="width:120px"></h:outputLabel>
+                                    <h:inputText id="uni" value="" label="Unidad" required="true"></h:inputText>
+
+                                    <h:outputLabel class="input-group-addon" for="lev" value="Levantada por:" style="width:120px"></h:outputLabel>
+                                    <h:inputText id="lev" value="" label="Levantada por" required="true"></h:inputText>
+
+                                    <h:outputLabel class="input-group-addon" for="run" value="R.U.N.:" style="width:120px"></h:outputLabel>
+                                    <h:inputText id="run" value="" label="R.U.N." required="true"></h:inputText>
+
+                                    <h:outputLabel class="input-group-addon" for="cargo" value="Cargo:" style="width:120px"></h:outputLabel>
+                                    <h:inputText id="cargo" value="" label="Cargo" required="true"></h:inputText>
+
+
+                                </h:panelGrid> <br />
+
+                                <h:panelGrid columns="1" cellpadding="5" class="ui-grid">
+                                    <h:outputLabel class="input-group-addon" for="obs" value="Observaciones:" style="width:120px"></h:outputLabel>
+                                    <p:inputTextarea id="Observaciones" rows="3" cols="90" value="" queryDelay="750" minQueryLength="4" />
+
+                                    <h:outputLabel class="input-group-addon" for="des" value="Descripción:" style="width:120px"></h:outputLabel>
+                                    <p:inputTextarea id="descripcion" rows="3" cols="90" value="" queryDelay="750" minQueryLength="4" />
+
+                        
+                                </h:panelGrid>                                
+                        
+                        
+
+                        <!-- formulario -->
+                        <!-- Cadena Custodia -->
+
+                        
+                            <h4 class="pull-center">Cadena de Custodia</h4>
+                        
+                                <h:panelGrid columns="4" cellpadding="5" class="ui-grid">
+                                    <h:outputLabel class="input-group-addon" style="width:175px" for="fech" value="Fecha:"></h:outputLabel> <!-- nose si poner la misma etiqueta -->
+                                    <h:inputText id="fech" value="" label="Fecha" required="true"></h:inputText> <!-- nose si poner la misma etiqueta -->
+
+                                    <h:outputLabel class="input-group-addon" style="width:175px" for="hor" value="Hora:"></h:outputLabel> <!-- nose si poner la misma etiqueta -->
+                                    <h:inputText id="hor" value="" label="hora" required="true"></h:inputText> <!-- nose si poner la misma etiqueta -->
+                                </h:panelGrid>
+                                <br />
+                                <h4 class="pull-center">Entrega:</h4> <br />
+
+                                <h:panelGrid columns="3" cellpadding="5" class="ui-grid">
+
+                                    <h:outputLabel class="input-group-addon" style="width:175px" for="UnE" value="Unidad:"></h:outputLabel> <!-- nose si poner la misma etiqueta -->
+                                    <h:inputText id="UnE" value="" label="Unidad" required="true"></h:inputText> <!-- nose si poner la misma etiqueta -->
+
+                                </h:panelGrid>
+                                <h:panelGrid columns="2" cellpadding="5" class="ui-grid">
+
+                                    <h:outputLabel class="input-group-addon" style="width:175px" for="nomE" value="Nombre:"></h:outputLabel>
+                                    <h:inputText id="nomE" value="" label="Nombre" required="true"></h:inputText>
+
+                                </h:panelGrid>
+
+                                <h:panelGrid columns="2" cellpadding="5" class="ui-grid">
+
+                                    <h:outputLabel class="input-group-addon" style="width:175px" for="CarE" value="Cargo:"></h:outputLabel>
+                                    <h:inputText id="CarE" value="" label="Cargo" required="true"></h:inputText>
+
+                                    <h:outputLabel class="input-group-addon" style="width:175px" for="runE" value="R.U.N.:"></h:outputLabel>
+                                    <h:inputText id="runE" value="" label="R.U.N." required="true"></h:inputText>
+
+                                </h:panelGrid>
+                                <br />
+                                <h4 class="pull-center">Recibe:</h4><br />
+
+                                <h:panelGrid columns="3" cellpadding="5" class="ui-grid">
+                                    <h:outputLabel class="input-group-addon" style="width:175px" for="UnR" value="Unidad:"></h:outputLabel> <!-- nose si poner la misma etiqueta -->
+                                    <h:inputText id="UnR" value="" label="Unidad" required="true"></h:inputText> <!-- nose si poner la misma etiqueta -->
+                                </h:panelGrid>
+
+                                <h:panelGrid columns="2" cellpadding="5" class="ui-grid">
+                                    <h:outputLabel class="input-group-addon" style="width:175px" for="nomR" value="Nombre:"></h:outputLabel>
+                                    <h:inputText id="nomR" value="" label="Nombre" required="true"></h:inputText>
+
+                                </h:panelGrid>
+
+                                <h:panelGrid columns="2" cellpadding="5" class="ui-grid">
+                                    <h:outputLabel class="input-group-addon" style="width:175px" for="CarR" value="Cargo:"></h:outputLabel>
+                                    <h:inputText id="CarR" value="" label="Cargo" required="true"></h:inputText>
+
+                                    <h:outputLabel class="input-group-addon" style="width:175px" for="runR" value="R.U.N.:"></h:outputLabel>
+                                    <h:inputText id="runR" value="" label="R.U.N." required="true"></h:inputText>
+                                </h:panelGrid>
+                                <br />
+                                <h:selectOneRadio value="#{user.favColor1}">
+                                    <f:selectItem itemValue="Red" itemLabel="Peritaje" /> <!-- agregar libreria arriba-->
+                                    <f:selectItem itemValue="Green" itemLabel="Traslado" />
+                                    <f:selectItem itemValue="Blue" itemLabel="Custodia" />
+                                </h:selectOneRadio><br />
+
+                                <h:outputLabel class="input-group-addon" for="obsCC" value="Observaciones:" style="width:120px"></h:outputLabel>
+                                <p:inputTextarea id="ObsCC" rows="3" cols="90" value="" queryDelay="750" minQueryLength="4" />
+                                <br />    
+                                <h:commandButton id="btnAceptar" value="Aceptar" action="#{formularioJSFManagedBean.agregarTraslado()}"/>
+
+                            </h:form> <br />
+
+                            <!-- Cadena Custodia -->
+                            <!-- Mostrar Cadena Custodia -->
+
+                        </div>
+                        <div class="thumbnail" style="padding:15px;">
+                            <div class="input-group">
+                                <h:form id="form">
+                                    <!-- mostrar formulario -->
+                                    <h:panelGrid columns="" cellpadding="5" class="ui-grid">
+                                        <p:dataList value="#{formularioMB.formulario.nose}">
+                                            <h4> R.U.C.: </h4><h:outputText value="#{formulario.ruc}"/>
+                                            <h4> R.I.T.: </h4><h:outputText value="#{formulario.rit}" />
+                                            <h4> R.U.C.: </h4><h:outputText value="#{formulario.nue}"/>
+                                            <h4> Delito: </h4><h:outputText value="#{formulario.delito}"/>
+                                            <h4> Fecha: </h4><h:outputText value="#{formulario.fecha}"/>
+                                            <h4> Hora: </h4><h:outputText value="#{formulario.hora}"/>
+                                            <h4> Dirección: </h4><h:outputText value="#{formulario.dirección}"/>
+                                            <h4> Lugar: </h4><h:outputText value="#{formulario.lugar}"/>
+                                            <h4> N°Parte: </h4><h:outputText value="#{formulario.parte}"/>
+                                            <h4> Levantada Por: </h4><h:outputText value="#{formulario.levantadaPor}"/>
+                                            <h4> R.U.N.: </h4><h:outputText value="#{formulario.run}"/>
+                                            <h4> Cargo: </h4><h:outputText value="#{formulario.cargo}"/>
+                                            <h4> Observaciones </h4><h:outputText value="#{formulario.observaciones}" />
+                                        </p:dataList>
+                                    </h:panelGrid><hr />
+                                    <!-- mostrar formulario -->
+                                    <!-- mostrar CC -->
+                                    <p:dataList value="#{formularioMB.cadenaCustodia.involucradoList}" var="involucrados">
+                                        <h4>Entrega</h4>                                        
+                                        <h:outputText value="#{involucrados.fechaEntrega}, 14:00, #{involucrados.externoidExterno.unidadExterno}" />
+                                        <h:outputText value="#{involucrados.externoidExterno.nombreExterno}, #{involucrados.externoidExterno.cargoExterno}, #{involucrados.externoidExterno.runExterno}" /> <hr />
+                                        <h4>Recibe</h4>
+                                        <h:outputText value="#{involucrados.fechaEntrega}, 14:00, #{involucrados.externoidExterno1.unidadExterno}" />
+                                        <h:outputText value="#{involucrados.externoidExterno1.nombreExterno}, #{involucrados.externoidExterno1.cargoExterno}, #{involucrados.externoidExterno1.runExterno}" /><hr />
+
+                                    </p:dataList>
+                                    <!-- mostrar CC -->
+                                </h:form>
+                            </div>                           
+                        </div>
+                    </div>
+
+                    <!-- Mostrar Cadena Custodia -->
+                    <!-- Footer -->
+
+                </div>
+                <nav class="navbar navbar-default" role="navigation">
+                    <div class="col-md-3" style="margin-top: 20px">
+                        <p class="lead">
+                            <img class="img-responsive" src="imagenes/footer2.jpg" alt="" />
+                        </p><br />
+                    </div>
+                    <div class="col-md-9">
+
+                        <h5 class="pull-right">
+                            Servicio Médico Legal - Avda. La Paz 1012, Independencia,
+                            Santiago - Teléfono Mesa Central:
+                        </h5>
+                        <h5 class="pull-right">
+                            (2) 27823500 Fono OIRS: (2) 2782 3662 - 2782 3663 - 2782 3664 - 800
+                            800 006
+                        </h5>
+                    </div>                    
+                </nav>        
+            </div>
+        </div>
+        <!-- Footer -->
+
+    </h:body>
+</html>
+
