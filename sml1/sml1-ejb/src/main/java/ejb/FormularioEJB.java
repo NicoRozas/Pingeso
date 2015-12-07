@@ -7,6 +7,7 @@ package ejb;
 
 import entity.Cargo;
 import entity.Formulario;
+import entity.TipoMotivo;
 import entity.Traslado;
 import entity.Usuario;
 import facade.AreaFacadeLocal;
@@ -31,6 +32,9 @@ import javax.ejb.Stateless;
 public class FormularioEJB implements FormularioEJBLocal {
     
     @EJB
+    private TipoMotivoFacadeLocal tipoMotivoLocal;
+    
+    @EJB
     private TipoUsuarioFacadeLocal tipoUsuarioFacade;
     
     @EJB
@@ -44,16 +48,25 @@ public class FormularioEJB implements FormularioEJBLocal {
 
     @EJB
     private UsuarioFacadeLocal usuarioFacade;
-
-    @EJB
-    private TipoMotivoFacadeLocal tipoMotivoFacade;
-
-    @EJB
-    private FormularioFacadeLocal formularioFacade;    
     
-
+    @EJB
+    private FormularioFacadeLocal formularioFacade;        
+    
     static final Logger logger = Logger.getLogger(FormularioEJB.class.getName());
 
+    @Override
+    public List<TipoMotivo> findAllMotivos(){
+        logger.setLevel(Level.ALL);
+        logger.entering(this.getClass().getName(), "findAllMotivos");
+        List<TipoMotivo> motivos = tipoMotivoLocal.findAll();
+        if(motivos != null && !motivos.isEmpty()){
+            logger.exiting(this.getClass().getName(), "findAllMotivos"+motivos.size());
+            return motivos;
+        }
+        logger.exiting(this.getClass().getName(), "findAllMotivos"+null);
+        return null;       
+    }
+    
     @Override
     public boolean crearFormulario(Formulario formulario, Usuario usuarioFormulario, String cargo) {
         logger.setLevel(Level.ALL);
@@ -85,22 +98,19 @@ public class FormularioEJB implements FormularioEJBLocal {
         }        
     }
 
-    private Date fechaStringToDate(String fecha, String hora){
-        Date retorno = new Date(System.currentTimeMillis());
-        return retorno;
-    }
     
     @Override
-    public boolean crearTraslado(Usuario usuarioEntrega, Usuario usuarioRecibe, String fecha, String hora, String motivo, String observacionesT , String descripcionEspecie, String cargoEntrega, String cargoRecibe, int nue) {        
+    public boolean crearTraslado(Usuario usuarioEntrega, Usuario usuarioRecibe, Date fecha, String motivo, String observacionesT , String descripcionEspecie, String cargoEntrega, String cargoRecibe, int nue) {        
         logger.setLevel(Level.ALL);
         logger.entering(this.getClass().getName(), "crearTraslado");
         usuarioEntrega = traerUsuario(usuarioEntrega, cargoEntrega);
         usuarioRecibe = traerUsuario(usuarioRecibe, cargoRecibe);
         Traslado nuevoTraslado = new Traslado();
         if(usuarioEntrega != null && usuarioRecibe != null && nue != 0){
-            nuevoTraslado.setFechaEntrega(fechaStringToDate(fecha, hora));
+            nuevoTraslado.setFechaEntrega(fecha);
             nuevoTraslado.setObservaciones(observacionesT);
-            nuevoTraslado.setTipoMotivoidMotivo(tipoMotivoFacade.find(1));
+            
+            nuevoTraslado.setTipoMotivoidMotivo(tipoMotivoLocal.find(1));            
             nuevoTraslado.setUsuarioidUsuario1(usuarioEntrega);
             nuevoTraslado.setUsuarioidUsuario(usuarioRecibe);            
             nuevoTraslado.setFormularioNUE(formularioFacade.find(nue));

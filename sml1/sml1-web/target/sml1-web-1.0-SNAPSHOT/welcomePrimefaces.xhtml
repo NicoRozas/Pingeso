@@ -2,7 +2,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <!-- head -->
     <h:head>
         <meta content="" />
@@ -64,151 +65,140 @@
 
                     <!-- Barra lateral izquierda -->
                     <!-- formulario -->
-                    <div class="col-md-9">
-                        <div class="thumbnail" style="padding:15px;">
-                            <h4 class="pull-center">ROTULO - FORMULARIO ÚNICO</h4>
-                            <h4 class="pull-center">DE CADENA DE CUSTODIA</h4>
-                            <p>(Acompaña a la evidencia en todo momento)</p>
-                            <h:form>
+                    <h:form>
+                        <div class="col-md-9">
+                            <div class="thumbnail" style="padding:15px;">
+                                <h4 class="pull-center">ROTULO - FORMULARIO ÚNICO</h4>
+                                <h4 class="pull-center">DE CADENA DE CUSTODIA</h4>
+                                <p>(Acompaña a la evidencia en todo momento)</p>
+
                                 <h:panelGrid columns="4" cellpadding="5" class="ui-grid">
                                     <h:outputLabel class="input-group-addon" for="ruc" value="R.U.C.:" style="width:120px"></h:outputLabel>
-                                    <h:inputText id="ruc" value="#{formularioJSFManagedBean.formulario.ruc}" label="rucz" required="true"></h:inputText>
+                                    <h:inputText id="ruc" value="#{formularioMB.formulario.ruc}" label="rucz" ></h:inputText>
 
                                     <h:outputLabel class="input-group-addon" for="rit" value="R.I.T.:" style="width:120px"></h:outputLabel>
-                                    <h:inputText id="rit" value="#{formularioJSFManagedBean.formulario.rit}" label="rit" required="true"></h:inputText>
+                                    <h:inputText id="rit" value="#{formularioMB.formulario.rit}" label="rit" ></h:inputText>
 
                                     <h:outputLabel class="input-group-addon" for="nue" value="N.U.E.:" style="width:120px"></h:outputLabel>
-                                    <h:inputText id="nue" value="#{formularioJSFManagedBean.formulario.nue}" label="nue" required="true"></h:inputText>
+                                    <h:inputText id="nue" value="#{formularioMB.formulario.nue}" label="nue"  ></h:inputText>
 
                                     <h:outputLabel class="input-group-addon" for="del" value="Delito:" style="width:120px"></h:outputLabel>
-                                    <h:inputText id="del" value="#{formularioJSFManagedBean.formulario.delitoRef}" label="Delito" required="true"></h:inputText>
+                                    <h:inputText id="del" value="#{formularioMB.formulario.delitoRef}" label="Delito"  ></h:inputText>
 
                                     <h:outputLabel class="input-group-addon" for="fecha" value="Fecha:" style="width:120px"></h:outputLabel>
-                                    <h:inputText id="fecha" value="#{formularioJSFManagedBean.fechaFormulario}" label="Fecha" required="true"></h:inputText>
+                                    <p:calendar id="fecha" pattern="dd/MM/yyyy HH:mm" locale="es" value="#{formularioMB.formulario.fechaOcurrido}"/>                                   
 
                                     <h:outputLabel class="input-group-addon" for="hora" value="Hora:" style="width:120px"></h:outputLabel>
-                                    <h:inputText id="hora" value="#{formularioJSFManagedBean.horaFormulario}" label="Hora" required="true"></h:inputText>        	
+                                    <h:inputText id="hora" value="#{formularioMB.horaFormulario}" label="Hora"  ></h:inputText>        	
 
                                     <h:outputLabel class="input-group-addon" for="dir" value="Dirección:" style="width:120px"></h:outputLabel>
-                                    <h:inputText id="dir" value="#{formularioJSFManagedBean.formulario.direccionSS}" label="Dirección" required="true"></h:inputText>
+                                    <h:inputText id="dir" value="#{formularioMB.formulario.direccionSS}" label="Dirección"  ></h:inputText>
 
                                     <h:outputLabel class="input-group-addon" for="lu" value="Lugar:" style="width:120px"></h:outputLabel>
-                                    <h:inputText id="lu" value="#{formularioJSFManagedBean.formulario.lugarLevantamiento}" label="Lugar" required="true"></h:inputText>
+                                    <h:inputText id="lu" value="#{formularioMB.formulario.lugarLevantamiento}" label="Lugar"  ></h:inputText>
 
                                     <h:outputLabel class="input-group-addon" for="parte" value="N° Parte:" style="width:120px"></h:outputLabel>
-                                    <h:inputText id="parte" value="#{formularioJSFManagedBean.formulario.numeroParte}" label="N° Parte" required="true"></h:inputText>
+                                    <h:inputText id="parte" value="#{formularioMB.formulario.numeroParte}" label="N° Parte"  ></h:inputText>
 
                                     <h:outputLabel class="input-group-addon" for="uni" value="Unidad:" style="width:120px"></h:outputLabel>
-                                    <h:inputText id="uni" value="#{formularioJSFManagedBean.usuarioIniciaFormulario.unidad}" label="Unidad" required="true"></h:inputText>
+                                    <h:inputText id="uni" value="#{formularioMB.usuarioIniciaFormulario.unidad}" label="Unidad"  ></h:inputText>
 
                                     <h:outputLabel class="input-group-addon" for="lev" value="Levantada por:" style="width:120px"></h:outputLabel>
-                                    <h:inputText id="lev" value="#{formularioJSFManagedBean.usuarioIniciaFormulario.nombreUsuario}" label="Levantada por" required="true"></h:inputText>
+                                    <h:inputText id="lev" value="#{formularioMB.usuarioIniciaFormulario.nombreUsuario}" label="Levantada por"  ></h:inputText>
 
                                     <h:outputLabel class="input-group-addon" for="run" value="R.U.N.:" style="width:120px"></h:outputLabel>
-                                    <h:inputText id="run" value="#{formularioJSFManagedBean.usuarioIniciaFormulario.rutUsuario}" label="R.U.N." required="true"></h:inputText>
+                                    <h:inputText id="run" value="#{formularioMB.usuarioIniciaFormulario.rutUsuario}" label="R.U.N."  ></h:inputText>
 
                                     <h:outputLabel class="input-group-addon" for="cargo" value="Cargo:" style="width:120px"></h:outputLabel>
-                                    <h:inputText id="cargo" value="#{formularioJSFManagedBean.cargoInicia}" label="Cargo" required="true"></h:inputText>
-                                    
+                                    <h:inputText id="cargo" value="#{formularioMB.cargoInicia}" label="Cargo"  ></h:inputText>
+
                                 </h:panelGrid> <br />
-                            
+
                                 <h:panelGrid columns="1" cellpadding="5" class="ui-grid">
                                     <h:outputLabel class="input-group-addon" for="obs" value="Observaciones:" style="width:120px"></h:outputLabel>
-                                    <p:inputTextarea id="obs" rows="3" cols="90" value="#{formularioJSFManagedBean.formulario.observaciones}" queryDelay="750" minQueryLength="4" />
-                                                                        
+                                    <p:inputTextarea id="obs" rows="3" cols="90" value="#{formularioMB.formulario.observaciones}" queryDelay="750" minQueryLength="4" />
+
                                     <h:outputLabel class="input-group-addon" for="des" value="Descripción:" style="width:120px"></h:outputLabel>
-                                    <p:inputTextarea id="des" rows="3" cols="90" value="#{formularioJSFManagedBean.formulario.descripcionEspecieFormulario}" queryDelay="750" minQueryLength="4" />
+                                    <p:inputTextarea id="des" rows="3" cols="90" value="#{formularioMB.formulario.descripcionEspecieFormulario}" queryDelay="750" minQueryLength="4" />
 
-                                    <h:commandButton id="btnAceptar" value="Aceptar" action="#{formularioJSFManagedBean.crearFormulario()}"/>
+
                                 </h:panelGrid>                                
-                            </h:form>
-                        </div>
 
-                        <!-- formulario -->
-                        <!-- Cadena Custodia -->
+                            </div>
 
-                        <div class="thumbnail" style="padding:15px;">
-                            <h4 class="pull-center">Cadena de Custodia</h4>
-                            <h:form>
-                                <h:outputLabel for="fech" value="Fecha:"></h:outputLabel> <!-- nose si poner la misma etiqueta -->
-                                <h:inputText id="fech" value="#{formularioJSFManagedBean.fechaTraslado}" label="Fecha" required="true"></h:inputText> <!-- nose si poner la misma etiqueta -->
-
-                                <h:outputLabel for="hor" value="Hora:"></h:outputLabel> <!-- nose si poner la misma etiqueta -->
-                                <h:inputText id="hor" value="#{formularioJSFManagedBean.horaTraslado}" label="hora" required="true"></h:inputText> <!-- nose si poner la misma etiqueta -->
-                            </h:form> <br />
-                            <h4 class="pull-center">Entrega:</h4>
-                            <h:form>
-                                <h:outputLabel for="UnE" value="Unidad:"></h:outputLabel> <!-- nose si poner la misma etiqueta -->
-                                <h:inputText id="UnE" value="#{formularioJSFManagedBean.usuarioEntrega.unidad}" label="Unidad" required="true"></h:inputText> <!-- nose si poner la misma etiqueta -->
-                            </h:form> <br />
-                            <h:form>
-                                <h:outputLabel for="nomE" value="Nombre:"></h:outputLabel>
-                                <h:inputText id="nomE" value="#{formularioJSFManagedBean.usuarioEntrega.nombreUsuario}" label="Nombre" required="true"></h:inputText>
-
-                                <h:outputLabel for="CarE" value="Cargo:"></h:outputLabel>
-                                <h:inputText id="CarE" value="#{formularioJSFManagedBean.cargoEntrega}" label="Cargo" required="true"></h:inputText>
-
-                                <h:outputLabel for="runE" value="R.U.N.:"></h:outputLabel>
-                                <h:inputText id="runE" value="#{formularioJSFManagedBean.usuarioEntrega.rutUsuario}" label="R.U.N." required="true"></h:inputText>
-                            </h:form> <br />
-                            <h4 class="pull-center">Recibe:</h4>
-
-                            <h:form>
-                                <h:outputLabel for="UnR" value="Unidad:"></h:outputLabel> <!-- nose si poner la misma etiqueta -->
-                                <h:inputText id="UnR" value="#{formularioJSFManagedBean.usuarioRecibe.unidad}" label="Unidad" required="true"></h:inputText> <!-- nose si poner la misma etiqueta -->
-                            </h:form> <br />
-                            <h:form>
-                                <h:outputLabel for="nomR" value="Nombre:"></h:outputLabel>
-                                <h:inputText id="nomR" value="#{formularioJSFManagedBean.usuarioRecibe.nombreUsuario}" label="Nombre" required="true"></h:inputText>
-
-                                <h:outputLabel for="CarR" value="Cargo:"></h:outputLabel>
-                                <h:inputText id="CarR" value="#{formularioJSFManagedBean.cargoRecibe}" label="Cargo" required="true"></h:inputText>
-
-                                <h:outputLabel for="runR" value="R.U.N.:"></h:outputLabel>
-                                <h:inputText id="runR" value="#{formularioJSFManagedBean.usuarioRecibe.rutUsuario}" label="R.U.N." required="true"></h:inputText>
-                            </h:form> <br />
-                            <h:form>
-                                <h:commandButton id="btnAceptar" value="Aceptar" action="#{formularioJSFManagedBean.agregarTraslado()}"/>
-                            </h:form> <br />
-
+                            <!-- formulario -->
                             <!-- Cadena Custodia -->
-                            <!-- Mostrar Cadena Custodia -->
 
+                            <div class="thumbnail" style="padding:15px;">
+                                <h4 class="pull-center">Cadena de Custodia</h4>
+                                <h:form>
+                                    <h:outputLabel class="input-group-addon" for="fech" value="Fecha:" style="width:120px"></h:outputLabel>
+                                    <p:calendar id="fech" pattern="dd/MM//yyyy HH:mm" locale="es" value="#{formularioMB.formulario.fechaOcurrido}"/>                                   
+
+                                </h:form> <br />
+                                <h4 class="pull-center">Entrega:</h4>
+                                <h:form>
+                                    <h:outputLabel for="UnE" value="Unidad:"></h:outputLabel> <!-- nose si poner la misma etiqueta -->
+                                    <h:inputText id="UnE" value="#{formularioMB.usuarioEntrega.unidad}" label="Unidad"  ></h:inputText> <!-- nose si poner la misma etiqueta -->
+                                </h:form> <br />
+                                <h:form>
+                                    <h:outputLabel for="nomE" value="Nombre:"></h:outputLabel>
+                                    <h:inputText id="nomE" value="#{formularioMB.usuarioEntrega.nombreUsuario}" label="Nombre"  ></h:inputText>
+
+                                    <h:outputLabel for="CarE" value="Cargo:"></h:outputLabel>
+                                    <h:inputText id="CarE" value="#{formularioMB.cargoEntrega}" label="Cargo"  ></h:inputText>
+
+                                    <h:outputLabel for="runE" value="R.U.N.:"></h:outputLabel>
+                                    <h:inputText id="runE" value="#{formularioMB.usuarioEntrega.rutUsuario}" label="R.U.N."  ></h:inputText>
+                                </h:form> <br />
+                                <h4 class="pull-center">Recibe:</h4>
+
+                                <h:form>
+                                    <h:outputLabel for="UnR" value="Unidad:"></h:outputLabel> <!-- nose si poner la misma etiqueta -->
+                                    <h:inputText id="UnR" value="#{formularioMB.usuarioRecibe.unidad}" label="Unidad"  ></h:inputText> <!-- nose si poner la misma etiqueta -->
+                                </h:form> <br />
+                                <h:form>
+                                    <h:outputLabel for="nomR" value="Nombre:"></h:outputLabel>
+                                    <h:inputText id="nomR" value="#{formularioMB.usuarioRecibe.nombreUsuario}" label="Nombre"  ></h:inputText>
+
+                                    <h:outputLabel for="CarR" value="Cargo:"></h:outputLabel>
+                                    <h:inputText id="CarR" value="#{formularioMB.cargoRecibe}" label="Cargo"  ></h:inputText>
+
+                                    <h:outputLabel for="runR" value="R.U.N.:"></h:outputLabel>
+                                    <h:inputText id="runR" value="#{formularioMB.usuarioRecibe.rutUsuario}" label="R.U.N."  ></h:inputText>
+                                </h:form> <br />
+                                <h:form>
+                                    <h:commandButton id="btnAceptar" value="Aceptar" actionListener="#{formularioMB.agregarTraslado()}">
+                                        <f:param name="nue" value="#{formularioMB.formulario.nue}"></f:param>
+                                    </h:commandButton>
+                                </h:form> <br />
+                            </div>
+
+                            <!-- Footer -->
+                            <nav class="navbar navbar-default" role="navigation">
+                                <div class="col-md-3" style="margin-top: 20px">
+                                    <p class="lead">
+                                        <img class="img-responsive" src="imagenes/footer2.jpg" alt="" />
+                                    </p><br />
+                                </div>
+                                <div class="col-md-9">
+
+                                    <h5 class="pull-right">
+                                        Servicio Médico Legal - Avda. La Paz 1012, Independencia,
+                                        Santiago - Teléfono Mesa Central:
+                                    </h5>
+                                    <h5 class="pull-right">
+                                        (2) 27823500 Fono OIRS: (2) 2782 3662 - 2782 3663 - 2782 3664 - 800
+                                        800 006
+                                    </h5>
+                                </div>                    
+                            </nav>        
                         </div>
-                        <div class="thumbnail" style="padding:15px;">
-                            <div class="input-group">
-                                <h:form id="form">
-                                </h:form>
-                            </div>                           
-                        </div>
-                    </div>
-
-                    <!-- Mostrar Cadena Custodia -->
-                    <!-- Footer -->
-
+                    </h:form>
                 </div>
-                <nav class="navbar navbar-default" role="navigation">
-                    <div class="col-md-3" style="margin-top: 20px">
-                        <p class="lead">
-                            <img class="img-responsive" src="imagenes/footer2.jpg" alt="" />
-                        </p><br />
-                    </div>
-                    <div class="col-md-9">
-
-                        <h5 class="pull-right">
-                            Servicio Médico Legal - Avda. La Paz 1012, Independencia,
-                            Santiago - Teléfono Mesa Central:
-                        </h5>
-                        <h5 class="pull-right">
-                            (2) 27823500 Fono OIRS: (2) 2782 3662 - 2782 3663 - 2782 3664 - 800
-                            800 006
-                        </h5>
-                    </div>                    
-                </nav>        
-            </div>
-        </div>
-        <!-- Footer -->
-
-    </h:body>
-</html>
+                 </div>
+                <!-- Footer -->
+ </div>
+                </h:body>
+                </html>
 

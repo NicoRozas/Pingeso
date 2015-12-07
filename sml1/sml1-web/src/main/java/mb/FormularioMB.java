@@ -7,12 +7,15 @@ package mb;
 
 import ejb.FormularioEJBLocal;
 import entity.Formulario;
+import entity.TipoMotivo;
 import entity.Traslado;
 import entity.Usuario;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
@@ -22,35 +25,31 @@ import javax.faces.bean.ManagedBean;
  *
  * @author Aracelly
  */
-@Named(value = "formularioJSFManagedBean")
+@Named(value = "formularioMB")
 @ManagedBean
 @RequestScoped
 public class FormularioMB {
     
     static final Logger logger = Logger.getLogger(FormularioMB.class.getName());
     
+    private String nombreUserSesion = "pepito";
+    
     @EJB
     private FormularioEJBLocal formularioEJBLocal;
-    
-    private Usuario usuarioIniciaFormulario;
-    private Usuario usuarioEntrega;
-    private Usuario usuarioRecibe;
-    
+        
     private Formulario formulario;
+    private Usuario usuarioIniciaFormulario;
+    private String cargoInicia;
     
-    private String horaFormulario;   
-    private String fechaFormulario;
-    private String horaTraslado;   
-    private String fechaTraslado;
+    private String motivoSeleccionado;
+    private Usuario usuarioEntrega;
+    private Usuario usuarioRecibe;    
     private String cargoEntrega;
     private String cargoRecibe;
-    private String descripcionEspecieCC;
-    private String cargoInicia;
-    private String observacionesT;
+    private String descripcionEspecieCC;    
+    private String observacionesT;        
+    private Date fechaT;  
     
-    private String motivoTraslado;   
-    
-    private List<Traslado> traslados; //para cargar los traslados del formulario.
     
     public FormularioMB() {
         logger.setLevel(Level.ALL);
@@ -58,19 +57,27 @@ public class FormularioMB {
         this.usuarioEntrega = new Usuario();
         this.usuarioRecibe = new Usuario();
         this.usuarioIniciaFormulario = new Usuario(); 
-        this.formulario = new Formulario();
-        this.traslados = new ArrayList<>();        
+        this.formulario = new Formulario();   
+//        this.motivosTraslado = new ArrayList<>();       
         logger.exiting(this.getClass().getName(), "FormularioMB");
     }       
 
-    public List<Traslado> getTraslados() {
-        return traslados;
+//    @PostConstruct
+//    public void cargarMotivos(){
+//        logger.setLevel(Level.ALL);
+//        logger.entering(this.getClass().getName(), "cargarMotivos");        
+//  //      this.motivosTraslado = formularioEJBLocal.findAllMotivos();
+//        logger.exiting(this.getClass().getName(), "cargarMotivos");        
+//    }
+    
+    public String getNombreUserSesion() {
+        return nombreUserSesion;
     }
 
-    public void setTraslados(List<Traslado> traslados) {
-        this.traslados = traslados;
+    public void setNombreUserSesion(String nombreUserSesion) {
+        this.nombreUserSesion = nombreUserSesion;
     }
-
+  
     public String getObservacionesT() {
         return observacionesT;
     }
@@ -127,38 +134,6 @@ public class FormularioMB {
         this.formulario = formulario;
     }
 
-    public String getHoraFormulario() {
-        return horaFormulario;
-    }
-
-    public void setHoraFormulario(String horaFormulario) {
-        this.horaFormulario = horaFormulario;
-    }
-
-    public String getFechaFormulario() {
-        return fechaFormulario;
-    }
-
-    public void setFechaFormulario(String fechaFormulario) {
-        this.fechaFormulario = fechaFormulario;
-    }
-
-    public String getHoraTraslado() {
-        return horaTraslado;
-    }
-
-    public void setHoraTraslado(String horaTraslado) {
-        this.horaTraslado = horaTraslado;
-    }
-
-    public String getFechaTraslado() {
-        return fechaTraslado;
-    }
-
-    public void setFechaTraslado(String fechaTraslado) {
-        this.fechaTraslado = fechaTraslado;
-    }
-
     public String getCargoEntrega() {
         return cargoEntrega;
     }
@@ -175,40 +150,60 @@ public class FormularioMB {
         this.cargoRecibe = cargoRecibe;
     }
 
-    public String getMotivoTraslado() {
-        return motivoTraslado;
+    public String getMotivoSeleccionado() {
+        return motivoSeleccionado;
     }
 
-    public void setMotivoTraslado(String motivoTraslado) {
-        this.motivoTraslado = motivoTraslado;
-    }   
-    
-    public void crearFormulario(){
-        System.out.println("hola1");
+    public void setMotivoSeleccionado(String motivoSeleccionado) {
+        this.motivoSeleccionado = motivoSeleccionado;
+    }
+
+    public Date getFechaT() {
+        return fechaT;
+    }
+
+    public void setFechaT(Date fechaT) {
+        this.fechaT = fechaT;
+    }    
+
+   
+//    private void buscarMotivo(){
+//        logger.setLevel(Level.ALL);
+//        logger.entering(this.getClass().getName(), "buscarMotivo");
+//        
+//        for(int i =0; i < motivosTraslado.size(); i++){
+//            if(motivoSeleccionado.equals(motivosTraslado.get(i).getTipoMotivo())){
+//                tipoMotivo = motivosTraslado.get(i);
+//                break;
+//            }
+//        }
+//    }
+//    
+    private void crearFormulario(){        
         logger.setLevel(Level.ALL);
         logger.entering(this.getClass().getName(), "crearFormulario");
         logger.info("fecha ingreso "+this.formulario.getFechaOcurrido());
         logger.info("lugar levantamiento "+this.formulario.getLugarLevantamiento());
-        logger.info("hora "+this.horaFormulario);
         logger.info("nue "+this.formulario.getNue());
-        logger.info("motivo "+this.motivoTraslado);
         logger.info("cargo "+this.cargoInicia);
         
         boolean isExito = formularioEJBLocal.crearFormulario(formulario, usuarioIniciaFormulario, cargoInicia);
         
-        logger.exiting(this.getClass().getName(), "crearFormulario", isExito);        
+        logger.exiting(this.getClass().getName(), "crearFormulario", isExito);                
     }
     
-    public void agregarTraslado(){
-        System.out.println("hola2");
+    public void agregarTraslado(){     
+        System.out.println("agregar");
         logger.setLevel(Level.ALL);
         logger.entering(this.getClass().getName(), "agregarTraslado");
-        //logger.info("motivo traslado -> "+motivoTraslado);
-        logger.info("formulario nue -> "+this.formulario.getNue());
-        //cosas para crear un traslado
-        boolean isExito = formularioEJBLocal.crearTraslado(usuarioEntrega, usuarioRecibe, fechaTraslado, horaTraslado, motivoTraslado, observacionesT, descripcionEspecieCC, cargoEntrega, cargoRecibe, this.formulario.getNue());     
-        this.traslados = formularioEJBLocal.traslados(this.formulario.getNue());
-        logger.exiting(this.getClass().getName(), "agregarTraslado",isExito);             
+        crearFormulario();
+//        buscarMotivo();
+        logger.info("motivo traslado -> "+motivoSeleccionado);        
+        boolean isExito = formularioEJBLocal.crearTraslado(usuarioEntrega, usuarioRecibe, fechaT, motivoSeleccionado, observacionesT, descripcionEspecieCC, cargoEntrega, cargoRecibe, this.formulario.getNue());     
+        logger.exiting(this.getClass().getName(), "agregarTraslado "+isExito);  
     }
     
+    public void salir(){
+        System.out.println("boton salir");
+    }
 }
