@@ -48,7 +48,9 @@
                         <div class="input-group">                                
                             &nbsp;&nbsp;&nbsp;&nbsp; <span class="input-group-addon" style="width:110px" id="basic-addon1">Usuario:
                              </span> 
-                             <p:inputText class="form-control" value="{user}"/> 
+                             <p:inputText class="form-control" value="{#user}"/> 
+                             <div id="miDiv">
+                             </div>
                         </div><br />
                             <div class="input-group">
                                 &nbsp;&nbsp;&nbsp;&nbsp;<span class="input-group-addon" style="width:110px" id="basic-addon1_">Contraseña: </span>
@@ -63,7 +65,7 @@
                     </div>
                             <div class="input-group" style="width:310px">
                                     <p:button outcome="productDetail" value="Bookmark" icon="ui-icon-star">
-                                        <f:param name="productId" value="10" action="inicio.xhtml" />
+                                        <f:param name="productId" value="10" action="inicio.xhtml" onClick="javascript:validar();" />
                                     </p:button>
                            </div><br />
 

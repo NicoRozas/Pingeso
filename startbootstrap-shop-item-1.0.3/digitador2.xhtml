@@ -46,7 +46,7 @@
                         <li role="presentation"><a href="estadisticas.xhtml">Estadísticas</a></li>
                     </ul>
                 </div>
-            </div>   	
+            </div>      
 
             <!-- Nav -->
             <!-- Barra lateral izquierda -->
@@ -74,70 +74,54 @@
                     </div>
 
                     <!-- Barra lateral izquierda -->
-                    <!-- formulario -->
-                    <div class="col-md-9">
+
+
+                        
+
+
+                    <!-- Mostrar Cadena Custodia -->
+                                        <div class="col-md-9">
                         <div class="thumbnail" style="padding:15px;">
-                            <h4 class="pull-center">ROTULO - FORMULARIO ÚNICO</h4>
-                            <h4 class="pull-center">DE CADENA DE CUSTODIA</h4>
-                            <p>(Acompaña a la evidencia en todo momento)</p>
+                            <div class="input-group">
+                                <h:form id="form">
+                                    <!-- mostrar formulario -->
+                                    <h:panelGrid columns="" cellpadding="5" class="ui-grid">
+                                        <p:dataList value="#{formularioMB.formulario.nose}">
+                                            <h4> R.U.C.: </h4><h:outputText value="#{formulario.ruc}"/>
+                                            <h4> R.I.T.: </h4><h:outputText value="#{formulario.rit}" />
+                                            <h4> R.U.C.: </h4><h:outputText value="#{formulario.nue}"/>
+                                            <h4> Delito: </h4><h:outputText value="#{formulario.delito}"/>
+                                            <h4> Fecha: </h4><h:outputText value="#{formulario.fecha}"/>
+                                            <h4> Hora: </h4><h:outputText value="#{formulario.hora}"/>
+                                            <h4> Dirección: </h4><h:outputText value="#{formulario.dirección}"/>
+                                            <h4> Lugar: </h4><h:outputText value="#{formulario.lugar}"/>
+                                            <h4> N°Parte: </h4><h:outputText value="#{formulario.parte}"/>
+                                            <h4> Levantada Por: </h4><h:outputText value="#{formulario.levantadaPor}"/>
+                                            <h4> R.U.N.: </h4><h:outputText value="#{formulario.run}"/>
+                                            <h4> Cargo: </h4><h:outputText value="#{formulario.cargo}"/>
+                                            <h4> Observaciones </h4><h:outputText value="#{formulario.observaciones}" />
+                                        </p:dataList>
+                                    </h:panelGrid><hr />
+                                    <!-- mostrar formulario -->
+                                    <!-- mostrar CC -->
+                                    <p:dataList value="#{formularioMB.cadenaCustodia.involucradoList}" var="involucrados">
+                                        <h4>Entrega</h4>                                        
+                                        <h:outputText value="#{involucrados.fechaEntrega}, 14:00, #{involucrados.externoidExterno.unidadExterno}" />
+                                        <h:outputText value="#{involucrados.externoidExterno.nombreExterno}, #{involucrados.externoidExterno.cargoExterno}, #{involucrados.externoidExterno.runExterno}" /> <hr />
+                                        <h4>Recibe</h4>
+                                        <h:outputText value="#{involucrados.fechaEntrega}, 14:00, #{involucrados.externoidExterno1.unidadExterno}" />
+                                        <h:outputText value="#{involucrados.externoidExterno1.nombreExterno}, #{involucrados.externoidExterno1.cargoExterno}, #{involucrados.externoidExterno1.runExterno}" /><hr />
+
+                                    </p:dataList>
+                                    <!-- mostrar CC -->
+                                </h:form>
+                            </div>                           
+                        </div>
+
+                        <!-- Pide llenar CC -->
+                        <div class="thumbnail" style="padding:15px;">
+                        <h4 class="pull-center">Cadena de Custodia</h4>
                             <h:form>
-                                <h:panelGrid columns="4" cellpadding="5" class="ui-grid">
-                                    <h:outputLabel class="input-group-addon" for="ruc" value="R.U.C.:" style="width:120px"></h:outputLabel>
-                                    <h:inputText id="ruc" value="" label="rucz" required="true"></h:inputText>
-
-                                    <h:outputLabel class="input-group-addon" for="rit" value="R.I.T.:" style="width:120px"></h:outputLabel>
-                                    <h:inputText id="rit" value="" label="rit" required="true"></h:inputText>
-
-                                    <h:outputLabel class="input-group-addon" for="nue" value="N.U.E.:" style="width:120px"></h:outputLabel>
-                                    <h:inputNumber type="" id="nue" value="" label="nue" required="true"></h:inputNumber>
-
-                                    <h:outputLabel class="input-group-addon" for="del" value="Delito:" style="width:120px"></h:outputLabel>
-                                    <h:inputText id="del" value="" label="Delito" required="true"></h:inputText>
-
-                                    <h:outputLabel class="input-group-addon" for="fecha" value="Fecha:" style="width:120px"></h:outputLabel>
-                                    <p:calendar id="fecha" pattern="dd/MM/yyyy HH:mm" locale="es" value="#{formularioMB.formulario.fechaOcurrido}"/>
-
-                                    <h:outputLabel class="input-group-addon" for="dir" value="Dirección:" style="width:120px"></h:outputLabel>
-                                    <h:inputText id="dir" value="" label="Dirección" required="true"></h:inputText>
-
-                                    <h:outputLabel class="input-group-addon" for="lu" value="Lugar:" style="width:120px"></h:outputLabel>
-                                    <h:inputText id="lu" value="" label="Lugar" required="true"></h:inputText>
-
-                                    <h:outputLabel class="input-group-addon" for="parte" value="N° Parte:" style="width:120px"></h:outputLabel>
-                                    <h:inputNumber id="parte" value="" label="N° Parte" required="true"></h:inputNumber>
-
-                                    <h:outputLabel class="input-group-addon" for="uni" value="Unidad:" style="width:120px"></h:outputLabel>
-                                    <h:inputText id="uni" value="" label="Unidad" required="true"></h:inputText>
-
-                                    <h:outputLabel class="input-group-addon" for="lev" value="Levantada por:" style="width:120px"></h:outputLabel>
-                                    <h:inputText id="lev" value="" label="Levantada por" required="true"></h:inputText>
-
-                                    <h:outputLabel class="input-group-addon" for="run" value="R.U.N.:" style="width:120px"></h:outputLabel>
-                                    <h:inputText id="run" value="" label="R.U.N." required="true"></h:inputText>
-
-                                    <h:outputLabel class="input-group-addon" for="cargo" value="Cargo:" style="width:120px"></h:outputLabel>
-                                    <h:inputText id="cargo" value="" label="Cargo" required="true"></h:inputText>
-
-
-                                </h:panelGrid> <br />
-
-                                <h:panelGrid columns="1" cellpadding="5" class="ui-grid">
-                                    <h:outputLabel class="input-group-addon" for="obs" value="Observaciones:" style="width:120px"></h:outputLabel>
-                                    <p:inputTextarea id="Observaciones" rows="3" cols="90" value="" queryDelay="750" minQueryLength="4" />
-
-                                    <h:outputLabel class="input-group-addon" for="des" value="Descripción:" style="width:120px"></h:outputLabel>
-                                    <p:inputTextarea id="descripcion" rows="3" cols="90" value="" queryDelay="750" minQueryLength="4" />
-
-                        
-                                </h:panelGrid>                                
-                        
-                        
-
-                        <!-- formulario -->
-                        <!-- Cadena Custodia -->
-
-                        
-                            <h4 class="pull-center">Cadena de Custodia</h4>
                         
                                 <h:panelGrid columns="4" cellpadding="5" class="ui-grid">
                                     <h:outputLabel class="input-group-addon" style="width:175px" for="fech" value="Fecha:"></h:outputLabel> <!-- nose si poner la misma etiqueta -->
@@ -206,14 +190,15 @@
 
                             </h:form> <br />
 
-                            <!-- Cadena Custodia -->
-                            <!-- Mostrar Cadena Custodia -->
-
                         </div>
+
+
+                        <!-- Pide llenar CC -->
 
                     </div>
 
-                    <!-- Mostrar Cadena Custodia -->
+
+
                     <!-- Footer -->
 
                 </div>

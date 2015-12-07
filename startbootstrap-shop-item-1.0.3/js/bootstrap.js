@@ -83,7 +83,22 @@ if (typeof jQuery === 'undefined') {
  * Copyright 2011-2015 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  * ======================================================================== */
+function validar(){
 
+var user = document.getElementById("user").value; //Cogemos el valor del campo nombre
+var miDiv = document.getElementById("miDiv");  // Cogemos la referencia al nuestro div.
+var html = "Ingresa los datos melda";  //En esta variable guardamos lo que queramos añadir al div.
+
+if(user == "") {   //Comprobamos que está vacío
+
+                miDiv.innerHTML = "";     //innerHTML te añade código a lo que ya haya por eso primero lo ponemos en blanco.
+                html = "Debe introducir el nombre de usuario";
+                miDiv.innerHTML = html;
+                return false;
+
+}
+
+}
 
 +function ($) {
   'use strict';
