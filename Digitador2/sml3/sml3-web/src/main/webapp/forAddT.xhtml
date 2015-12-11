@@ -1,0 +1,124 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <h:form>
+            <h:panelGrid columns="4" cellpadding="5" class="ui-grid">
+                <h:outputLabel class="input-group-addon" for="ruc" value="R.U.C.:" style="width:120px"></h:outputLabel>
+                <h:inputText id="ruc" value="#{forTrasladoMB.formulario.ruc}" label="ruc" disabled="true" ></h:inputText>
+
+                <h:outputLabel class="input-group-addon" for="rit" value="R.I.T.:" style="width:120px"></h:outputLabel>
+                <h:inputText id="rit" value="#{forTrasladoMB.formulario.rit}" label="rit" disabled="true"></h:inputText>
+
+                <h:outputLabel class="input-group-addon" for="nue" value="N.U.E.:" style="width:120px"></h:outputLabel>
+                <h:inputText id="nue" value="#{forTrasladoMB.formulario.nue}" label="nue" disabled="true">
+                    <f:validateDoubleRange minimum="10000" maximum="99999"/>
+                </h:inputText>                                   
+
+                <h:outputLabel class="input-group-addon" for="del" value="Delito:" style="width:120px"></h:outputLabel>
+                <h:inputText id="del" value="#{forTrasladoMB.formulario.delitoRef}" label="Delito" disabled="true"></h:inputText>
+
+                <h:outputLabel class="input-group-addon" for="fecha" value="Fecha:" style="width:120px"></h:outputLabel>
+                <p:calendar id="fecha" pattern="dd/MM/yyyy HH:mm" locale="es" value="#{forTrasladoMB.formulario.fechaOcurrido}" disabled="true"/>
+
+                <h:outputLabel class="input-group-addon" for="dir" value="Dirección:" style="width:120px"></h:outputLabel>
+                <h:inputText id="dir" value="#{forTrasladoMB.formulario.direccionSS}" label="Dirección" disabled="true"></h:inputText>
+
+                <h:outputLabel class="input-group-addon" for="lu" value="Lugar:" style="width:120px"></h:outputLabel>
+                <h:inputText id="lu" value="#{forTrasladoMB.formulario.lugarLevantamiento}" label="Lugar" disabled="true"></h:inputText>
+
+                <h:outputLabel class="input-group-addon" for="parte" value="N° Parte:" style="width:120px"></h:outputLabel>
+                <h:inputText id="parte" value="#{forTrasladoMB.formulario.numeroParte}" label="N° Parte" disabled="true"></h:inputText>
+
+                <h:outputLabel class="input-group-addon" for="uni" value="Unidad:" style="width:120px"></h:outputLabel>
+                <h:inputText id="uni" value="#{forTrasladoMB.formulario.usuarioidUsuario.unidad}" label="Unidad" disabled="true"></h:inputText>
+
+                <h:outputLabel class="input-group-addon" for="lev" value="Levantada por:" style="width:120px"></h:outputLabel>
+                <h:inputText id="lev" value="#{forTrasladoMB.formulario.usuarioidUsuario.nombreUsuario}" label="Levantada por" disabled="true"></h:inputText>
+
+                <h:outputLabel class="input-group-addon" for="run" value="R.U.N.:" style="width:120px"></h:outputLabel>
+                <h:inputText id="run" value="#{forTrasladoMB.formulario.usuarioidUsuario.rutUsuario}" label="R.U.N." disabled="true"></h:inputText>            
+
+            </h:panelGrid> <br />
+
+
+            <h:panelGrid columns="1" cellpadding="5" class="ui-grid">
+                <h:outputLabel class="input-group-addon" for="obs" value="Observaciones:" style="width:120px"></h:outputLabel>
+                <p:inputTextarea id="Observaciones" rows="3" cols="90" value="#{forTrasladoMB.formulario.observaciones}" queryDelay="750" minQueryLength="4" disabled="true" />
+
+                <h:outputLabel class="input-group-addon" for="des" value="Descripción:" style="width:120px"></h:outputLabel>
+                <p:inputTextarea id="descripcion" rows="3" cols="90" value="#{forTrasladoMB.formulario.descripcionEspecieFormulario}" disabled="true" queryDelay="750" minQueryLength="4" />
+            </h:panelGrid>   
+
+            <!-- traslado  -->
+            <h4 class="pull-center">Cadena de Custodia</h4>
+
+            <h:panelGrid columns="4" cellpadding="5" class="ui-grid">
+                <h:outputLabel class="input-group-addon" style="width:175px" for="fech" value="Fecha:"></h:outputLabel> <!-- nose si poner la misma etiqueta -->
+                <p:calendar id="fech" pattern="dd/MM/yyyy HH:mm" locale="es" value="#{forTrasladoMB.fechaT}"/>                                    
+            </h:panelGrid>
+            <br />
+            <h4 class="pull-center">Entrega:</h4> <br />
+
+            <h:panelGrid columns="3" cellpadding="5" class="ui-grid">
+
+                <h:outputLabel class="input-group-addon" style="width:175px" for="UnE" value="Unidad:"></h:outputLabel> <!-- nose si poner la misma etiqueta -->
+                <h:inputText id="UnE" value="#{forTrasladoMB.usuarioEntrega.unidad}" label="Unidad" required="true"></h:inputText> <!-- nose si poner la misma etiqueta -->
+
+            </h:panelGrid>
+            <h:panelGrid columns="2" cellpadding="5" class="ui-grid">
+
+                <h:outputLabel class="input-group-addon" style="width:175px" for="nomE" value="Nombre:"></h:outputLabel>
+                <h:inputText id="nomE" value="#{forTrasladoMB.usuarioEntrega.nombreUsuario}" label="Nombre" required="true"></h:inputText>
+
+            </h:panelGrid>
+
+            <h:panelGrid columns="2" cellpadding="5" class="ui-grid">
+
+                <h:outputLabel class="input-group-addon" style="width:175px" for="runE" value="R.U.N.:"></h:outputLabel>
+                <h:inputText id="runE" value="#{forTrasladoMB.usuarioEntrega.rutUsuario}" label="R.U.N." required="true"></h:inputText>
+
+            </h:panelGrid>
+            <br />
+            <h4 class="pull-center">Recibe:</h4><br />
+
+            <h:panelGrid columns="3" cellpadding="5" class="ui-grid">
+                <h:outputLabel class="input-group-addon" style="width:175px" for="UnR" value="Unidad:"></h:outputLabel> <!-- nose si poner la misma etiqueta -->
+                <h:inputText id="UnR" value="#{forTrasladoMB.usuarioRecibe.unidad}" label="Unidad" required="true"></h:inputText> <!-- nose si poner la misma etiqueta -->
+            </h:panelGrid>
+
+            <h:panelGrid columns="2" cellpadding="5" class="ui-grid">
+                <h:outputLabel class="input-group-addon" style="width:175px" for="nomR" value="Nombre:"></h:outputLabel>
+                <h:inputText id="nomR" value="#{forTrasladoMB.usuarioRecibe.nombreUsuario}" label="Nombre" required="true"></h:inputText>
+
+            </h:panelGrid>
+
+            <h:panelGrid columns="2" cellpadding="5" class="ui-grid">
+
+                <h:outputLabel class="input-group-addon" style="width:175px" for="runR" value="R.U.N.:"></h:outputLabel>
+                <h:inputText id="runR" value="#{forTrasladoMB.usuarioRecibe.rutUsuario}" label="R.U.N." required="true"></h:inputText>
+            </h:panelGrid>
+            <br />
+            <h:selectOneRadio value="#{forTrasladoMB.motivo}">
+                <f:selectItem itemValue="Peritaje" itemLabel="Peritaje" /> <!-- agregar libreria arriba-->
+                <f:selectItem itemValue="Traslado" itemLabel="Traslado" />
+                <f:selectItem itemValue="Custodia" itemLabel="Custodia" />
+            </h:selectOneRadio><br />
+
+            <h:outputLabel class="input-group-addon" for="obsCC" value="Observaciones:" style="width:120px"></h:outputLabel>
+            <p:inputTextarea id="ObsCC" rows="3" cols="90" value="#{forTrasladoMB.obs}" queryDelay="750" minQueryLength="4" />
+            <br />    
+            <h:commandButton id="btnAceptar" value="Aceptar" action="#{forTrasladoMB.agregarTraslado()}"/>
+
+            <br />
+
+        </h:form> <br />
+    </h:body>
+</html>
+

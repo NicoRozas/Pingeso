@@ -1,0 +1,78 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" >
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <!--  xmlns:ui="http://java.sun.com/jsf/facelets" -->
+
+    <head>
+        <meta content="" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>
+            Acceso
+        </title>
+        <!--  Bootstrap Core CSS -->
+        <link href="css/bootstrap.min.css" rel="stylesheet" />
+        <!--  Custom CSS -->
+        <link href="css/shop-item.css" rel="stylesheet" />
+        <!--  HTML5 Shim and Respond.js IE8 support of HTML5 elements and media
+          queries -->
+        <!--  WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--  [if lt IE 9]> <script
+          src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+          <script
+          src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+          <![endif] -->
+    </head>
+    <nav100>
+        <p class="lead">
+            <img class="img-responsive" src="imagenes/sintitulo1.png" alt="" />
+        </p>
+    </nav100>
+    <h:body>
+        <!--  Navigation -->
+        <!--  /.container -->
+        <!--  Page Content -->
+
+        <div id="contenedor">
+            <div class="col-md-9">
+                <div class="thumbnail" style="width:320px">                           
+                    <div class="pull-center">
+                        <h4>Ingresar</h4>
+                    </div>
+                    <div class="input-group">                                
+                        &nbsp;&nbsp;&nbsp;&nbsp; <span class="input-group-addon" style="width:110px" id="basic-addon1">Usuario:
+                        </span> 
+                        <p:inputText class="form-control" value="{#}"/> 
+                        <div id="miDiv">
+                        </div>
+                    </div><br />
+                    <div class="input-group">
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="input-group-addon" style="width:110px" id="basic-addon1_">Contraseña: </span>
+                        <p:inputText type="password" class="form-control" value="#"/> 
+                    </div><br />
+                    <h:form>
+                        <p:selectManyCheckbox id="basic" value="#">
+                            <f:selectItem itemLabel="Recordar" itemValue="#" />
+                        </p:selectManyCheckbox>   
+
+                        <div class="input-group" style="width:310px">
+
+                            <h:commandButton id="btnAceptar" value="Ingresar" action="#"/>         
+                        </div><br />  
+                    </h:form>
+
+                </div>
+
+
+
+            </div>        <!--  /.container -->
+        </div>
+
+   </h:body>
+</html>
