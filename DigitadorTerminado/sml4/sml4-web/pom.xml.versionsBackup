@@ -4,40 +4,44 @@
     <parent>
     <artifactId>sml4</artifactId>
     <groupId>com.pingeso</groupId>
-    <version>1.0.0</version>
+    <version>3.0-SNAPSHOT</version>
   </parent>
 
     <groupId>com.pingeso</groupId>
-    <artifactId>sml4-ejb</artifactId>
-    <version>1.0.0</version>
-    <packaging>ejb</packaging>
+    <artifactId>sml4-web</artifactId>
+    <version>3.0-SNAPSHOT</version>
+    <packaging>war</packaging>
 
-    <name>sml4-ejb</name>
+    <name>sml4-web</name>
 
     <properties>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-
+    
     <dependencies>
         <dependency>
-            <groupId>org.eclipse.persistence</groupId>
-            <artifactId>eclipselink</artifactId>
-            <version>2.5.2</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.persistence</groupId>
-            <artifactId>org.eclipse.persistence.jpa.modelgen.processor</artifactId>
-            <version>2.5.2</version>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>sml4-ejb</artifactId>
+            <version>3.0-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>javax</groupId>
-            <artifactId>javaee-api</artifactId>
+            <artifactId>javaee-web-api</artifactId>
             <version>7.0</version>
             <scope>provided</scope>
         </dependency>
+         <dependency>
+            <groupId>org.primefaces</groupId>
+            <artifactId>primefaces</artifactId>
+            <version>5.3</version>
+        </dependency>
+        <dependency>  
+            <groupId>org.primefaces.themes</groupId>  
+            <artifactId>all-themes</artifactId>  
+            <version>1.0.10</version>  
+        </dependency> 
     </dependencies>
 
     <build>
@@ -56,10 +60,10 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-ejb-plugin</artifactId>
+                <artifactId>maven-war-plugin</artifactId>
                 <version>2.3</version>
                 <configuration>
-                    <ejbVersion>3.1</ejbVersion>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
             </plugin>
             <plugin>
