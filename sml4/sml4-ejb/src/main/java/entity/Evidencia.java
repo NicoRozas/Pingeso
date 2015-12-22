@@ -26,10 +26,10 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Aracelly
+ * @author sebastian
  */
 @Entity
-@Table(name = "evidencia")
+@Table(name = "Evidencia")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Evidencia.findAll", query = "SELECT e FROM Evidencia e"),
@@ -45,11 +45,11 @@ public class Evidencia implements Serializable {
     @Size(max = 45)
     @Column(name = "nombreEvidencia")
     private String nombreEvidencia;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "evidencia")
-    private List<FormularioEvidencia> formularioEvidenciaList;
     @JoinColumn(name = "Tipo_Evidencia_idTipo_Evidencia", referencedColumnName = "idTipoEvidencia")
     @ManyToOne(optional = false)
     private TipoEvidencia tipoEvidenciaidTipoEvidencia;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "evidencia")
+    private List<FormularioEvidencia> formularioEvidenciaList;
 
     public Evidencia() {
     }
@@ -74,6 +74,14 @@ public class Evidencia implements Serializable {
         this.nombreEvidencia = nombreEvidencia;
     }
 
+    public TipoEvidencia getTipoEvidenciaidTipoEvidencia() {
+        return tipoEvidenciaidTipoEvidencia;
+    }
+
+    public void setTipoEvidenciaidTipoEvidencia(TipoEvidencia tipoEvidenciaidTipoEvidencia) {
+        this.tipoEvidenciaidTipoEvidencia = tipoEvidenciaidTipoEvidencia;
+    }
+
     @XmlTransient
     public List<FormularioEvidencia> getFormularioEvidenciaList() {
         return formularioEvidenciaList;
@@ -81,14 +89,6 @@ public class Evidencia implements Serializable {
 
     public void setFormularioEvidenciaList(List<FormularioEvidencia> formularioEvidenciaList) {
         this.formularioEvidenciaList = formularioEvidenciaList;
-    }
-
-    public TipoEvidencia getTipoEvidenciaidTipoEvidencia() {
-        return tipoEvidenciaidTipoEvidencia;
-    }
-
-    public void setTipoEvidenciaidTipoEvidencia(TipoEvidencia tipoEvidenciaidTipoEvidencia) {
-        this.tipoEvidenciaidTipoEvidencia = tipoEvidenciaidTipoEvidencia;
     }
 
     @Override

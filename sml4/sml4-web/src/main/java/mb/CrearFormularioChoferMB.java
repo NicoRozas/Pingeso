@@ -62,12 +62,20 @@ public class CrearFormularioChoferMB {
     //Captura al usuario proveniente del inicio de sesión
     private HttpServletRequest httpServletRequest1;
     private FacesContext facesContext1;
+    
+    //Envio del nue
+    private HttpServletRequest httpServletRequest;
+    private FacesContext facesContext;
 
 
     public CrearFormularioChoferMB() {
         logger.setLevel(Level.ALL);
         logger.entering(this.getClass().getName(), "CrearFormularioChoferMB");
         this.uSesion = new Usuario();
+        
+        this.facesContext = FacesContext.getCurrentInstance();
+        this.httpServletRequest = (HttpServletRequest) facesContext.getExternalContext().getRequest();
+        
         this.facesContext1 = FacesContext.getCurrentInstance();
         this.httpServletRequest1 = (HttpServletRequest) facesContext1.getExternalContext().getRequest();
         if (httpServletRequest1.getSession().getAttribute("cuentaUsuario") != null) {
@@ -87,7 +95,7 @@ public class CrearFormularioChoferMB {
     }
     
 
-   public void iniciarFormulario() {
+   public String iniciarFormulario() {
         logger.setLevel(Level.ALL);
         logger.entering(this.getClass().getName(), "iniciarFormularioChofer");
         logger.log(Level.FINEST, "formulario nue {0}", this.nue);
@@ -98,12 +106,17 @@ public class CrearFormularioChoferMB {
         
         if (resultado.equals("Exito")) {
             logger.exiting(this.getClass().getName(), "iniciarFormularioChofer", "crearFormularioHU7");
+            //Enviando nue
+            httpServletRequest.getSession().setAttribute("nueF", this.nue);
+            //Enviando usuario
+            httpServletRequest1.getSession().setAttribute("cuentaUsuario", this.nue);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, resultado, "Datos exitosos"));
-        } else {
+            return "choferFormularioResult?faces-redirect=true";
+        }
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, resultado, "Datos no válidos"));
             logger.exiting(this.getClass().getName(), "iniciarFormularioChofer", "");
-        }
-    }
+            return "";
+ }
     
 
     public String salir() {

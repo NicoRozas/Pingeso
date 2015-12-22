@@ -1,11 +1,12 @@
 mb/CrearFormularioMB.class
-mb/BusquedaTecnicoMB.class
+mb/ResultadoBuscadorTecnico.class
 mb/ForTrasladoMB.class
 mb/CrearFormularioChoferMB.class
 mb/InicioSesionMB.class
 mb/TodoTecnicoMB.class
 mb/ForTrasladoTecnicoMB.class
 mb/BusquedaPeritoMB.class
+mb/BuscadorTecnicoMB.class
 mb/TodoPeritoMB.class
 mb/TodoMB.class
 mb/CrearFormularioTecnicoMB.class

@@ -18,18 +18,18 @@ import javax.ejb.Stateless;
  */
 @Stateless
 public class UsuarioEJB implements UsuarioEJBLocal {
-    
+
     @EJB
-    private UsuarioFacadeLocal usuarioFacade;    
-    
+    private UsuarioFacadeLocal usuarioFacade;
+
     static final Logger logger = Logger.getLogger(UsuarioEJB.class.getName());
-    
+
     //Función para verificar la existencia del usuario en el sistema
     @Override
-    public String verificarUsuario(String user, String pass){
-    
+    public String verificarUsuario(String user, String pass) {
+
         logger.setLevel(Level.ALL);
-        logger.entering(this.getClass().getName(),"Función verificarUsuario", user);
+        logger.entering(this.getClass().getName(), "Función verificarUsuario", user);
         //Buscamos al usuario segun su cuenta usuario
         Usuario foundUser = usuarioFacade.findByCuentaUsuario(user);
         String direccion = "";
@@ -37,17 +37,14 @@ public class UsuarioEJB implements UsuarioEJBLocal {
         if (foundUser != null) {
             if (foundUser.getPassUsuario().equals(pass)) {
                 //Redirecciono según el cargo a su respectiva vista
-                if(foundUser.getCargoidCargo().getNombreCargo().equals("Perito")){
+                if (foundUser.getCargoidCargo().getNombreCargo().equals("Perito")) {
                     direccion = "peritoFormulario.xhtml?faces-redirect=true";
-                }
-                else if(foundUser.getCargoidCargo().getNombreCargo().equals("Chofer")){
+                } else if (foundUser.getCargoidCargo().getNombreCargo().equals("Chofer")) {
                     direccion = "choferFormulario.xhtml?faces-redirect=true";
-                }
-                else if(foundUser.getCargoidCargo().getNombreCargo().equals("Digitador")){
-                    direccion = "digitadorFormularioHU11.xhtml?faces-redirect=true";  
-                }
-                else if(foundUser.getCargoidCargo().getNombreCargo().equals("Tecnico")){
-                    direccion = "tecnicoFormulario.xhtml?faces-redirect=true";  
+                } else if (foundUser.getCargoidCargo().getNombreCargo().equals("Digitador")) {
+                    direccion = "digitadorFormularioHU11.xhtml?faces-redirect=true";
+                } else if (foundUser.getCargoidCargo().getNombreCargo().equals("Tecnico")) {
+                    direccion = "buscadorTecnico.xhtml?faces-redirect=true";
                 }
             }
         }
@@ -58,15 +55,15 @@ public class UsuarioEJB implements UsuarioEJBLocal {
     @Override
     public Usuario findUsuarioSesionByCuenta(String cuentaUsuario) {
         logger.setLevel(Level.ALL);
-        logger.entering(this.getClass().getName(),"findUsuarioSesionByCuenta", cuentaUsuario);
+        logger.entering(this.getClass().getName(), "findUsuarioSesionByCuenta", cuentaUsuario);
         Usuario foundUser = usuarioFacade.findByCuentaUsuario(cuentaUsuario);
-        if(foundUser != null){
-            logger.exiting(this.getClass().getName(),"findUsuarioSesionByCuenta", foundUser.toString());
+        if (foundUser != null) {
+            logger.exiting(this.getClass().getName(), "findUsuarioSesionByCuenta", foundUser.toString());
             return foundUser;
-        }else{
-            logger.exiting(this.getClass().getName(),"findUsuarioSesionByCuenta", "Error con usuario");
+        } else {
+            logger.exiting(this.getClass().getName(), "findUsuarioSesionByCuenta", "Error con usuario");
             return null;
         }
     }
-    
+
 }

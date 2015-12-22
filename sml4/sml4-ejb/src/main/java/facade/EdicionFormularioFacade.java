@@ -12,7 +12,7 @@ import javax.persistence.PersistenceContext;
 
 /**
  *
- * @author Aracelly
+ * @author sebastian
  */
 @Stateless
 public class EdicionFormularioFacade extends AbstractFacade<EdicionFormulario> implements EdicionFormularioFacadeLocal {

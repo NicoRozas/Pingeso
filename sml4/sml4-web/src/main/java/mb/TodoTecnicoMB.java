@@ -51,6 +51,9 @@ public class TodoTecnicoMB {
     private String motivo;
     private String observaciones;
     private Date fechaT;
+    
+    private String usuarioS;
+    private Usuario usuarioSesion;
 
     private int nue;
 
@@ -84,7 +87,7 @@ public class TodoTecnicoMB {
         logger.log(Level.FINEST, "rut usuario entrega {0}", this.usuarioEntrega);
         logger.log(Level.FINEST, "rut usuario recibe {0}", this.usuarioRecibe);
         logger.log(Level.FINEST, "rut motivo {0}", this.motivo);
-        String resultado = formularioEJB.crearTraslado(formulario, usuarioEntrega, usuarioEntregaUnidad, usuarioEntregaCargo, usuarioEntregaRut, usuarioRecibe, usuarioRecibeUnidad, usuarioRecibeCargo, usuarioRecibeRut, fechaT, observaciones, motivo);
+        String resultado = formularioEJB.crearTraslado(formulario, usuarioEntrega, usuarioEntregaUnidad, usuarioEntregaCargo, usuarioEntregaRut, usuarioRecibe, usuarioRecibeUnidad, usuarioRecibeCargo, usuarioRecibeRut, fechaT, observaciones, motivo, usuarioSesion);
         if (resultado.equals("Exito")) {
             httpServletRequest1.getSession().setAttribute("nueF", this.nue);
             logger.exiting(this.getClass().getName(), "agregarTrasladoTecnico", "todoTecnico?faces-redirect=true");

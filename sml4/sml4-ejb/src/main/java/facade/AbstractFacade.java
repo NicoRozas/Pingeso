@@ -5,21 +5,18 @@
  */
 package facade;
 
+import ejb.FormularioEJB;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
-import javax.persistence.TransactionRequiredException;
 
 /**
  *
- * @author Aracelly
+ * @author sebastian
  */
 public abstract class AbstractFacade<T> {
     private Class<T> entityClass;
-    
-    static final Logger logger = Logger.getLogger(AbstractFacade.class.getName());
+    static final Logger logger = Logger.getLogger(FormularioEJB.class.getName());
 
     public AbstractFacade(Class<T> entityClass) {
         this.entityClass = entityClass;
@@ -28,11 +25,7 @@ public abstract class AbstractFacade<T> {
     protected abstract EntityManager getEntityManager();
 
     public void create(T entity) {
-        try{
-            getEntityManager().persist(entity);
-        }catch(EntityExistsException | IllegalArgumentException | TransactionRequiredException ee){
-            logger.log(Level.INFO, "Error en la persistencia {0}", ee);
-        }        
+        getEntityManager().persist(entity);
     }
 
     public void edit(T entity) {
@@ -44,7 +37,6 @@ public abstract class AbstractFacade<T> {
     }
 
     public T find(Object id) {
-        logger.log(Level.INFO, "encontrar {0} id: {1}", new Object[]{entityClass.getName(), id.toString()});
         return getEntityManager().find(entityClass, id);
     }
 

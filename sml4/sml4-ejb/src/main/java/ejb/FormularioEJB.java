@@ -7,6 +7,8 @@ package ejb;
 
 import entity.Area;
 import entity.Cargo;
+import entity.EdicionFormulario;
+import entity.EdicionFormularioPK;
 import entity.Formulario;
 import entity.TipoMotivo;
 import entity.TipoUsuario;
@@ -14,6 +16,7 @@ import entity.Traslado;
 import entity.Usuario;
 import facade.AreaFacadeLocal;
 import facade.CargoFacadeLocal;
+import facade.EdicionFormularioFacadeLocal;
 import facade.FormularioFacadeLocal;
 import facade.TipoMotivoFacadeLocal;
 import facade.TipoUsuarioFacadeLocal;
@@ -49,13 +52,17 @@ public class FormularioEJB implements FormularioEJBLocal {
     private TipoMotivoFacadeLocal tipoMotivoFacade;
     @EJB
     private FormularioFacadeLocal formularioFacade;
+    @EJB
+    private EdicionFormularioFacadeLocal edicionFormularioFacade;
 
     static final Logger logger = Logger.getLogger(FormularioEJB.class.getName());
 
     @Override
     public Formulario findFormularioByNue(int nueAbuscar) {
+
         logger.setLevel(Level.ALL);
         logger.entering(this.getClass().getName(), "findFormularioByNue", nueAbuscar);
+
         Formulario formulario = formularioFacade.findByNue(nueAbuscar);
         if (formulario != null) {
             logger.exiting(this.getClass().getName(), "findFormularioByNue", formulario.toString());
@@ -66,7 +73,7 @@ public class FormularioEJB implements FormularioEJBLocal {
     }
 
     @Override
-    public String crearTraslado(Formulario formulario, String usuarioEntrega, String usuarioEntregaUnidad, String usuarioEntregaCargo, String usuarioEntregaRut, String usuarioRecibe, String usuarioRecibeUnidad, String usuarioRecibeCargo, String usuarioRecibeRut, Date fechaT, String observaciones, String motivo) {
+    public String crearTraslado(Formulario formulario, String usuarioEntrega, String usuarioEntregaUnidad, String usuarioEntregaCargo, String usuarioEntregaRut, String usuarioRecibe, String usuarioRecibeUnidad, String usuarioRecibeCargo, String usuarioRecibeRut, Date fechaT, String observaciones, String motivo, Usuario uSesion) {
         logger.setLevel(Level.ALL);
         logger.entering(this.getClass().getName(), "crearTraslado");
 
@@ -74,7 +81,6 @@ public class FormularioEJB implements FormularioEJBLocal {
             logger.exiting(this.getClass().getName(), "crearTraslado", "Campos null");
             return "Faltan campos";
         }
-               
 
         //Validando usuario que entrega
         if (!val(usuarioEntregaRut) || !soloCaracteres(usuarioEntrega) || !soloCaracteres(usuarioEntregaUnidad) || !soloCaracteres(usuarioEntregaCargo)) {
@@ -153,6 +159,18 @@ public class FormularioEJB implements FormularioEJBLocal {
         nuevoTraslado.setTipoMotivoidMotivo(motivoP);
         nuevoTraslado.setUsuarioidUsuario(usuarioRecibeP);
         nuevoTraslado.setUsuarioidUsuario1(usuarioEntregaP);
+
+        if (nuevoTraslado.getTipoMotivoidMotivo().getTipoMotivo().equals("Peritaje")) {
+
+            if (uSesion.getCargoidCargo().getNombreCargo().equals("Tecnico") || uSesion.getCargoidCargo().getNombreCargo().equals("Perito")) {
+                logger.info("se inicia insercion del nuevo traslado y fin de la cadena");
+                trasladoFacade.create(nuevoTraslado);
+                logger.info("se finaliza insercion del nuevo traslado y fin de la cadena");
+                logger.exiting(this.getClass().getName(), "crearTraslado", "Exito");
+                return "Fin";
+            }
+        }
+
         logger.info("se inicia insercion del nuevo traslado");
         trasladoFacade.create(nuevoTraslado);
         logger.info("se finaliza insercion del nuevo traslado");
@@ -433,6 +451,36 @@ public class FormularioEJB implements FormularioEJBLocal {
         logger.exiting(this.getClass().getName(), "crearFormulario", true);
         return "Exito";
 
+    }
+    
+    @Override
+    public String edicionFormulario(Formulario formulario, String obsEdicion, Usuario usuarioSesion){
+    
+        if(obsEdicion == null){
+            return "Se requiere la observación";
+        }
+        
+        //Creando el id de edicion formulario
+        EdicionFormularioPK edFPK = new EdicionFormularioPK();
+        edFPK.setFormularioNUE(formulario.getNue());
+        edFPK.setUsuarioidUsuario(usuarioSesion.getIdUsuario());
+
+        //Creando el objeto edicion
+        
+        EdicionFormulario edF = new EdicionFormulario();
+        edF.setEdicionFormularioPK(edFPK);
+        edF.setFormulario(formulario);
+        edF.setUsuario(usuarioSesion);
+        edF.setObservaciones(obsEdicion);
+        edF.setFechaEdicion(new Date(System.currentTimeMillis()));
+        
+        //Actualizando ultima edicion formulario
+        formulario.setUltimaEdicion(edF.getFechaEdicion());
+        
+        edicionFormularioFacade.edit(edF);
+        formularioFacade.edit(formulario);
+       
+        return "Exito";
     }
 
 }

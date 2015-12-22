@@ -1,6 +1,7 @@
 /home/sebastian/Descargas/Pingeso-master/DigitadorTerminado/sml4/sml4-web/src/main/java/mb/CrearFormularioChoferMB.java
 /home/sebastian/Descargas/Pingeso-master/DigitadorTerminado/sml4/sml4-web/src/main/java/mb/CrearFormularioTecnicoMB.java
 /home/sebastian/Descargas/Pingeso-master/DigitadorTerminado/sml4/sml4-web/src/main/java/mb/CrearFormularioPeritoMB.java
+/home/sebastian/Descargas/Pingeso-master/DigitadorTerminado/sml4/sml4-web/src/main/java/mb/BuscadorTecnicoMB.java
 /home/sebastian/Descargas/Pingeso-master/DigitadorTerminado/sml4/sml4-web/src/main/java/mb/TodoPeritoMB.java
 /home/sebastian/Descargas/Pingeso-master/DigitadorTerminado/sml4/sml4-web/src/main/java/mb/ForTrasladoMB.java
 /home/sebastian/Descargas/Pingeso-master/DigitadorTerminado/sml4/sml4-web/src/main/java/mb/testMB.java
@@ -9,6 +10,6 @@
 /home/sebastian/Descargas/Pingeso-master/DigitadorTerminado/sml4/sml4-web/src/main/java/mb/InicioSesionMB.java
 /home/sebastian/Descargas/Pingeso-master/DigitadorTerminado/sml4/sml4-web/src/main/java/mb/TodoTecnicoMB.java
 /home/sebastian/Descargas/Pingeso-master/DigitadorTerminado/sml4/sml4-web/src/main/java/mb/ForTrasladoPeritoMB.java
-/home/sebastian/Descargas/Pingeso-master/DigitadorTerminado/sml4/sml4-web/src/main/java/mb/BusquedaTecnicoMB.java
 /home/sebastian/Descargas/Pingeso-master/DigitadorTerminado/sml4/sml4-web/src/main/java/mb/ForTrasladoTecnicoMB.java
+/home/sebastian/Descargas/Pingeso-master/DigitadorTerminado/sml4/sml4-web/src/main/java/mb/ResultadoBuscadorTecnico.java
 /home/sebastian/Descargas/Pingeso-master/DigitadorTerminado/sml4/sml4-web/src/main/java/mb/TodoMB.java
