@@ -8,10 +8,8 @@
 /home/sebastian/Descargas/Pingeso-master/DigitadorTerminado/sml4/sml4-ejb/src/main/java/ejb/FormularioEJB.java
 /home/sebastian/Descargas/Pingeso-master/DigitadorTerminado/sml4/sml4-ejb/src/main/java/facade/TrasladoFacadeLocal.java
 /home/sebastian/Descargas/Pingeso-master/DigitadorTerminado/sml4/sml4-ejb/src/main/java/facade/AreaFacade.java
-/home/sebastian/Descargas/Pingeso-master/DigitadorTerminado/sml4/sml4-ejb/src/main/java/facade/PeritajeFacade.java
 /home/sebastian/Descargas/Pingeso-master/DigitadorTerminado/sml4/sml4-ejb/src/main/java/entity/Evidencia.java
 /home/sebastian/Descargas/Pingeso-master/DigitadorTerminado/sml4/sml4-ejb/src/main/java/facade/EdicionFormularioFacade.java
-/home/sebastian/Descargas/Pingeso-master/DigitadorTerminado/sml4/sml4-ejb/src/main/java/entity/Peritaje.java
 /home/sebastian/Descargas/Pingeso-master/DigitadorTerminado/sml4/sml4-ejb/src/main/java/entity/EdicionFormulario.java
 /home/sebastian/Descargas/Pingeso-master/DigitadorTerminado/sml4/sml4-ejb/src/main/java/entity/Traslado.java
 /home/sebastian/Descargas/Pingeso-master/DigitadorTerminado/sml4/sml4-ejb/src/main/java/entity/TipoUsuario.java
@@ -29,7 +27,6 @@
 /home/sebastian/Descargas/Pingeso-master/DigitadorTerminado/sml4/sml4-ejb/src/main/java/facade/TrasladoFacade.java
 /home/sebastian/Descargas/Pingeso-master/DigitadorTerminado/sml4/sml4-ejb/src/main/java/facade/TipoEvidenciaFacade.java
 /home/sebastian/Descargas/Pingeso-master/DigitadorTerminado/sml4/sml4-ejb/src/main/java/facade/FormularioFacadeLocal.java
-/home/sebastian/Descargas/Pingeso-master/DigitadorTerminado/sml4/sml4-ejb/src/main/java/facade/PeritajeFacadeLocal.java
 /home/sebastian/Descargas/Pingeso-master/DigitadorTerminado/sml4/sml4-ejb/src/main/java/facade/CargoFacadeLocal.java
 /home/sebastian/Descargas/Pingeso-master/DigitadorTerminado/sml4/sml4-ejb/src/main/java/facade/TipoMotivoFacadeLocal.java
 /home/sebastian/Descargas/Pingeso-master/DigitadorTerminado/sml4/sml4-ejb/src/main/java/facade/UsuarioFacade.java

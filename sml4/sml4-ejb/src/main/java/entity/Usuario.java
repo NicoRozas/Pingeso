@@ -89,7 +89,7 @@ public class Usuario implements Serializable {
     private List<Formulario> formularioList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioidUsuario1")
     private List<Formulario> formularioList1;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioidUsuario")
     private List<EdicionFormulario> edicionFormularioList;
 
     public Usuario() {

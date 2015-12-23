@@ -109,7 +109,7 @@ public class CrearFormularioChoferMB {
             //Enviando nue
             httpServletRequest.getSession().setAttribute("nueF", this.nue);
             //Enviando usuario
-            httpServletRequest1.getSession().setAttribute("cuentaUsuario", this.nue);
+            httpServletRequest1.getSession().setAttribute("cuentaUsuario", this.usuarioSis);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, resultado, "Datos exitosos"));
             return "choferFormularioResult?faces-redirect=true";
         }

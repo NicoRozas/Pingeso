@@ -32,13 +32,10 @@ facade/FormularioFacadeLocal.class
 entity/TipoMotivo.class
 entity/EdicionFormulario.class
 entity/TipoEvidencia_.class
-entity/Peritaje_.class
 facade/EvidenciaFacadeLocal.class
 entity/FormularioEvidencia.class
 facade/FormularioEvidenciaFacadeLocal.class
 facade/AreaFacade.class
-entity/Peritaje.class
-facade/PeritajeFacade.class
 facade/CargoFacade.class
 entity/Traslado.class
 facade/TrasladoFacade.class
@@ -51,5 +48,4 @@ entity/Usuario_.class
 facade/AbstractFacade.class
 entity/Evidencia.class
 facade/AreaFacadeLocal.class
-facade/PeritajeFacadeLocal.class
 facade/TipoEvidenciaFacadeLocal.class

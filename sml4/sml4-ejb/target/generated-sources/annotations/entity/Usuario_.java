@@ -4,7 +4,6 @@ import entity.Area;
 import entity.Cargo;
 import entity.EdicionFormulario;
 import entity.Formulario;
-import entity.Peritaje;
 import entity.TipoUsuario;
 import entity.Traslado;
 import javax.annotation.Generated;
@@ -12,12 +11,11 @@ import javax.persistence.metamodel.ListAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2015-12-20T21:40:12")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2015-12-22T13:02:15")
 @StaticMetamodel(Usuario.class)
 public class Usuario_ { 
 
     public static volatile ListAttribute<Usuario, Formulario> formularioList1;
-    public static volatile ListAttribute<Usuario, Peritaje> peritajeList;
     public static volatile SingularAttribute<Usuario, String> cuentaUsuario;
     public static volatile SingularAttribute<Usuario, String> apellidoUsuario;
     public static volatile SingularAttribute<Usuario, String> mailUsuario;

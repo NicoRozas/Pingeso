@@ -80,6 +80,7 @@ public class BuscadorChoferMB {
 
         if (formulario != null) {
             httpServletRequest.getSession().setAttribute("nueF", this.nue);
+            httpServletRequest1.getSession().setAttribute("cuentaUsuario", this.usuarioSis);
             logger.exiting(this.getClass().getName(), "iniciarFormulario", "resultadoBuscadorChofer");
             return "editarChofer?faces-redirect=true";
         }

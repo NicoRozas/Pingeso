@@ -70,7 +70,7 @@ public class EditarChoferMB {
 
         if (httpServletRequest.getSession().getAttribute("cuentaUsuario") != null) {
             this.usuarioS = (String) httpServletRequest.getSession().getAttribute("cuentaUsuario");
-            logger.log(Level.FINEST, "Cuenta Usuario recibido {0}", this.nue);
+            logger.log(Level.FINEST, "Cuenta Usuario recibido {0}", this.usuarioS);
         }
 
         logger.exiting(this.getClass().getName(), "EditarChoferMB");
@@ -91,7 +91,9 @@ public class EditarChoferMB {
         String response = formularioEJB.edicionFormulario(formulario, observacionEdicion, usuarioSesion);
     
         if(response.equals("Exito")){
-            return "Edición realizada correctamente";
+            httpServletRequest1.getSession().setAttribute("nueF", this.nue);
+            httpServletRequest.getSession().setAttribute("cuentaUsuario", this.usuarioS);
+            return "editarChoferResult?faces-redirect=true";
         }
         
         return "";

@@ -8,7 +8,6 @@ package ejb;
 import entity.Area;
 import entity.Cargo;
 import entity.EdicionFormulario;
-import entity.EdicionFormularioPK;
 import entity.Formulario;
 import entity.TipoMotivo;
 import entity.TipoUsuario;
@@ -22,6 +21,7 @@ import facade.TipoMotivoFacadeLocal;
 import facade.TipoUsuarioFacadeLocal;
 import facade.TrasladoFacadeLocal;
 import facade.UsuarioFacadeLocal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -57,6 +57,26 @@ public class FormularioEJB implements FormularioEJBLocal {
 
     static final Logger logger = Logger.getLogger(FormularioEJB.class.getName());
 
+    @Override
+    public List<EdicionFormulario> listaEdiciones(int nue, int idUser){
+        List<EdicionFormulario> lista = new ArrayList();
+        List<EdicionFormulario> response = new ArrayList();
+        lista = edicionFormularioFacade.findAll();
+        
+        for(int i = 0; i < lista.size() ; i++){
+            
+            if(lista.get(i).getUsuarioidUsuario().getIdUsuario() == idUser && lista.get(i).getFormularioNUE().getNue() == nue){
+                response.add(lista.get(i));
+            }
+        }
+        
+        if(response.isEmpty()){
+            response = null;
+        }
+        
+        return response;    
+    }
+    
     @Override
     public Formulario findFormularioByNue(int nueAbuscar) {
 
@@ -459,18 +479,13 @@ public class FormularioEJB implements FormularioEJBLocal {
         if(obsEdicion == null){
             return "Se requiere la observación";
         }
-        
-        //Creando el id de edicion formulario
-        EdicionFormularioPK edFPK = new EdicionFormularioPK();
-        edFPK.setFormularioNUE(formulario.getNue());
-        edFPK.setUsuarioidUsuario(usuarioSesion.getIdUsuario());
 
         //Creando el objeto edicion
         
         EdicionFormulario edF = new EdicionFormulario();
-        edF.setEdicionFormularioPK(edFPK);
-        edF.setFormulario(formulario);
-        edF.setUsuario(usuarioSesion);
+        
+        edF.setFormularioNUE(formulario);
+        edF.setUsuarioidUsuario(usuarioSesion);
         edF.setObservaciones(obsEdicion);
         edF.setFechaEdicion(new Date(System.currentTimeMillis()));
         

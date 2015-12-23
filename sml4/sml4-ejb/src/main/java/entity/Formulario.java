@@ -107,7 +107,7 @@ public class Formulario implements Serializable {
     @JoinColumn(name = "Usuario_idUsuario1", referencedColumnName = "idUsuario")
     @ManyToOne(optional = false)
     private Usuario usuarioidUsuario1;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "formulario")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "formularioNUE")
     private List<EdicionFormulario> edicionFormularioList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "formulario")
     private List<FormularioEvidencia> formularioEvidenciaList;

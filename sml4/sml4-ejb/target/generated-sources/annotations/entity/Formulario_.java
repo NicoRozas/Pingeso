@@ -3,7 +3,6 @@ package entity;
 import entity.EdicionFormulario;
 import entity.Formulario;
 import entity.FormularioEvidencia;
-import entity.Peritaje;
 import entity.Traslado;
 import entity.Usuario;
 import java.util.Date;
@@ -12,12 +11,11 @@ import javax.persistence.metamodel.ListAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2015-12-20T21:40:12")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2015-12-22T13:02:15")
 @StaticMetamodel(Formulario.class)
 public class Formulario_ { 
 
     public static volatile ListAttribute<Formulario, Formulario> formularioList1;
-    public static volatile ListAttribute<Formulario, Peritaje> peritajeList;
     public static volatile SingularAttribute<Formulario, String> ruc;
     public static volatile SingularAttribute<Formulario, Integer> numeroParte;
     public static volatile ListAttribute<Formulario, Traslado> trasladoList;
@@ -32,7 +30,6 @@ public class Formulario_ {
     public static volatile SingularAttribute<Formulario, Date> fechaOcurrido;
     public static volatile SingularAttribute<Formulario, String> observaciones;
     public static volatile SingularAttribute<Formulario, String> descripcionEspecieFormulario;
-    public static volatile SingularAttribute<Formulario, String> descripcionEspecieCC;
     public static volatile ListAttribute<Formulario, FormularioEvidencia> formularioEvidenciaList;
     public static volatile SingularAttribute<Formulario, Usuario> usuarioidUsuario1;
     public static volatile SingularAttribute<Formulario, String> rit;

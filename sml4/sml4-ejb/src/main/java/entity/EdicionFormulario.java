@@ -7,9 +7,12 @@ package entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import javax.persistence.Basic;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -29,44 +32,42 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "EdicionFormulario.findAll", query = "SELECT e FROM EdicionFormulario e"),
-    @NamedQuery(name = "EdicionFormulario.findByUsuarioidUsuario", query = "SELECT e FROM EdicionFormulario e WHERE e.edicionFormularioPK.usuarioidUsuario = :usuarioidUsuario"),
-    @NamedQuery(name = "EdicionFormulario.findByFormularioNUE", query = "SELECT e FROM EdicionFormulario e WHERE e.edicionFormularioPK.formularioNUE = :formularioNUE"),
+    @NamedQuery(name = "EdicionFormulario.findByIdEdicion", query = "SELECT e FROM EdicionFormulario e WHERE e.idEdicion = :idEdicion"),
     @NamedQuery(name = "EdicionFormulario.findByFechaEdicion", query = "SELECT e FROM EdicionFormulario e WHERE e.fechaEdicion = :fechaEdicion"),
     @NamedQuery(name = "EdicionFormulario.findByObservaciones", query = "SELECT e FROM EdicionFormulario e WHERE e.observaciones = :observaciones")})
 public class EdicionFormulario implements Serializable {
     private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected EdicionFormularioPK edicionFormularioPK;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "idEdicion")
+    private Integer idEdicion;
     @Column(name = "fechaEdicion")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaEdicion;
     @Size(max = 400)
     @Column(name = "observaciones")
     private String observaciones;
-    @JoinColumn(name = "Usuario_idUsuario", referencedColumnName = "idUsuario", insertable = false, updatable = false)
+    @JoinColumn(name = "Usuario_idUsuario", referencedColumnName = "idUsuario")
     @ManyToOne(optional = false)
-    private Usuario usuario;
-    @JoinColumn(name = "Formulario_NUE", referencedColumnName = "NUE", insertable = false, updatable = false)
+    private Usuario usuarioidUsuario;
+    @JoinColumn(name = "Formulario_NUE", referencedColumnName = "NUE")
     @ManyToOne(optional = false)
-    private Formulario formulario;
+    private Formulario formularioNUE;
 
     public EdicionFormulario() {
     }
 
-    public EdicionFormulario(EdicionFormularioPK edicionFormularioPK) {
-        this.edicionFormularioPK = edicionFormularioPK;
+    public EdicionFormulario(Integer idEdicion) {
+        this.idEdicion = idEdicion;
     }
 
-    public EdicionFormulario(int usuarioidUsuario, int formularioNUE) {
-        this.edicionFormularioPK = new EdicionFormularioPK(usuarioidUsuario, formularioNUE);
+    public Integer getIdEdicion() {
+        return idEdicion;
     }
 
-    public EdicionFormularioPK getEdicionFormularioPK() {
-        return edicionFormularioPK;
-    }
-
-    public void setEdicionFormularioPK(EdicionFormularioPK edicionFormularioPK) {
-        this.edicionFormularioPK = edicionFormularioPK;
+    public void setIdEdicion(Integer idEdicion) {
+        this.idEdicion = idEdicion;
     }
 
     public Date getFechaEdicion() {
@@ -85,26 +86,26 @@ public class EdicionFormulario implements Serializable {
         this.observaciones = observaciones;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
+    public Usuario getUsuarioidUsuario() {
+        return usuarioidUsuario;
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public void setUsuarioidUsuario(Usuario usuarioidUsuario) {
+        this.usuarioidUsuario = usuarioidUsuario;
     }
 
-    public Formulario getFormulario() {
-        return formulario;
+    public Formulario getFormularioNUE() {
+        return formularioNUE;
     }
 
-    public void setFormulario(Formulario formulario) {
-        this.formulario = formulario;
+    public void setFormularioNUE(Formulario formularioNUE) {
+        this.formularioNUE = formularioNUE;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (edicionFormularioPK != null ? edicionFormularioPK.hashCode() : 0);
+        hash += (idEdicion != null ? idEdicion.hashCode() : 0);
         return hash;
     }
 
@@ -115,7 +116,7 @@ public class EdicionFormulario implements Serializable {
             return false;
         }
         EdicionFormulario other = (EdicionFormulario) object;
-        if ((this.edicionFormularioPK == null && other.edicionFormularioPK != null) || (this.edicionFormularioPK != null && !this.edicionFormularioPK.equals(other.edicionFormularioPK))) {
+        if ((this.idEdicion == null && other.idEdicion != null) || (this.idEdicion != null && !this.idEdicion.equals(other.idEdicion))) {
             return false;
         }
         return true;
@@ -123,7 +124,7 @@ public class EdicionFormulario implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.EdicionFormulario[ edicionFormularioPK=" + edicionFormularioPK + " ]";
+        return "entity.EdicionFormulario[ idEdicion=" + idEdicion + " ]";
     }
     
 }

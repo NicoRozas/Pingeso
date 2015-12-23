@@ -86,7 +86,7 @@ public class ChoferFormularioResultMB {
         //Enviando nue
         httpServletRequest.getSession().setAttribute("nueF", this.nue);
         //Enviando usuario
-        httpServletRequest1.getSession().setAttribute("cuentaUsuario", this.nue);
+        httpServletRequest1.getSession().setAttribute("cuentaUsuario", this.usuarioS);
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Edicion", "Ir a edicion"));
         return "editarChofer?faces-redirect=true";
 

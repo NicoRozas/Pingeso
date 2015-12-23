@@ -8,7 +8,9 @@ package mb;
 import ejb.FormularioEJBLocal;
 import ejb.UsuarioEJBLocal;
 import entity.Usuario;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -65,6 +67,11 @@ public class CrearFormularioTecnicoMB {
     //Para enviar el nue a la otra vista
     private HttpServletRequest httpServletRequest;
     private FacesContext facesContext;
+
+    //Evidencias
+    private String evidencias;
+    private String codTipoEvidencia;
+    private List<String> listEvidencias = new ArrayList<>();
 
     public CrearFormularioTecnicoMB() {
         logger.setLevel(Level.ALL);
@@ -247,5 +254,31 @@ public class CrearFormularioTecnicoMB {
     public void setParte(int parte) {
         this.parte = parte;
     }
+
+    public String getEvidencias() {
+        return evidencias;
+    }
+
+    public void setEvidencias(String evidencias) {
+        this.evidencias = evidencias;
+    }
+
+    public String getCodTipoEvidencia() {
+        return codTipoEvidencia;
+    }
+
+    public void setCodTipoEvidencia(String codTipoEvidencia) {
+        this.codTipoEvidencia = codTipoEvidencia;
+    }
+
+    public List<String> getListEvidencias() {
+        return listEvidencias;
+    }
+
+    public void setListEvidencias(List<String> listEvidencias) {
+        this.listEvidencias = listEvidencias;
+    }
+    
+    
 
 }
