@@ -7,8 +7,10 @@ package facade;
 
 import ejb.FormularioEJB;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
+import javax.persistence.TransactionRequiredException;
 
 /**
  *
@@ -16,7 +18,7 @@ import javax.persistence.EntityManager;
  */
 public abstract class AbstractFacade<T> {
     private Class<T> entityClass;
-    static final Logger logger = Logger.getLogger(FormularioEJB.class.getName());
+    static final Logger logger = Logger.getLogger(AbstractFacade.class.getName());
 
     public AbstractFacade(Class<T> entityClass) {
         this.entityClass = entityClass;
@@ -29,7 +31,14 @@ public abstract class AbstractFacade<T> {
     }
 
     public void edit(T entity) {
-        getEntityManager().merge(entity);
+        logger.setLevel(Level.ALL);
+        logger.entering(this.getClass().getName(), "edit", entity.getClass().getName());
+        try{
+            getEntityManager().merge(entity);
+        }catch(IllegalArgumentException | TransactionRequiredException iae){
+            logger.log(Level.SEVERE, "problema al editar: {0}", iae);
+        }
+        logger.exiting(this.getClass().getName(), "edit", entity.getClass().getName());
     }
 
     public void remove(T entity) {

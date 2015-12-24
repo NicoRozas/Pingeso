@@ -33,8 +33,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "EdicionFormulario.findAll", query = "SELECT e FROM EdicionFormulario e"),
     @NamedQuery(name = "EdicionFormulario.findByIdEdicion", query = "SELECT e FROM EdicionFormulario e WHERE e.idEdicion = :idEdicion"),
-    @NamedQuery(name = "EdicionFormulario.findByFechaEdicion", query = "SELECT e FROM EdicionFormulario e WHERE e.fechaEdicion = :fechaEdicion"),
-    @NamedQuery(name = "EdicionFormulario.findByObservaciones", query = "SELECT e FROM EdicionFormulario e WHERE e.observaciones = :observaciones")})
+    @NamedQuery(name = "EdicionFormulario.findByFechaEdicion", query = "SELECT e FROM EdicionFormulario e WHERE e.fechaEdicion = :fechaEdicion")})
 public class EdicionFormulario implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -45,9 +44,6 @@ public class EdicionFormulario implements Serializable {
     @Column(name = "fechaEdicion")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaEdicion;
-    @Size(max = 400)
-    @Column(name = "observaciones")
-    private String observaciones;
     @JoinColumn(name = "Usuario_idUsuario", referencedColumnName = "idUsuario")
     @ManyToOne(optional = false)
     private Usuario usuarioidUsuario;
@@ -78,13 +74,6 @@ public class EdicionFormulario implements Serializable {
         this.fechaEdicion = fechaEdicion;
     }
 
-    public String getObservaciones() {
-        return observaciones;
-    }
-
-    public void setObservaciones(String observaciones) {
-        this.observaciones = observaciones;
-    }
 
     public Usuario getUsuarioidUsuario() {
         return usuarioidUsuario;

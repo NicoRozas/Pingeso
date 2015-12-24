@@ -31,6 +31,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "Traslado")
 @XmlRootElement
 @NamedQueries({
+    @NamedQuery(name = "Traslado.findByNue", query = "SELECT t FROM Traslado t WHERE t.formularioNUE = :nue"),
     @NamedQuery(name = "Traslado.findAll", query = "SELECT t FROM Traslado t"),
     @NamedQuery(name = "Traslado.findByIdInvolucrado", query = "SELECT t FROM Traslado t WHERE t.idInvolucrado = :idInvolucrado"),
     @NamedQuery(name = "Traslado.findByFechaEntrega", query = "SELECT t FROM Traslado t WHERE t.fechaEntrega = :fechaEntrega"),

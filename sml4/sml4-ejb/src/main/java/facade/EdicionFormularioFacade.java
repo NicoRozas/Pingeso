@@ -51,25 +51,25 @@ public class EdicionFormularioFacade extends AbstractFacade<EdicionFormulario> i
             retorno = q.getResultList();
             logger.log(Level.INFO, "buscar formulario by nue -> {0}", nue);
         } catch (IllegalArgumentException e) {
-            logger.severe("FormularioFacade: el nombre o el parametro de la Query no existe -> " + e);
+            logger.severe("EdicionFormularioFacade: el nombre o el parametro de la Query no existe -> " + e);
             retorno = null;
         } catch (IllegalStateException e) {
-            logger.severe("FormularioFacade: ocurrio un problema con la consulta -> " + e);
+            logger.severe("EdicionFormularioFacade: ocurrio un problema con la consulta -> " + e);
             retorno = null;
         } catch (QueryTimeoutException e) {
-            logger.severe("FormularioFacade: ocurrio un problema con la consulta -> " + e);
+            logger.severe("EdicionFormularioFacade: ocurrio un problema con la consulta -> " + e);
             retorno = null;
         } catch (TransactionRequiredException e) {
-            logger.severe("FormularioFacade: ocurrio un problema con la consulta -> " + e);
+            logger.severe("EdicionFormularioFacade: ocurrio un problema con la consulta -> " + e);
             retorno = null;
         } catch (PessimisticLockException e) {
-            logger.severe("FormularioFacade: ocurrio un problema con la consulta -> " + e);
+            logger.severe("EdicionFormularioFacade: ocurrio un problema con la consulta -> " + e);
             retorno = null;
         } catch (LockTimeoutException e) {
-            logger.severe("FormularioFacade: ocurrio un problema con la consulta -> " + e);
+            logger.severe("EdicionFormularioFacade: ocurrio un problema con la consulta -> " + e);
             retorno = null;
         } catch (PersistenceException e) {
-            logger.severe("FormularioFacade: ocurrio un problema con la consulta -> " + e);
+            logger.severe("EdicionFormularioFacade: ocurrio un problema con la consulta -> " + e);
             retorno = null;
         }
         if (retorno == null) {

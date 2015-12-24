@@ -58,25 +58,25 @@ public class FormularioEJB implements FormularioEJBLocal {
     static final Logger logger = Logger.getLogger(FormularioEJB.class.getName());
 
     @Override
-    public List<EdicionFormulario> listaEdiciones(int nue, int idUser){
+    public List<EdicionFormulario> listaEdiciones(int nue, int idUser) {
         List<EdicionFormulario> lista = new ArrayList();
         List<EdicionFormulario> response = new ArrayList();
         lista = edicionFormularioFacade.findAll();
-        
-        for(int i = 0; i < lista.size() ; i++){
-            
-            if(lista.get(i).getUsuarioidUsuario().getIdUsuario() == idUser && lista.get(i).getFormularioNUE().getNue() == nue){
+
+        for (int i = 0; i < lista.size(); i++) {
+
+            if (lista.get(i).getUsuarioidUsuario().getIdUsuario() == idUser && lista.get(i).getFormularioNUE().getNue() == nue) {
                 response.add(lista.get(i));
             }
         }
-        
-        if(response.isEmpty()){
+
+        if (response.isEmpty()) {
             response = null;
         }
-        
-        return response;    
+
+        return response;
     }
-    
+
     @Override
     public Formulario findFormularioByNue(int nueAbuscar) {
 
@@ -472,29 +472,28 @@ public class FormularioEJB implements FormularioEJBLocal {
         return "Exito";
 
     }
-    
+
     @Override
-    public String edicionFormulario(Formulario formulario, String obsEdicion, Usuario usuarioSesion){
-    
-        if(obsEdicion == null){
+    public String edicionFormulario(Formulario formulario, String obsEdicion, Usuario usuarioSesion) {
+
+        if (obsEdicion == null) {
             return "Se requiere la observación";
         }
 
         //Creando el objeto edicion
-        
         EdicionFormulario edF = new EdicionFormulario();
-        
+
         edF.setFormularioNUE(formulario);
         edF.setUsuarioidUsuario(usuarioSesion);
-        edF.setObservaciones(obsEdicion);
+        //edF.setObservaciones(obsEdicion);
         edF.setFechaEdicion(new Date(System.currentTimeMillis()));
-        
+
         //Actualizando ultima edicion formulario
         formulario.setUltimaEdicion(edF.getFechaEdicion());
-        
+
         edicionFormularioFacade.edit(edF);
         formularioFacade.edit(formulario);
-       
+
         return "Exito";
     }
 
