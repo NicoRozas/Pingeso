@@ -497,7 +497,7 @@ public class FormularioEJB implements FormularioEJBLocal {
 
     @Override
     public String edicionFormulario(Formulario formulario, String obsEdicion, Usuario usuarioSesion) {
-
+        //**verificar que el usuario que edita haya participado en la cc.
         if (obsEdicion == null) {
             return "Se requiere la observación";
         }

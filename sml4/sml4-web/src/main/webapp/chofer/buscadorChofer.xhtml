@@ -11,38 +11,39 @@
         <link href="css/shop-item.css" rel="stylesheet" />
     </h:head>
     <h:body>
-        
+
         <!-- Usuario logeado -->
-            
-                <h:form>
-                    <div class="thumbnail">
-                        <div align="center"><h:outputLabel class="input-group-lg" style=" background-color: white" value="Bienvenido(a) #{buscadorChoferMB.usuarioSesion.nombreUsuario}"></h:outputLabel></div>
-                    </div>
-                </h:form> 
-            
-            <hr />
-            <!-- usuario logeado -->
-        
+
+        <h:form>
+            <div class="thumbnail">
+                <div align="center"><h:outputLabel class="input-group-lg" style=" background-color: white" value="Bienvenido(a) #{buscadorChoferMB.usuarioSesion.nombreUsuario}"></h:outputLabel></div>
+            </div>
+        </h:form> 
+
+        <hr />
+        <!-- usuario logeado -->
+
         <!-- Nav -->
-            <div class="row" style="background:rgba(255, 255, 255, 0.8); padding:5px; border-radius: 0 0 7px 7px; margin-top:5px">
-                <div  class="col-md-3" align="center"> <!-- Barra de navegación -->
-                    <a class="navbar-brand" align="center" href="#">SERVICIO MÉDICO LEGAL</a>
-                </div>
-                <div class="col-md-9"> <!-- Barra de navegación -->
-                    <ul class="nav nav-tabs nav-justified">
+        <div class="row" style="background:rgba(255, 255, 255, 0.8); padding:5px; border-radius: 0 0 7px 7px; margin-top:5px">
+            <div  class="col-md-3" align="center"> <!-- Barra de navegación -->
+                <a class="navbar-brand" align="center" href="#">SERVICIO MÉDICO LEGAL</a>
+            </div>
+            <div class="col-md-9"> <!-- Barra de navegación -->
+                <ul class="nav nav-tabs nav-justified">
 
-                        <li role="presentation"><a href="#">Formulario</a></li>
+                    <li role="presentation"><a href="#">Formulario</a></li>
 
-                        <li role="presentation" class="active" ><a href="buscadorChofer.xhtml">Editar</a></li>
-                        
-                        <li role="presentation"><a href=".../indexListo.xhtml">Cerrar Sesion</a></li>
+                    <li role="presentation" class="active" ><a href="buscadorChofer.xhtml">Editar</a></li>
 
-                    </ul>
-                </div>
-            </div>   	
+                    <h:form>
+                        <li role="presentation"> <h:commandLink id="cs" action="#{buscadorChoferMB.salir()}" value="Cerrar sesión"></h:commandLink> </li>
+                    </h:form>
+                </ul>
+            </div>
+        </div>   	
 
-            <!-- Nav -->
-        
+        <!-- Nav -->
+
         <!-- inicio busqueda -->
         <div align="center">
             <div class="thumbnail" style="width:350px">       

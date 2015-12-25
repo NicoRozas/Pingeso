@@ -102,7 +102,7 @@ public class BuscadorChoferMB {
         logger.log(Level.FINEST, "usuario saliente {0}", this.usuarioSesion.getNombreUsuario());
         httpServletRequest1.removeAttribute("cuentaUsuario");
         logger.exiting(this.getClass().getName(), "salirChofer", "indexListo");
-        return "indexListo?faces-redirect=true";
+        return "/indexListo?faces-redirect=true";
     }
 
     public String getUsuarioSis() {

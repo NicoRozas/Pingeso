@@ -35,8 +35,9 @@
 
                     <li role="presentation" class="active" ><a href="BuscadorChofer.xhtml">Editar</a></li>
 
-                    <li role="presentation"><a href=".../indexListo.xhtml">Cerrar Sesion</a></li>
-                        <!-- modificar y usar metodo de cerrar sesion-->
+                    <h:form>
+                        <li role="presentation"> <h:commandLink id="cs" action="#{buscadorChoferMB.salir()}" value="Cerrar sesión"></h:commandLink> </li>
+                    </h:form>
                 </ul>
             </div>
         </div>   	
@@ -81,7 +82,7 @@
 
                         </h:panelGrid> <br />
 
-                        
+
                         <h:panelGrid columns="1" cellpadding="5" class="ui-grid">
                             <h:outputLabel  for="fecha" value="Fecha:" style="width:120px"></h:outputLabel>
                             <p:inputText id="fecha" value="#{editarChoferETMB.formulario.fechaOcurrido}" label="Fecha" disabled="true"/>
