@@ -9,7 +9,6 @@ import ejb.FormularioEJBLocal;
 import ejb.UsuarioEJBLocal;
 import entity.EdicionFormulario;
 import entity.Formulario;
-import entity.Traslado;
 import entity.Usuario;
 import java.util.List;
 import java.util.logging.Level;
@@ -87,32 +86,8 @@ public class BuscadorChoferMB {
             //List<Traslado> traslados = formularioEJB.traslados(formulario);
             List<EdicionFormulario> ediciones = formularioEJB.listaEdiciones(nue, usuarioSesion.getIdUsuario());
 
-            if (ediciones != null && !ediciones.isEmpty()) { //si el formulario si posee ediciones                
-                logger.exiting(this.getClass().getName(), "buscarFormulario", "/chofer/editarChofer");
-                return "/chofer/editarChoferET.xhtml?faces-redirect=true";
-            } else { //el formulario no posee ediciones
-                logger.exiting(this.getClass().getName(), "buscarFormulario", "/chofer/editarChoferE");
-                return "/chofer/editarChoferT.xhtml?faces-redirect=true";
-            }
-
-//            if (!traslados.isEmpty()) {
-//                //posee traslados
-//                if (!ediciones.isEmpty()) {
-//                    //posee tanto traslados como ediciones
-//                    return "";
-//                }
-//                //posee solo traslados
-//                return "/chofer/editarChoferT.xhtml?faces-redirect=true";
-//            } else {
-//                //no posee traslados
-//                if (!ediciones.isEmpty()) {
-//                    //no posee traslados pero si posee ediciones
-//                    return "/chofer/editarChoferE.xhtml?faces-redirect=true";
-//                }
-//                //no posee ninguno de los dos
-//                logger.exiting(this.getClass().getName(), "Buscar formulario", "resultadoBuscadorChofer");
-//                return "/chofer/editarChofer.xhtml?faces-redirect=true";
-//            }
+            logger.exiting(this.getClass().getName(), "buscarFormulario", "/chofer/editarChoferET");
+            return "/chofer/editarChoferET.xhtml?faces-redirect=true";
         }
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "no existe", "Datos no válidos"));
         logger.info("formulario no encontrado");

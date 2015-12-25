@@ -56,9 +56,7 @@
                             <p:inputText id="rit" value="#{editarChoferETMB.formulario.rit}" label="rit" disabled="true"></p:inputText>
 
                             <h:outputLabel  for="nue" value="N.U.E.:" style="width:120px"></h:outputLabel>
-                            <p:inputText id="nue" value="#{editarChoferETMB.formulario.nue}" label="nue" disabled="true">
-                                <f:validateDoubleRange minimum="10000" maximum="99999"/>
-                            </p:inputText>                                   
+                            <p:inputText id="nue" value="#{editarChoferETMB.formulario.nue}" label="nue" disabled="true"></p:inputText>                                   
 
                             <h:outputLabel  for="del" value="Delito:" style="width:120px"></h:outputLabel>
                             <p:inputText id="del" value="#{editarChoferETMB.formulario.delitoRef}" label="Delito" disabled="true"></p:inputText>
@@ -83,7 +81,7 @@
 
                         </h:panelGrid> <br />
 
-
+                        
                         <h:panelGrid columns="1" cellpadding="5" class="ui-grid">
                             <h:outputLabel  for="fecha" value="Fecha:" style="width:120px"></h:outputLabel>
                             <p:inputText id="fecha" value="#{editarChoferETMB.formulario.fechaOcurrido}" label="Fecha" disabled="true"/>
@@ -120,12 +118,13 @@
                         </p:dataList>
                         <hr />
                         <h4> Mostrando Ediciones</h4>
-                        <p:dataList value="#{editarChoferTResultMB.ediciones}" var="ediciones" emptyMessage="No se han realizado ediciones de esta cadena de custodia.">     
+                        <p:dataList value="#{editarChoferETMB.ediciones}" var="ediciones" emptyMessage="No se han realizado ediciones en esta cadena de custodia.">     
                             <h:outputLabel value="Edición: " for="ed" />
-                            <h:outputText id="ed" value="#{ediciones.observaciones}     " />
+                            <h:outputText id="ed" value="#{ediciones.observaciones}" />
                             <hr />
                         </p:dataList>
 
+                        <!-- panel para ingresar la observacion-->
                         <div align="center">
                             <div class="thumbnail" style="width: 785px; padding: 15px;">
                                 <h:panelGrid columns="1">

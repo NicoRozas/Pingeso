@@ -44,6 +44,9 @@ public class EdicionFormulario implements Serializable {
     @Column(name = "fechaEdicion")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaEdicion;
+    @Size(max = 400)
+    @Column(name = "observaciones")
+    private String observaciones;
     @JoinColumn(name = "Usuario_idUsuario", referencedColumnName = "idUsuario")
     @ManyToOne(optional = false)
     private Usuario usuarioidUsuario;
@@ -73,7 +76,14 @@ public class EdicionFormulario implements Serializable {
     public void setFechaEdicion(Date fechaEdicion) {
         this.fechaEdicion = fechaEdicion;
     }
+    
+    public String getObservaciones() {
+        return observaciones;
+    }
 
+    public void setObservaciones(String observaciones) {
+        this.observaciones = observaciones;
+    }
 
     public Usuario getUsuarioidUsuario() {
         return usuarioidUsuario;

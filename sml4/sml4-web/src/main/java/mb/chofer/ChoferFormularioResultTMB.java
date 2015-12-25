@@ -90,17 +90,21 @@ public class ChoferFormularioResultTMB {
         logger.setLevel(Level.ALL);
         logger.entering(this.getClass().getName(), "salirJefeArea");
         logger.log(Level.FINEST, "usuario saliente {0}", this.usuarioSesion.getNombreUsuario());
+        httpServletRequest1.removeAttribute("cuentaUsuario");
         logger.exiting(this.getClass().getName(), "salirJefeArea", "indexListo");
-        return "indexListo?faces-redirect=true";
+        return "indexListo.xhtml?faces-redirect=true";
     }
 
     public String editar() {
+        logger.setLevel(Level.ALL);
+        logger.entering(this.getClass().getName(), "editar");
         //Enviando nue
         httpServletRequest.getSession().setAttribute("nueF", this.nue);
         //Enviando usuario
         httpServletRequest1.getSession().setAttribute("cuentaUsuario", this.usuarioS);
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Edicion", "Ir a edicion"));
-        return "/chofer/editarChofer?faces-redirect=true";
+        logger.exiting(this.getClass().getName(), "editar", "/chofer/editarChoferET");
+        return "/chofer/editarChoferET.xhtml?faces-redirect=true";
 
     }
 

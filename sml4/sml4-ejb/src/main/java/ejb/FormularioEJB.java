@@ -57,8 +57,11 @@ public class FormularioEJB implements FormularioEJBLocal {
 
     static final Logger logger = Logger.getLogger(FormularioEJB.class.getName());
 
+    //** trabajar en la consulta sql
     @Override
     public List<EdicionFormulario> listaEdiciones(int nue, int idUser) {
+        logger.setLevel(Level.ALL);
+        logger.entering(this.getClass().getName(), "listaEdiciones", nue+" "+idUser);
         List<EdicionFormulario> lista = new ArrayList();
         List<EdicionFormulario> response = new ArrayList();
         lista = edicionFormularioFacade.findAll();
@@ -71,9 +74,11 @@ public class FormularioEJB implements FormularioEJBLocal {
         }
 
         if (response.isEmpty()) {
-            response = null;
+            //response = null;
+            logger.exiting(this.getClass().getName(), "listaEdiciones", "sin elementos");
+            return response;
         }
-
+        logger.exiting(this.getClass().getName(), "listaEdiciones", response.size());
         return response;
     }
 
@@ -96,7 +101,9 @@ public class FormularioEJB implements FormularioEJBLocal {
     public String crearTraslado(Formulario formulario, String usuarioEntrega, String usuarioEntregaUnidad, String usuarioEntregaCargo, String usuarioEntregaRut, String usuarioRecibe, String usuarioRecibeUnidad, String usuarioRecibeCargo, String usuarioRecibeRut, Date fechaT, String observaciones, String motivo, Usuario uSesion) {
         logger.setLevel(Level.ALL);
         logger.entering(this.getClass().getName(), "crearTraslado");
-
+        
+        //**falta verificar que se permian ingresar mas traslado en la CC.
+        
         if (usuarioEntrega == null || usuarioEntregaUnidad == null || usuarioEntregaCargo == null || usuarioEntregaRut == null || usuarioRecibe == null || usuarioRecibeUnidad == null || usuarioRecibeCargo == null || usuarioRecibeRut == null || motivo == null) {
             logger.exiting(this.getClass().getName(), "crearTraslado", "Campos null");
             return "Faltan campos";
@@ -180,20 +187,32 @@ public class FormularioEJB implements FormularioEJBLocal {
         nuevoTraslado.setUsuarioidUsuario(usuarioRecibeP);
         nuevoTraslado.setUsuarioidUsuario1(usuarioEntregaP);
 
-        if (nuevoTraslado.getTipoMotivoidMotivo().getTipoMotivo().equals("Peritaje")) {
-
-            if (uSesion.getCargoidCargo().getNombreCargo().equals("Tecnico") || uSesion.getCargoidCargo().getNombreCargo().equals("Perito")) {
-                logger.info("se inicia insercion del nuevo traslado y fin de la cadena");
-                trasladoFacade.create(nuevoTraslado);
-                logger.info("se finaliza insercion del nuevo traslado y fin de la cadena");
-                logger.exiting(this.getClass().getName(), "crearTraslado", "Exito");
-                return "Fin";
-            }
-        }
+//        if (nuevoTraslado.getTipoMotivoidMotivo().getTipoMotivo().equals("Peritaje")) {
+//
+//            if (uSesion.getCargoidCargo().getNombreCargo().equals("Tecnico") || uSesion.getCargoidCargo().getNombreCargo().equals("Perito")) {
+//                logger.info("se inicia insercion del nuevo traslado y fin de la cadena");
+//                trasladoFacade.create(nuevoTraslado);
+//                logger.info("se finaliza insercion del nuevo traslado y fin de la cadena");
+//                logger.exiting(this.getClass().getName(), "crearTraslado", "Exito");
+//                return "Exito";
+//            }
+//        }
 
         logger.info("se inicia insercion del nuevo traslado");
         trasladoFacade.create(nuevoTraslado);
         logger.info("se finaliza insercion del nuevo traslado");
+        
+        
+        //verificamos si se se trata de un peritaje, lo cual finaliza la cc.
+        if (nuevoTraslado.getTipoMotivoidMotivo().getTipoMotivo().equals("Peritaje")) {
+            if (uSesion.getCargoidCargo().getNombreCargo().equals("Tecnico") || uSesion.getCargoidCargo().getNombreCargo().equals("Perito")) {
+                logger.info("se realiza peritaje, por tanto se finaliza la cc.");
+                
+                //**realizar cosas para bloquear CC.
+            }
+        }   
+        
+        
         logger.exiting(this.getClass().getName(), "crearTraslado", "Exito");
         return "Exito";
 
@@ -384,14 +403,16 @@ public class FormularioEJB implements FormularioEJBLocal {
 
     }
 
+    //** modificada para retornar una lista vacía si no encuentra resultados.
     @Override
     public List<Traslado> traslados(Formulario formulario) {
         logger.setLevel(Level.ALL);
         logger.entering(this.getClass().getName(), "traslados", formulario.toString());
         List<Traslado> retorno = trasladoFacade.findByNue(formulario);
         if (retorno == null) {
-            logger.exiting(this.getClass().getName(), "traslados", null);
-            return null;
+            retorno = new ArrayList<>();
+            logger.exiting(this.getClass().getName(), "traslados", retorno.size());
+            return retorno;
         } else {
             logger.exiting(this.getClass().getName(), "traslados", retorno.size());
             return retorno;
@@ -400,6 +421,7 @@ public class FormularioEJB implements FormularioEJBLocal {
 
     //ZACK
     //Función que crea el formulario 
+    // el String de retorno se muentra como mensaje en la vista.
     @Override
     public String crearFormulario(String ruc, String rit, int nue, int nParte, String cargo, String delito, String direccionSS, String lugar, String unidad, String levantadoPor, String rut, Date fecha, String observacion, String descripcion, Usuario digitador) {
 
@@ -424,7 +446,7 @@ public class FormularioEJB implements FormularioEJBLocal {
         //Verificando que los campos sean string
         if (!soloCaracteres(cargo) || !soloCaracteres(delito) || !soloCaracteres(unidad) || !soloCaracteres(levantadoPor) || !val(rut)) {
 
-            return "Campos erroneos";
+            return "Campos erróneos.";
         }
 
         //ruc - rit- nparte - obs y descripcion no son obligatorios
@@ -485,7 +507,7 @@ public class FormularioEJB implements FormularioEJBLocal {
 
         edF.setFormularioNUE(formulario);
         edF.setUsuarioidUsuario(usuarioSesion);
-        //edF.setObservaciones(obsEdicion);
+        edF.setObservaciones(obsEdicion);
         edF.setFechaEdicion(new Date(System.currentTimeMillis()));
 
         //Actualizando ultima edicion formulario
