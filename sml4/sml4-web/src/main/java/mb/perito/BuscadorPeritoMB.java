@@ -15,24 +15,24 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
-import mb.digitador.CrearFormularioMB;
 
 /**
  *
  * @author sebastian
  */
-@Named(value = "busquedaPeritoMB")
+@Named(value = "buscadorPeritoMB")
 @RequestScoped
-public class BusquedaPeritoMB {
+public class BuscadorPeritoMB {
 
     @EJB
     private UsuarioEJBLocal usuarioEJB;
     @EJB
     private FormularioEJBLocal formularioEJB;
 
-    static final Logger logger = Logger.getLogger(CrearFormularioMB.class.getName());
+    static final Logger logger = Logger.getLogger(BuscadorPeritoMB.class.getName());
 
     private Usuario usuarioSesion;
 
@@ -45,9 +45,9 @@ public class BusquedaPeritoMB {
     private String usuarioSis;
     private int nue;
 
-    public BusquedaPeritoMB() {
+    public BuscadorPeritoMB() {
         logger.setLevel(Level.ALL);
-        logger.entering(this.getClass().getName(), "BusquedaPeritoMB");
+        logger.entering(this.getClass().getName(), "BuscadorPeritoMB");
         /**/
         this.facesContext = FacesContext.getCurrentInstance();
         this.httpServletRequest = (HttpServletRequest) facesContext.getExternalContext().getRequest();
@@ -59,33 +59,52 @@ public class BusquedaPeritoMB {
             logger.log(Level.FINEST, "Usuario recibido {0}", this.usuarioSis);
         }
 
-        logger.exiting(this.getClass().getName(), "BusquedaPeritoMB");
+        logger.exiting(this.getClass().getName(), "BuscadorPeritoMB");
     }
 
     @PostConstruct
-    public void loadUsuario() {
+    public void cargarDatos() {
         logger.setLevel(Level.ALL);
-        logger.entering(this.getClass().getName(), "loadUsuarioPerito");
+        logger.entering(this.getClass().getName(), "cargarDatosPerito");
         this.usuarioSesion = usuarioEJB.findUsuarioSesionByCuenta(usuarioSis);
-        logger.exiting(this.getClass().getName(), "loadUsuarioPerito");
+        logger.exiting(this.getClass().getName(), "cargarDatosPerito");
     }
 
-    public String busquedaFormulario() {
-        Formulario formulario = formularioEJB.findFormularioByNue(nue);
-        if (formulario != null) {
-            httpServletRequest.getSession().setAttribute("nueF", formulario.getNue());
-            return "forAddTPerito.xhtml?faces-redirect=true";
-        }
+    //si encuentra el formulario, envía a la pagina para verlo.
+    public String buscarFormulario() {
+        logger.setLevel(Level.ALL);
+        logger.entering(this.getClass().getName(), "buscarFormularioPerito");
+        logger.log(Level.INFO, "NUE CAPTURADO:{0}", this.nue);
+        Formulario formulario = formularioEJB.findFormularioByNue(this.nue);
 
-        return "Nue no encontrado";
+        if (formulario != null) {
+            httpServletRequest.getSession().setAttribute("nueF", this.nue);
+            httpServletRequest1.getSession().setAttribute("cuentaUsuario", this.usuarioSis);
+
+            logger.exiting(this.getClass().getName(), "buscarFormularioPerito", "todoPerito");
+            return "todoPerito.xhtml?faces-redirect=true";
+        }
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "no existe", "Datos no válidos"));
+        logger.info("formulario no encontrado");
+        logger.exiting(this.getClass().getName(), "buscarFormularioPerito", "");
+        return "";
     }
 
     public String salir() {
         logger.setLevel(Level.ALL);
-        logger.entering(this.getClass().getName(), "salirBusquedaPerito");
+        logger.entering(this.getClass().getName(), "salirPerito");
         logger.log(Level.FINEST, "usuario saliente {0}", this.usuarioSesion.getNombreUsuario());
-        logger.exiting(this.getClass().getName(), "salirBusquedaPerito", "indexListo");
-        return "indexListo?faces-redirect=true";
+        httpServletRequest1.removeAttribute("cuentaUsuario");
+        logger.exiting(this.getClass().getName(), "salirPerito", "/indexListo");
+        return "/indexListo?faces-redirect=true";
+    }
+
+    public int getNue() {
+        return nue;
+    }
+
+    public void setNue(int nue) {
+        this.nue = nue;
     }
 
     public String getUsuarioSis() {

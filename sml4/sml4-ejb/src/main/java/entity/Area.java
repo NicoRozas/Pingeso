@@ -11,6 +11,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -24,16 +25,17 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author sebastian
+ * @author Alan
  */
 @Entity
-@Table(name = "Area")
+@Table(name = "area")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Area.findAll", query = "SELECT a FROM Area a"),
     @NamedQuery(name = "Area.findByIdArea", query = "SELECT a FROM Area a WHERE a.idArea = :idArea"),
     @NamedQuery(name = "Area.findByNombreArea", query = "SELECT a FROM Area a WHERE a.nombreArea = :nombreArea")})
 public class Area implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,7 +45,7 @@ public class Area implements Serializable {
     @Size(max = 45)
     @Column(name = "nombreArea")
     private String nombreArea;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "areaidArea")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "areaidArea", fetch = FetchType.EAGER)
     private List<Usuario> usuarioList;
 
     public Area() {

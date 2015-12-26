@@ -38,6 +38,7 @@ public class TipoUsuarioFacade extends AbstractFacade<TipoUsuario> implements Ti
         super(TipoUsuario.class);
     }
  
+    //@NamedQuery(name = "TipoUsuario.findByNombreTipo", query = "SELECT t FROM TipoUsuario t WHERE t.nombreTipo = :nombreTipo")
     @Override
     public TipoUsuario findByTipo(String nombreTipo) {
         logger.setLevel(Level.ALL);

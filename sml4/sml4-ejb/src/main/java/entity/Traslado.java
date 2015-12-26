@@ -10,6 +10,7 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -25,18 +26,19 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author sebastian
+ * @author Alan
  */
 @Entity
-@Table(name = "Traslado")
+@Table(name = "traslado")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Traslado.findByNue", query = "SELECT t FROM Traslado t WHERE t.formularioNUE = :nue"),
     @NamedQuery(name = "Traslado.findAll", query = "SELECT t FROM Traslado t"),
     @NamedQuery(name = "Traslado.findByIdInvolucrado", query = "SELECT t FROM Traslado t WHERE t.idInvolucrado = :idInvolucrado"),
     @NamedQuery(name = "Traslado.findByFechaEntrega", query = "SELECT t FROM Traslado t WHERE t.fechaEntrega = :fechaEntrega"),
-    @NamedQuery(name = "Traslado.findByObservaciones", query = "SELECT t FROM Traslado t WHERE t.observaciones = :observaciones")})
+    @NamedQuery(name = "Traslado.findByObservaciones", query = "SELECT t FROM Traslado t WHERE t.observaciones = :observaciones"),
+    @NamedQuery(name = "Traslado.findByNue", query = "SELECT t FROM Traslado t WHERE t.formularioNUE = :nue")})
 public class Traslado implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,18 +51,18 @@ public class Traslado implements Serializable {
     @Size(max = 300)
     @Column(name = "observaciones")
     private String observaciones;
-    @JoinColumn(name = "Tipo_Motivo_idMotivo", referencedColumnName = "idMotivo")
-    @ManyToOne(optional = false)
-    private TipoMotivo tipoMotivoidMotivo;
-    @JoinColumn(name = "Usuario_idUsuario1", referencedColumnName = "idUsuario")
-    @ManyToOne(optional = false)
-    private Usuario usuarioidUsuario1;
-    @JoinColumn(name = "Formulario_NUE", referencedColumnName = "NUE")
-    @ManyToOne(optional = false)
-    private Formulario formularioNUE;
     @JoinColumn(name = "Usuario_idUsuario", referencedColumnName = "idUsuario")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Usuario usuarioidUsuario;
+    @JoinColumn(name = "Usuario_idUsuario1", referencedColumnName = "idUsuario")
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    private Usuario usuarioidUsuario1;
+    @JoinColumn(name = "Tipo_Motivo_idMotivo", referencedColumnName = "idMotivo")
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    private TipoMotivo tipoMotivoidMotivo;
+    @JoinColumn(name = "Formulario_NUE", referencedColumnName = "NUE")
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    private Formulario formularioNUE;
 
     public Traslado() {
     }
@@ -93,12 +95,12 @@ public class Traslado implements Serializable {
         this.observaciones = observaciones;
     }
 
-    public TipoMotivo getTipoMotivoidMotivo() {
-        return tipoMotivoidMotivo;
+    public Usuario getUsuarioidUsuario() {
+        return usuarioidUsuario;
     }
 
-    public void setTipoMotivoidMotivo(TipoMotivo tipoMotivoidMotivo) {
-        this.tipoMotivoidMotivo = tipoMotivoidMotivo;
+    public void setUsuarioidUsuario(Usuario usuarioidUsuario) {
+        this.usuarioidUsuario = usuarioidUsuario;
     }
 
     public Usuario getUsuarioidUsuario1() {
@@ -109,20 +111,20 @@ public class Traslado implements Serializable {
         this.usuarioidUsuario1 = usuarioidUsuario1;
     }
 
+    public TipoMotivo getTipoMotivoidMotivo() {
+        return tipoMotivoidMotivo;
+    }
+
+    public void setTipoMotivoidMotivo(TipoMotivo tipoMotivoidMotivo) {
+        this.tipoMotivoidMotivo = tipoMotivoidMotivo;
+    }
+
     public Formulario getFormularioNUE() {
         return formularioNUE;
     }
 
     public void setFormularioNUE(Formulario formularioNUE) {
         this.formularioNUE = formularioNUE;
-    }
-
-    public Usuario getUsuarioidUsuario() {
-        return usuarioidUsuario;
-    }
-
-    public void setUsuarioidUsuario(Usuario usuarioidUsuario) {
-        this.usuarioidUsuario = usuarioidUsuario;
     }
 
     @Override

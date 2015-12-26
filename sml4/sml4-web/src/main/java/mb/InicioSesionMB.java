@@ -55,7 +55,7 @@ public class InicioSesionMB {
             httpServletRequest.getSession().setAttribute("cuentaUsuario", this.user);
             //guardo la cuenta de usuario para entregarla a la otra vista
             logger.log(Level.FINEST, "usuario: {0}", this.user);
-            logger.exiting(this.getClass().getName(), "login1", "Nuevo Login1");
+            logger.exiting(this.getClass().getName(), "login1", response);
             return response;
 
         } else {

@@ -38,19 +38,19 @@ public class UsuarioEJB implements UsuarioEJBLocal {
             if (foundUser.getPassUsuario().equals(pass)) {
                 //Redirecciono según el cargo a su respectiva vista
                 if (foundUser.getCargoidCargo().getNombreCargo().equals("Perito")) {
-                    direccion = "peritoFormulario.xhtml?faces-redirect=true";
+                    direccion = "/perito/peritoFormulario.xhtml?faces-redirect=true";
                 } else if (foundUser.getCargoidCargo().getNombreCargo().equals("Chofer")) {
                     direccion = "/chofer/choferFormulario.xhtml?faces-redirect=true";
                 } else if (foundUser.getCargoidCargo().getNombreCargo().equals("Digitador")) {
-                    direccion = "digitadorFormularioHU11.xhtml?faces-redirect=true";
-                } else if (foundUser.getCargoidCargo().getNombreCargo().equals("Tecnico")) {
-                    direccion = "buscadorTecnico.xhtml?faces-redirect=true";
-                } else if (foundUser.getCargoidCargo().getNombreCargo().equals("Jefe Area")){
+                    direccion = "/digitador/digitadorFormularioHU11.xhtml?faces-redirect=true";
+                } else if (foundUser.getCargoidCargo().getNombreCargo().equals("Técnico")) {
+                    direccion = "/tecnico/buscadorTecnico.xhtml?faces-redirect=true";
+                } else if (foundUser.getCargoidCargo().getNombreCargo().equals("Jefe de área")){
                     direccion = "/jefeArea/buscadorJefeArea.xhtml?faces-redirect=true";
                 }
             }
         }
-        logger.exiting(this.getClass().getName(), "Función verificarUsuario", "fin");
+        logger.exiting(this.getClass().getName(), "Función verificarUsuario", direccion);
         return direccion;
     }
 

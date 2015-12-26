@@ -7,9 +7,9 @@ package mb.perito;
 
 import ejb.FormularioEJBLocal;
 import ejb.UsuarioEJBLocal;
-import entity.Formulario;
 import entity.Usuario;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -20,7 +20,6 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
-import mb.digitador.CrearFormularioMB;
 
 /**
  *
@@ -31,17 +30,16 @@ import mb.digitador.CrearFormularioMB;
 @ManagedBean
 public class CrearFormularioPeritoMB {
 
-    
     @EJB
     private UsuarioEJBLocal usuarioEJB;
     @EJB
     private FormularioEJBLocal formularioEJB;
 
-    static final Logger logger = Logger.getLogger(CrearFormularioMB.class.getName());
+    static final Logger logger = Logger.getLogger(CrearFormularioPeritoMB.class.getName());
 
     //Guardamos el usuario que inicia sesion
     private Usuario uSesion;
-    
+
     //Atributos del formulario
     private String ruc;
     private String rit;
@@ -57,14 +55,13 @@ public class CrearFormularioPeritoMB {
     private String observacion;
     private String descripcion;
     private int parte;
-    
+
     //Guardamos la cuenta del usuario que entrego la vista del login
     private String usuarioSis;
-    
+
     //Captura al usuario proveniente del inicio de sesión
     private HttpServletRequest httpServletRequest1;
     private FacesContext facesContext1;
-
 
     public CrearFormularioPeritoMB() {
         logger.setLevel(Level.ALL);
@@ -76,20 +73,27 @@ public class CrearFormularioPeritoMB {
             this.usuarioSis = (String) httpServletRequest1.getSession().getAttribute("cuentaUsuario");
             logger.log(Level.FINEST, "Usuario recibido {0}", this.usuarioSis);
         }
-
         logger.exiting(this.getClass().getName(), "CrearFormularioPeritoMB");
     }
 
     @PostConstruct
-    public void loadUsuario() {
+    public void cargarDatos() {
         logger.setLevel(Level.ALL);
-        logger.entering(this.getClass().getName(), "loadUsuarioPerito");
-        this.uSesion = (Usuario)usuarioEJB.findUsuarioSesionByCuenta(usuarioSis);
-        logger.exiting(this.getClass().getName(), "loadUsuarioPerito");
-    }
-    
+        logger.entering(this.getClass().getName(), "cargarDatosPerito");
+        this.uSesion = (Usuario) usuarioEJB.findUsuarioSesionByCuenta(usuarioSis);
 
-   public void iniciarFormulario() {
+        this.cargo = this.uSesion.getCargoidCargo().getNombreCargo();
+        this.levantadaPor = this.uSesion.getNombreUsuario();
+        this.unidad = this.uSesion.getUnidad();
+        this.rut = this.uSesion.getRutUsuario();
+
+        GregorianCalendar c = new GregorianCalendar();
+        this.fecha = c.getTime();
+
+        logger.exiting(this.getClass().getName(), "cargarDatosPerito");
+    }
+
+    public String iniciarFormulario() {
         logger.setLevel(Level.ALL);
         logger.entering(this.getClass().getName(), "iniciarFormularioPerito");
         logger.log(Level.FINEST, "formulario nue {0}", this.nue);
@@ -97,23 +101,24 @@ public class CrearFormularioPeritoMB {
         logger.log(Level.FINEST, "formulario fecha {0}", this.fecha);
         logger.log(Level.FINEST, "usuario inicia cargo {0}", this.cargo);
         String resultado = formularioEJB.crearFormulario(ruc, rit, nue, parte, cargo, delito, direccionSS, lugar, unidad, levantadaPor, rut, fecha, observacion, descripcion, uSesion);
-        
-        if (resultado.equals("Exito")) {
-            logger.exiting(this.getClass().getName(), "iniciarFormulario", "crearFormularioHU7");
+
+        if (resultado.equals("Exito")) {            
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, resultado, "Datos exitosos"));
-        } else {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, resultado, "Datos no válidos"));
-            logger.exiting(this.getClass().getName(), "iniciarFormularioPerito", "");
+            logger.exiting(this.getClass().getName(), "iniciarFormularioPerito", "formularioCreadoPerito");
+            return "formularioCreadoPerito?faces-redirect=true";
         }
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, resultado, "Datos no válidos"));
+        logger.exiting(this.getClass().getName(), "iniciarFormularioPerito", "");
+        return "";
     }
-    
 
     public String salir() {
         logger.setLevel(Level.ALL);
-        logger.entering(this.getClass().getName(), "salir Perito");
+        logger.entering(this.getClass().getName(), "salirPerito");
         logger.log(Level.FINEST, "usuario saliente {0}", this.uSesion.getNombreUsuario());
-        logger.exiting(this.getClass().getName(), "salir Chofer", "indexListo");
-        return "indexListo?faces-redirect=true";
+        httpServletRequest1.removeAttribute("cuentaUsuario");
+        logger.exiting(this.getClass().getName(), "salirPerito", "/indexListo");
+        return "/indexListo?faces-redirect=true";
     }
 
     public Usuario getuSesion() {
@@ -243,6 +248,5 @@ public class CrearFormularioPeritoMB {
     public void setParte(int parte) {
         this.parte = parte;
     }
-    
 
 }

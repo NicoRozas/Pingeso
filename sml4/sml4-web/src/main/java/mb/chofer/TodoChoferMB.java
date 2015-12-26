@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package mb.perito;
+package mb.chofer;
 
 import ejb.FormularioEJBLocal;
 import ejb.UsuarioEJBLocal;
@@ -26,12 +26,12 @@ import javax.servlet.http.HttpServletRequest;
 
 /**
  *
- * @author sebastian
+ * @author Aracelly
  */
-@Named(value = "todoPeritoMB")
+@Named(value = "todoChoferMB")
 @RequestScoped
 @ManagedBean
-public class TodoPeritoMB {
+public class TodoChoferMB {
 
     @EJB
     private UsuarioEJBLocal usuarioEJB;
@@ -54,11 +54,11 @@ public class TodoPeritoMB {
     private List<Traslado> trasladosList;
     private List<EdicionFormulario> edicionesList;
 
-    static final Logger logger = Logger.getLogger(TodoPeritoMB.class.getName());
+    static final Logger logger = Logger.getLogger(TodoChoferMB.class.getName());
 
-    public TodoPeritoMB() {
+    public TodoChoferMB() {
         logger.setLevel(Level.ALL);
-        logger.entering(this.getClass().getName(), "TodoPeritoMB");
+        logger.entering(this.getClass().getName(), "TodoChoferMB");
         this.trasladosList = new ArrayList<>();
         this.edicionesList = new ArrayList<>();
         facesContext = FacesContext.getCurrentInstance();
@@ -73,13 +73,13 @@ public class TodoPeritoMB {
             this.usuarioSis = (String) httpServletRequest1.getSession().getAttribute("cuentaUsuario");
             logger.log(Level.FINEST, "Usuario recibido {0}", this.usuarioSis);
         }
-        logger.exiting(this.getClass().getName(), "TodoPeritoMB");
+        logger.exiting(this.getClass().getName(), "TodoChoferMB");
     }
 
     @PostConstruct
     public void cargarDatos() {
         logger.setLevel(Level.ALL);
-        logger.entering(this.getClass().getName(), "cargarDatosPerito");
+        logger.entering(this.getClass().getName(), "cargarDatosChofer");
         this.formulario = formularioEJB.findFormularioByNue(this.nue);
         this.usuarioSesion = usuarioEJB.findUsuarioSesionByCuenta(usuarioSis);
         
@@ -88,15 +88,15 @@ public class TodoPeritoMB {
         
         logger.log(Level.INFO, "formulario ruc {0}", this.formulario.getRuc());
         logger.log(Level.FINEST, "todos cant traslados {0}", this.trasladosList.size());
-        logger.exiting(this.getClass().getName(), "cargarDatosPerito");
+        logger.exiting(this.getClass().getName(), "cargarDatosChofer");
     }
 
     public String salir() {
         logger.setLevel(Level.ALL);
-        logger.entering(this.getClass().getName(), "salirPerito");
+        logger.entering(this.getClass().getName(), "salirChofer");
         logger.log(Level.FINEST, "usuario saliente {0}", this.usuarioSesion.getNombreUsuario());
         httpServletRequest1.removeAttribute("cuentaUsuario");
-        logger.exiting(this.getClass().getName(), "salirPerito", "/indexListo");
+        logger.exiting(this.getClass().getName(), "salirChofer", "/indexListo");
         return "/indexListo?faces-redirect=true";
     }
 
@@ -106,8 +106,8 @@ public class TodoPeritoMB {
         logger.entering(this.getClass().getName(), "editar");
         httpServletRequest.getSession().setAttribute("nueF", this.nue);
         httpServletRequest1.getSession().setAttribute("cuentaUsuario", this.usuarioSis);        
-        logger.exiting(this.getClass().getName(), "editar", "editarPeritoET");
-        return "editarPeritoET.xhtml?faces-redirect=true";
+        logger.exiting(this.getClass().getName(), "editar", "editarChoferET");
+        return "editarChoferET.xhtml?faces-redirect=true";
     }
     
     public String nuevaCadena() {
@@ -126,8 +126,8 @@ public class TodoPeritoMB {
         logger.entering(this.getClass().getName(), "recibirCadena");
         httpServletRequest.getSession().setAttribute("nueF", this.nue);
         httpServletRequest1.getSession().setAttribute("cuentaUsuario", this.usuarioSis);       
-        logger.exiting(this.getClass().getName(), "recibirCadena", "recibirPeritoET");
-        return "recibirPeritoET?faces-redirect=true";
+        logger.exiting(this.getClass().getName(), "recibirCadena", "recibirChoferET");
+        return "recibirChoferET?faces-redirect=true";
     }
 
     public List<EdicionFormulario> getEdicionesList() {

@@ -6,9 +6,15 @@
 package mb.digitador;
 
 import ejb.FormularioEJBLocal;
+import ejb.UsuarioEJBLocal;
+import entity.EdicionFormulario;
 import entity.Formulario;
+import entity.Traslado;
 import entity.Usuario;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -28,66 +34,95 @@ import javax.servlet.http.HttpServletRequest;
 @RequestScoped
 @ManagedBean
 public class ForTrasladoMB {
-    
+
+    @EJB
+    private UsuarioEJBLocal usuarioEJB;
+
     @EJB
     private FormularioEJBLocal formularioEJB;
-    
+
     static final Logger logger = Logger.getLogger(ForTrasladoMB.class.getName());
-    
+
     private HttpServletRequest httpServletRequest;
     private FacesContext facesContext;
-    
-    private Usuario usuarioEntrega;
-    private Usuario usuarioRecibe;
-    private String motivo;
-    private String obs;
-    private Date fechaT;
-    
-    private int nue;
-    private String cargoEntrega, cargoRe;
 
-    
+    private HttpServletRequest httpServletRequest1;
+    private FacesContext facesContext1;
+
+    private String usuarioEntrega;
+    private String usuarioEntregaUnidad;
+    private String usuarioEntregaCargo;
+    private String usuarioEntregaRut;
+    private String usuarioRecibe;
+    private String usuarioRecibeUnidad;
+    private String usuarioRecibeCargo;
+    private String usuarioRecibeRut;
+    private String motivo;
+    private String observacionesT;
+    private Date fechaT;
+
+    private String usuarioSis;
+    private Usuario usuarioSesion;    
+
+    private int nue;
+
     private Formulario formulario;
     
     
     public ForTrasladoMB() {
-       logger.setLevel(Level.ALL);
-       logger.entering(this.getClass().getName(), "ForTraslado");
-       this.usuarioEntrega = new Usuario();
-       this.usuarioRecibe = new Usuario();
-       facesContext = FacesContext.getCurrentInstance();
-       httpServletRequest = (HttpServletRequest) facesContext.getExternalContext().getRequest();
-       if(httpServletRequest.getSession().getAttribute("nueF") != null){
-           this.nue = (int) httpServletRequest.getSession().getAttribute("nueF");
-           logger.log(Level.FINEST, "nue recibido {0}", this.nue);
-       }
-       logger.exiting(this.getClass().getName(), "ForTraslado");
-    }             
-    
-    /*
-    public String agregarTraslado(){
         logger.setLevel(Level.ALL);
-        logger.entering(this.getClass().getName(), "agregarTraslado");
-        logger.log(Level.FINEST, "rut usuario entrega {0}", this.usuarioEntrega.getRutUsuario());
-        logger.log(Level.FINEST, "rut usuario recibe {0}", this.usuarioRecibe.getRutUsuario());
+        logger.entering(this.getClass().getName(), "ForTrasladoMB");
+        facesContext = FacesContext.getCurrentInstance();
+        httpServletRequest = (HttpServletRequest) facesContext.getExternalContext().getRequest();
+        if (httpServletRequest.getSession().getAttribute("nueF") != null) {
+            this.nue = (int) httpServletRequest.getSession().getAttribute("nueF");
+            logger.log(Level.FINEST, "nue recibido {0}", this.nue);
+        }
+        this.facesContext1 = FacesContext.getCurrentInstance();
+        this.httpServletRequest1 = (HttpServletRequest) facesContext1.getExternalContext().getRequest();
+        if (httpServletRequest1.getSession().getAttribute("cuentaUsuario") != null) {
+            this.usuarioSis = (String) httpServletRequest1.getSession().getAttribute("cuentaUsuario");
+            logger.log(Level.FINEST, "Usuario recibido {0}", this.usuarioSis);
+        }
+        this.usuarioSesion = new Usuario();
+        this.formulario = new Formulario();
+        
+        logger.exiting(this.getClass().getName(), "ForTrasladoMB");
+    }
+    
+    @PostConstruct
+    public void cargarDatos() {
+        logger.setLevel(Level.ALL);
+        logger.entering(this.getClass().getName(), "cargarDatosDigitador");
+        this.formulario = formularioEJB.findFormularioByNue(this.nue);
+        this.usuarioSesion = usuarioEJB.findUsuarioSesionByCuenta(usuarioSis);        
+        logger.exiting(this.getClass().getName(), "cargarDatosDigitador");
+    }
+
+    public String agregarTraslado() {
+        logger.setLevel(Level.ALL);
+        logger.entering(this.getClass().getName(), "agregarTrasladoDigitador");
+        logger.log(Level.FINEST, "rut usuario entrega {0}", this.usuarioEntrega);
+        logger.log(Level.FINEST, "rut usuario recibe {0}", this.usuarioRecibe);
         logger.log(Level.FINEST, "rut motivo {0}", this.motivo);
-        String resultado = formularioEJB.crearTraslado(this.nue, usuarioEntrega, usuarioRecibe, fechaT, formulario.getFechaOcurrido(), obs, motivo, cargoEntrega, cargoRe);
-        if(resultado.equals("Exito")){
+        String resultado = formularioEJB.crearTraslado(formulario, usuarioEntrega, usuarioEntregaUnidad, usuarioEntregaCargo, usuarioEntregaRut, usuarioRecibe, usuarioRecibeUnidad, usuarioRecibeCargo, usuarioRecibeRut, fechaT, observacionesT, motivo, usuarioSesion);
+        if (resultado.equals("Exito")) {
             httpServletRequest.getSession().setAttribute("nueF", this.nue);
-            logger.exiting(this.getClass().getName(), "agregarTraslado", "todoH11?faces-redirect=true");
-            return "todoH11?faces-redirect=true";
+            logger.exiting(this.getClass().getName(), "agregarTrasladoDigitador", "todoHU11?faces-redirect=true");
+            return "todoHU11?faces-redirect=true";
         }
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, resultado, "Uno o más datos inválidos"));
-        logger.exiting(this.getClass().getName(), "agregarTraslado", "");
+        logger.exiting(this.getClass().getName(), "agregarTrasladoDigitador", "");
         return "";
     }
-    */
-    @PostConstruct
-    public void cargarFormulario(){
+
+    public String salir() {
         logger.setLevel(Level.ALL);
-        logger.entering(this.getClass().getName(), "cargarFormulario");
-        this.formulario = formularioEJB.findFormularioByNue(this.nue);
-        logger.exiting(this.getClass().getName(), "cargarFormulario");
+        logger.entering(this.getClass().getName(), "salirDigitador");
+        logger.log(Level.FINEST, "usuario saliente {0}", this.usuarioSesion.getNombreUsuario());
+        httpServletRequest1.removeAttribute("cuentaUsuario");
+        logger.exiting(this.getClass().getName(), "salirDigitador", "/indexListo");
+        return "/indexListo?faces-redirect=true";
     }
 
     public Formulario getFormulario() {
@@ -106,20 +141,68 @@ public class ForTrasladoMB {
         this.nue = nue;
     }
 
-    public Usuario getUsuarioEntrega() {
+    public String getUsuarioEntrega() {
         return usuarioEntrega;
     }
 
-    public void setUsuarioEntrega(Usuario usuarioEntrega) {
+    public void setUsuarioEntrega(String usuarioEntrega) {
         this.usuarioEntrega = usuarioEntrega;
     }
 
-    public Usuario getUsuarioRecibe() {
+    public String getUsuarioEntregaUnidad() {
+        return usuarioEntregaUnidad;
+    }
+
+    public void setUsuarioEntregaUnidad(String usuarioEntregaUnidad) {
+        this.usuarioEntregaUnidad = usuarioEntregaUnidad;
+    }
+
+    public String getUsuarioEntregaCargo() {
+        return usuarioEntregaCargo;
+    }
+
+    public void setUsuarioEntregaCargo(String usuarioEntregaCargo) {
+        this.usuarioEntregaCargo = usuarioEntregaCargo;
+    }
+
+    public String getUsuarioEntregaRut() {
+        return usuarioEntregaRut;
+    }
+
+    public void setUsuarioEntregaRut(String usuarioEntregaRut) {
+        this.usuarioEntregaRut = usuarioEntregaRut;
+    }
+
+    public String getUsuarioRecibe() {
         return usuarioRecibe;
     }
 
-    public void setUsuarioRecibe(Usuario usuarioRecibe) {
+    public void setUsuarioRecibe(String usuarioRecibe) {
         this.usuarioRecibe = usuarioRecibe;
+    }
+
+    public String getUsuarioRecibeUnidad() {
+        return usuarioRecibeUnidad;
+    }
+
+    public void setUsuarioRecibeUnidad(String usuarioRecibeUnidad) {
+        this.usuarioRecibeUnidad = usuarioRecibeUnidad;
+    }
+
+    public String getUsuarioRecibeCargo() {
+        return usuarioRecibeCargo;
+    }
+
+    public void setUsuarioRecibeCargo(String usuarioRecibeCargo) {
+        this.usuarioRecibeCargo = usuarioRecibeCargo;
+    }
+
+    public String getUsuarioRecibeRut() {
+        return usuarioRecibeRut;
+    }
+
+    public void setUsuarioRecibeRut(String usuarioRecibeRut) {
+        this.usuarioRecibeRut = usuarioRecibeRut;
     }
 
     public String getMotivo() {
@@ -130,12 +213,12 @@ public class ForTrasladoMB {
         this.motivo = motivo;
     }
 
-    public String getObs() {
-        return obs;
+    public String getObservacionesT() {
+        return observacionesT;
     }
 
-    public void setObs(String obs) {
-        this.obs = obs;
+    public void setObservacionesT(String observacionesT) {
+        this.observacionesT = observacionesT;
     }
 
     public Date getFechaT() {
@@ -145,20 +228,12 @@ public class ForTrasladoMB {
     public void setFechaT(Date fechaT) {
         this.fechaT = fechaT;
     }
-    
-    public String getCargoEntrega() {
-        return cargoEntrega;
+
+    public Usuario getUsuarioSesion() {
+        return usuarioSesion;
     }
 
-    public void setCargoEntrega(String cargoEntrega) {
-        this.cargoEntrega = cargoEntrega;
-    }
-
-    public String getCargoRe() {
-        return cargoRe;
-    }
-
-    public void setCargoRe(String cargoRe) {
-        this.cargoRe = cargoRe;
+    public void setUsuarioSesion(Usuario usuarioSesion) {
+        this.usuarioSesion = usuarioSesion;
     }
 }

@@ -7,9 +7,7 @@ package mb.chofer;
 
 import ejb.FormularioEJBLocal;
 import ejb.UsuarioEJBLocal;
-import entity.Formulario;
 import entity.Usuario;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.logging.Level;
@@ -88,9 +86,9 @@ public class CrearFormularioChoferMB {
     }
 
     @PostConstruct
-    public void loadUsuario() {
+    public void cargarDatos() {
         logger.setLevel(Level.ALL);
-        logger.entering(this.getClass().getName(), "loadUsuarioChofer");
+        logger.entering(this.getClass().getName(), "cargarDatosChofer");
         this.uSesion = (Usuario) usuarioEJB.findUsuarioSesionByCuenta(usuarioSis);
         
         this.cargo = uSesion.getCargoidCargo().getNombreCargo();
@@ -98,10 +96,10 @@ public class CrearFormularioChoferMB {
         this.rut = uSesion.getRutUsuario();
         this.unidad = uSesion.getUnidad(); 
         
-        Calendar c = new GregorianCalendar();
+        GregorianCalendar c = new GregorianCalendar();
         this.fecha = c.getTime();        
         
-        logger.exiting(this.getClass().getName(), "loadUsuarioChofer");
+        logger.exiting(this.getClass().getName(), "cargarDatosChofer");
     }
 
     public String iniciarFormulario() {
@@ -112,36 +110,29 @@ public class CrearFormularioChoferMB {
         logger.log(Level.FINEST, "formulario fecha {0}", this.fecha);
         logger.log(Level.FINEST, "usuario inicia cargo {0}", this.cargo);
         String resultado = formularioEJB.crearFormulario(ruc, rit, nue, parte, cargo, delito, direccionSS, lugar, unidad, levantadaPor, rut, fecha, observacion, descripcion, uSesion);
-        Formulario formulario;
+       
         if (resultado.equals("Exito")) {            
             //Enviando nue
             httpServletRequest.getSession().setAttribute("nueF", this.nue);
             //Enviando usuario
-            httpServletRequest1.getSession().setAttribute("cuentaUsuario", this.usuarioSis);
-            formulario = formularioEJB.findFormularioByNue(nue);
-            //no deberia entrar a este if.
-            if (!formularioEJB.traslados(formulario).isEmpty()) {
-                //manda a una pagina donde se pueden ver el formulario completo
-                logger.exiting(this.getClass().getName(), "iniciarFormularioChofer", "/chofer/choferFormularioResultT");
-                return "/chofer/choferFormularioResultT.xhtml?faces-redirect=true";
-            }
+            httpServletRequest1.getSession().setAttribute("cuentaUsuario", this.usuarioSis);            
+            
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, resultado, "Datos exitosos"));
-            logger.exiting(this.getClass().getName(), "iniciarFormularioChofer", "");
-            //return "/chofer/choferFormularioResult.xhtml?faces-redirect=true";
-            return "/chofer/choferFormularioResultT.xhtml?faces-redirect=true";
+            logger.exiting(this.getClass().getName(), "iniciarFormularioChofer", "formularioCreadoChofer");
+            return "formularioCreadoChofer.xhtml?faces-redirect=true";
         }
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, resultado, "Datos no válidos"));
-        logger.exiting(this.getClass().getName(), "iniciarFormularioChofer", "/chofer/choferFormularioResult");
+        logger.exiting(this.getClass().getName(), "iniciarFormularioChofer", "");
         return "";
     }
 
     public String salir() {
         logger.setLevel(Level.ALL);
-        logger.entering(this.getClass().getName(), "salir Chofer");
+        logger.entering(this.getClass().getName(), "salirChofer");
         logger.log(Level.FINEST, "usuario saliente {0}", this.uSesion.getNombreUsuario());
         httpServletRequest1.removeAttribute("cuentaUsuario");
-        logger.exiting(this.getClass().getName(), "salir Chofer", "indexListo");
-        return "indexListo?faces-redirect=true";
+        logger.exiting(this.getClass().getName(), "salirChofer", "/indexListo");
+        return "/indexListo?faces-redirect=true";
     }
 
     public Usuario getuSesion() {

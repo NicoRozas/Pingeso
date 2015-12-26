@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package mb.chofer;
+package mb.tecnico;
 
 import ejb.FormularioEJBLocal;
 import ejb.UsuarioEJBLocal;
@@ -20,18 +20,20 @@ import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 
 /**
  *
- * @author sebastian
+ * @author Aracelly
  */
-@Named(value = "editarChoferETMB")
+@Named(value = "editarTecnicoETMB")
 @RequestScoped
-public class EditarChoferETMB {
+@ManagedBean
+public class EditarTecnicoETMB {
 
-   @EJB
+    @EJB
     private UsuarioEJBLocal usuarioEJB;
 
     @EJB
@@ -55,12 +57,12 @@ public class EditarChoferETMB {
     List<EdicionFormulario> ediciones;
     List<Traslado> traslados;
     
-    static final Logger logger = Logger.getLogger(EditarChoferETMB.class.getName());
+    static final Logger logger = Logger.getLogger(EditarTecnicoETMB.class.getName());
     
-    public EditarChoferETMB() {
+    public EditarTecnicoETMB() {
 
         logger.setLevel(Level.ALL);
-        logger.entering(this.getClass().getName(), "editarChoferETMB");
+        logger.entering(this.getClass().getName(), "EditarTecnicoETMB");
         /**/
         this.ediciones = new ArrayList();
         this.traslados = new ArrayList();
@@ -80,43 +82,42 @@ public class EditarChoferETMB {
             logger.log(Level.FINEST, "Cuenta Usuario recibido {0}", this.usuarioS);
         }
 
-        logger.exiting(this.getClass().getName(), "editarChoferETMB");
+        logger.exiting(this.getClass().getName(), "EditarTecnicoETMB");
     }
 
     @PostConstruct
     public void cargarDatos() {
         logger.setLevel(Level.ALL);
-        logger.entering(this.getClass().getName(), "cargarDatosChofer");
+        logger.entering(this.getClass().getName(), "cargarDatosTecnico");
         this.formulario = formularioEJB.findFormularioByNue(this.nue);
         this.usuarioSesion = usuarioEJB.findUsuarioSesionByCuenta(usuarioS);
         this.traslados = formularioEJB.traslados(formulario);
         this.ediciones = formularioEJB.listaEdiciones(this.nue, this.usuarioSesion.getIdUsuario());
-        logger.exiting(this.getClass().getName(), "cargarDatosChofer");
+        logger.exiting(this.getClass().getName(), "cargarDatosTecnico");
     }
-
-    //realiza la edición en el formulario, retorna a la pagina con todo el formulario.
+    
     public String editarFormulario(){
         logger.setLevel(Level.ALL);
-        logger.entering(this.getClass().getName(), "editarFormularioChofer");
+        logger.entering(this.getClass().getName(), "editarFormularioTecnico");
         String response = formularioEJB.edicionFormulario(formulario, observacionEdicion, usuarioSesion);
         httpServletRequest.getSession().setAttribute("nueF", this.nue);
         httpServletRequest1.getSession().setAttribute("cuentaUsuario", this.usuarioS);
         if(response.equals("Exito")){
-            logger.exiting(this.getClass().getName(), "editarFormularioChofer", "todoChofer");
-            return "todoChofer.xhtml?faces-redirect=true";
+            logger.exiting(this.getClass().getName(), "editarFormularioTecnico", "editarTecnicoET");
+            return "editarTecnicoET.xhtml?faces-redirect=true";
         }
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Ocurrió un problema al guardar los cambios, por favor intente más tarde.", "error al editar"));
-        logger.exiting(this.getClass().getName(), "editarFormularioChofer", "");
+        logger.exiting(this.getClass().getName(), "editarFormularioTecnico", "");
         return "";
     }
     
-     public String salir() {
+    public String salir() {
         logger.setLevel(Level.ALL);
-        logger.entering(this.getClass().getName(), "salirJefeArea");
+        logger.entering(this.getClass().getName(), "salirTecnico");
         logger.log(Level.FINEST, "usuario saliente {0}", this.usuarioSesion.getNombreUsuario());
         httpServletRequest1.removeAttribute("cuentaUsuario");
-        logger.exiting(this.getClass().getName(), "salirJefeArea", "indexListo");
-        return "indexListo.xhtml?faces-redirect=true";
+        logger.exiting(this.getClass().getName(), "salirTecnico", "/indexListo");
+        return "/indexListo.xhtml?faces-redirect=true";
     }
     
     public int getNue() {
@@ -166,7 +167,4 @@ public class EditarChoferETMB {
     public void setTraslados(List<Traslado> traslados) {
         this.traslados = traslados;
     }
-    
-    
-    
 }

@@ -12,6 +12,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -30,10 +31,10 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author sebastian
+ * @author Alan
  */
 @Entity
-@Table(name = "Formulario")
+@Table(name = "formulario")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Formulario.findAll", query = "SELECT f FROM Formulario f"),
@@ -49,8 +50,10 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Formulario.findByDireccionSS", query = "SELECT f FROM Formulario f WHERE f.direccionSS = :direccionSS"),
     @NamedQuery(name = "Formulario.findByDelitoRef", query = "SELECT f FROM Formulario f WHERE f.delitoRef = :delitoRef"),
     @NamedQuery(name = "Formulario.findByDescripcionEspecieFormulario", query = "SELECT f FROM Formulario f WHERE f.descripcionEspecieFormulario = :descripcionEspecieFormulario"),
-    @NamedQuery(name = "Formulario.findByUltimaEdicion", query = "SELECT f FROM Formulario f WHERE f.ultimaEdicion = :ultimaEdicion")})
+    @NamedQuery(name = "Formulario.findByUltimaEdicion", query = "SELECT f FROM Formulario f WHERE f.ultimaEdicion = :ultimaEdicion"),
+    @NamedQuery(name = "Formulario.findByBloqueado", query = "SELECT f FROM Formulario f WHERE f.bloqueado = :bloqueado")})
 public class Formulario implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -92,31 +95,40 @@ public class Formulario implements Serializable {
     @Column(name = "ultimaEdicion")
     @Temporal(TemporalType.TIMESTAMP)
     private Date ultimaEdicion;
-    @JoinTable(name = "Formulario_Relacionado", joinColumns = {
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "bloqueado")
+    private boolean bloqueado;
+    @JoinTable(name = "formulario_relacionado", joinColumns = {
         @JoinColumn(name = "Formulario_NUE", referencedColumnName = "NUE")}, inverseJoinColumns = {
         @JoinColumn(name = "Formulario_NUE1", referencedColumnName = "NUE")})
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Formulario> formularioList;
-    @ManyToMany(mappedBy = "formularioList")
+    @ManyToMany(mappedBy = "formularioList", fetch = FetchType.EAGER)
     private List<Formulario> formularioList1;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "formularioNUE")
-    private List<Traslado> trasladoList;
-    @JoinColumn(name = "Usuario_idUsuario", referencedColumnName = "idUsuario")
-    @ManyToOne(optional = false)
-    private Usuario usuarioidUsuario;
-    @JoinColumn(name = "Usuario_idUsuario1", referencedColumnName = "idUsuario")
-    @ManyToOne(optional = false)
-    private Usuario usuarioidUsuario1;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "formularioNUE")
-    private List<EdicionFormulario> edicionFormularioList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "formulario")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "formulario", fetch = FetchType.EAGER)
     private List<FormularioEvidencia> formularioEvidenciaList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "formularioNUE", fetch = FetchType.EAGER)
+    private List<Traslado> trasladoList;
+    @JoinColumn(name = "Usuario_idUsuario1", referencedColumnName = "idUsuario")
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    private Usuario usuarioidUsuario1;
+    @JoinColumn(name = "Usuario_idUsuario", referencedColumnName = "idUsuario")
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    private Usuario usuarioidUsuario;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "formularioNUE", fetch = FetchType.EAGER)
+    private List<EdicionFormulario> edicionFormularioList;
 
     public Formulario() {
     }
 
     public Formulario(Integer nue) {
         this.nue = nue;
+    }
+
+    public Formulario(Integer nue, boolean bloqueado) {
+        this.nue = nue;
+        this.bloqueado = bloqueado;
     }
 
     public Integer getNue() {
@@ -223,6 +235,14 @@ public class Formulario implements Serializable {
         this.ultimaEdicion = ultimaEdicion;
     }
 
+    public boolean getBloqueado() {
+        return bloqueado;
+    }
+
+    public void setBloqueado(boolean bloqueado) {
+        this.bloqueado = bloqueado;
+    }
+
     @XmlTransient
     public List<Formulario> getFormularioList() {
         return formularioList;
@@ -242,20 +262,21 @@ public class Formulario implements Serializable {
     }
 
     @XmlTransient
+    public List<FormularioEvidencia> getFormularioEvidenciaList() {
+        return formularioEvidenciaList;
+    }
+
+    public void setFormularioEvidenciaList(List<FormularioEvidencia> formularioEvidenciaList) {
+        this.formularioEvidenciaList = formularioEvidenciaList;
+    }
+
+    @XmlTransient
     public List<Traslado> getTrasladoList() {
         return trasladoList;
     }
 
     public void setTrasladoList(List<Traslado> trasladoList) {
         this.trasladoList = trasladoList;
-    }
-
-    public Usuario getUsuarioidUsuario() {
-        return usuarioidUsuario;
-    }
-
-    public void setUsuarioidUsuario(Usuario usuarioidUsuario) {
-        this.usuarioidUsuario = usuarioidUsuario;
     }
 
     public Usuario getUsuarioidUsuario1() {
@@ -266,6 +287,14 @@ public class Formulario implements Serializable {
         this.usuarioidUsuario1 = usuarioidUsuario1;
     }
 
+    public Usuario getUsuarioidUsuario() {
+        return usuarioidUsuario;
+    }
+
+    public void setUsuarioidUsuario(Usuario usuarioidUsuario) {
+        this.usuarioidUsuario = usuarioidUsuario;
+    }
+
     @XmlTransient
     public List<EdicionFormulario> getEdicionFormularioList() {
         return edicionFormularioList;
@@ -273,15 +302,6 @@ public class Formulario implements Serializable {
 
     public void setEdicionFormularioList(List<EdicionFormulario> edicionFormularioList) {
         this.edicionFormularioList = edicionFormularioList;
-    }
-
-    @XmlTransient
-    public List<FormularioEvidencia> getFormularioEvidenciaList() {
-        return formularioEvidenciaList;
-    }
-
-    public void setFormularioEvidenciaList(List<FormularioEvidencia> formularioEvidenciaList) {
-        this.formularioEvidenciaList = formularioEvidenciaList;
     }
 
     @Override

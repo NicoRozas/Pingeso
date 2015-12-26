@@ -38,6 +38,7 @@ public class CargoFacade extends AbstractFacade<Cargo> implements CargoFacadeLoc
         super(Cargo.class);
     }
  
+    //@NamedQuery(name = "Cargo.findByNombreCargo", query = "SELECT c FROM Cargo c WHERE c.nombreCargo = :nombreCargo")
     @Override
     public Cargo findByCargo(String cargo) {
        logger.setLevel(Level.ALL);

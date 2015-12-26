@@ -9,6 +9,7 @@ import ejb.FormularioEJBLocal;
 import ejb.UsuarioEJBLocal;
 import entity.EdicionFormulario;
 import entity.Formulario;
+import entity.Traslado;
 import entity.Usuario;
 import java.util.List;
 import java.util.logging.Level;
@@ -75,24 +76,20 @@ public class BuscadorChoferMB {
 
     public String buscarFormulario() {
         logger.setLevel(Level.ALL);
-        logger.entering(this.getClass().getName(), "iniciarBuscadorFormulario");
+        logger.entering(this.getClass().getName(), "buscarFormularioChofer");
         logger.log(Level.INFO, "NUE CAPTURADO:{0}", this.nue);
-        //System.out.println("NUE CAPTURADO:" + this.nue);
         Formulario formulario = formularioEJB.findFormularioByNue(this.nue);
 
         if (formulario != null) {
             httpServletRequest.getSession().setAttribute("nueF", this.nue);
             httpServletRequest1.getSession().setAttribute("cuentaUsuario", this.usuarioSis);
-            //List<Traslado> traslados = formularioEJB.traslados(formulario);
-            List<EdicionFormulario> ediciones = formularioEJB.listaEdiciones(nue, usuarioSesion.getIdUsuario());
-
-            logger.exiting(this.getClass().getName(), "buscarFormulario", "/chofer/editarChoferET");
-            return "/chofer/editarChoferET.xhtml?faces-redirect=true";
+            
+            logger.exiting(this.getClass().getName(), "buscarFormulario", "editarChoferET");
+            return "editarChoferET.xhtml?faces-redirect=true";
         }
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "no existe", "Datos no válidos"));
         logger.info("formulario no encontrado");
-        logger.exiting(this.getClass().getName(), "iniciarBuscarFormulario", "");
-        //System.out.println("no encontro el nue");
+        logger.exiting(this.getClass().getName(), "buscarFormularioChofer", "");
         return "";
     }
 
@@ -101,7 +98,7 @@ public class BuscadorChoferMB {
         logger.entering(this.getClass().getName(), "salirChofer");
         logger.log(Level.FINEST, "usuario saliente {0}", this.usuarioSesion.getNombreUsuario());
         httpServletRequest1.removeAttribute("cuentaUsuario");
-        logger.exiting(this.getClass().getName(), "salirChofer", "indexListo");
+        logger.exiting(this.getClass().getName(), "salirChofer", "/indexListo");
         return "/indexListo?faces-redirect=true";
     }
 

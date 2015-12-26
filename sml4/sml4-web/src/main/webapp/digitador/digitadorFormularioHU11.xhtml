@@ -31,7 +31,7 @@
             
                 <h:form>
                     <div class="thumbnail">
-                    <div align="center"><h:outputLabel class="input-group-lg" style=" background-color: white" value="Bienvenido(a) #{crearFormularioMB.usuarioSesion.nombreUsuario}"></h:outputLabel></div>
+                        <div align="center"><h:outputLabel class="input-group-lg" style=" background-color: white" value="Bienvenido(a) #{crearFormularioMB.usuarioSesion.nombreUsuario}"></h:outputLabel></div>
                     </div>
                 </h:form> 
             
@@ -47,9 +47,9 @@
                         
                         <li role="presentation" class="active"><a href="#">Cadena de Custodia</a></li>
                         
-                        <li role="presentation"><a href="indexListo.xhtml">Cerrar Sesion</a></li>
-
-                        
+                        <h:form>
+                            <li role="presentation"> <h:commandLink id="cs" action="#{crearFormularioMB.salir()}" value="Cerrar sesión"></h:commandLink> </li>
+                        </h:form>                     
                     </ul>
                 </div>
             </div>   	
@@ -88,43 +88,43 @@
                                 <h:panelGrid columns="4" cellpadding="5" class="ui-grid">  
                                     
                                     <h:outputLabel  for="ruc" value="R.U.C.:" style="width:120px"></h:outputLabel>
-                                    <p:inputText id="ruc" value="#{crearFormularioMB.formulario.ruc}" label="rucz" ></p:inputText>
+                                    <p:inputText id="ruc" value="#{crearFormularioMB.ruc}" label="rucz" ></p:inputText>
                                     <p:message for="ruc" display="text"/> 
                                     <br />
                                     
                                     <h:outputLabel  for="rit" value="R.I.T.:" style="width:120px"></h:outputLabel>
-                                    <p:inputText id="rit" value="#{crearFormularioMB.formulario.rit}" label="rit" ></p:inputText>
+                                    <p:inputText id="rit" value="#{crearFormularioMB.rit}" label="rit" ></p:inputText>
                                     <p:message for="rit" display="text"/> 
                                     <br />
                                     
                                     <h:outputLabel  for="parte" value="N° Parte:" style="width:120px"></h:outputLabel>
-                                    <p:inputText id="parte" value="#{crearFormularioMB.formulario.numeroParte}" label="N° Parte" ></p:inputText>
+                                    <p:inputText id="parte" value="#{crearFormularioMB.parte}" label="N° Parte" ></p:inputText>
                                     <p:message for="parte" display="text"/> 
                                     <br />
                                                                                                    
                                     <h:outputLabel  for="nue" value="N.U.E.:" style="width:120px"></h:outputLabel>
-                                    <p:inputText id="nue" value="#{crearFormularioMB.formulario.nue}" label="nue" required="true" type="number" requiredMessage="Debe ingresar NUE">                                          
+                                    <p:inputText id="nue" value="#{crearFormularioMB.nue}" label="nue" required="true" type="number" requiredMessage="Debe ingresar NUE">                                          
                                     </p:inputText>
                                     <p:message for="nue" display="text"/> 
                                     <br />
                                     
                                     <h:outputLabel  for="cargo" value="Cargo:" style="width:120px"></h:outputLabel>
-                                    <p:inputText id="cargo" value="#{crearFormularioMB.cargoInicia}" label="Cargo" required="true" requiredMessage="Debe ingresar el cargo"></p:inputText>
+                                    <p:inputText id="cargo" value="#{crearFormularioMB.cargo}" label="Cargo" required="true" requiredMessage="Debe ingresar el cargo"></p:inputText>
                                     <p:message for="cargo" display="text"/> 
                                     <br />
 
                                     <h:outputLabel  for="del" value="Delito:" style="width:120px"></h:outputLabel>
-                                    <p:inputText id="del" value="#{crearFormularioMB.formulario.delitoRef}" label="Delito" required="true" requiredMessage="Debe ingresaar el delito"></p:inputText>
+                                    <p:inputText id="del" value="#{crearFormularioMB.delito}" label="Delito" required="true" requiredMessage="Debe ingresaar el delito"></p:inputText>
                                     <p:message for="del" display="text"/> 
                                     <br />
 
                                     <h:outputLabel  for="dir" value="Dirección:" style="width:120px"></h:outputLabel>
-                                    <p:inputText id="dir" value="#{crearFormularioMB.formulario.direccionSS}" label="Dirección" required="true" requiredMessage="Debe ingresar la dirección"></p:inputText>
+                                    <p:inputText id="dir" value="#{crearFormularioMB.direccionSS}" label="Dirección" required="true" requiredMessage="Debe ingresar la dirección"></p:inputText>
                                     <p:message for="dir" display="text"/> 
                                     <br />
 
                                     <h:outputLabel  for="lu" value="Lugar:" style="width:120px"></h:outputLabel>
-                                    <p:inputText id="lu" value="#{crearFormularioMB.formulario.lugarLevantamiento}" label="Lugar" required="true" requiredMessage="Debe ingresar el lugar"></p:inputText>
+                                    <p:inputText id="lu" value="#{crearFormularioMB.lugar}" label="Lugar" required="true" requiredMessage="Debe ingresar el lugar"></p:inputText>
                                     <p:message for="lu" display="text"/> 
                                     <br />
                                     
@@ -132,22 +132,22 @@
 
 
                                     <h:outputLabel  for="uni" value="Unidad:" style="width:120px"></h:outputLabel>
-                                    <p:inputText id="uni" value="#{crearFormularioMB.usuarioInicia.unidad}" label="Unidad" required="true" requiredMessage="Debe ingresar la unidad"></p:inputText>
+                                    <p:inputText id="uni" value="#{crearFormularioMB.unidad}" label="Unidad" required="true" requiredMessage="Debe ingresar la unidad"></p:inputText>
                                     <p:message for="uni" display="text"/> 
                                     <br />
                                     
                                     <h:outputLabel  for="lev" value="Levantada por:" style="width:120px"></h:outputLabel>
-                                    <p:inputText id="lev" value="#{crearFormularioMB.usuarioInicia.nombreUsuario}" label="Levantada por" required="true" requiredMessage="Debe ingresar quien levanto la evidencia"></p:inputText>
+                                    <p:inputText id="lev" value="#{crearFormularioMB.levantadaPor}" label="Levantada por" required="true" requiredMessage="Debe ingresar quien levanto la evidencia"></p:inputText>
                                     <p:message for="lev" display="text"/> 
                                     <br />
                                     
                                     <h:outputLabel  for="run" value="R.U.N.:" style="width:120px"></h:outputLabel>
-                                    <p:inputText id="run" value="#{crearFormularioMB.usuarioInicia.rutUsuario}" label="R.U.N." required="true"  requiredMessage="Debe ingresar R.U.N." ></p:inputText>
+                                    <p:inputText id="run" value="#{crearFormularioMB.rut}" label="R.U.N." required="true"  requiredMessage="Debe ingresar R.U.N." ></p:inputText>
                                     <p:message for="run" display="text"/> 
                                     <br />
                                     
                                     <h:outputLabel for="fecha" value="Fecha: " style="width:120px" />
-                                    <p:calendar id="fecha" pattern="dd/MM/yyyy HH:mm" locale="es" value="#{crearFormularioMB.formulario.fechaOcurrido}" required="true" requiredMessage="Debe ingresar la fecha" />
+                                    <p:calendar id="fecha" pattern="dd/MM/yyyy HH:mm" locale="es" value="#{crearFormularioMB.fecha}" required="true" requiredMessage="Debe ingresar la fecha" />
                                     <p:message for="fecha" display="text"/>
                                     <br />
                                     
@@ -157,10 +157,10 @@
                                 <h:panelGrid columns="1" cellpadding="5" class="ui-grid">
                                     
                                     <h:outputLabel  for="Observaciones" value="Observaciones:" style="width:120px"></h:outputLabel>
-                                    <p:inputTextarea id="Observaciones" rows="3" cols="90" value="#{crearFormularioMB.formulario.observaciones}" queryDelay="750" minQueryLength="4" />
+                                    <p:inputTextarea id="Observaciones" rows="3" cols="90" value="#{crearFormularioMB.observacion}" queryDelay="750" minQueryLength="4" />
 
                                     <h:outputLabel  for="descripcion" value="Descripción:" style="width:120px"></h:outputLabel>
-                                    <p:inputTextarea id="descripcion" rows="3" cols="90" value="#{crearFormularioMB.formulario.descripcionEspecieFormulario}" queryDelay="750" minQueryLength="4" />
+                                    <p:inputTextarea id="descripcion" rows="3" cols="90" value="#{crearFormularioMB.descripcion}" queryDelay="750" minQueryLength="4" />
                                 </h:panelGrid>                                
 
                                 <h:commandButton id="btnAceptar" value="Aceptar" action="#{crearFormularioMB.iniciarFormulario()}" />

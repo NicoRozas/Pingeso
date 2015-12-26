@@ -8,9 +8,8 @@ package mb.tecnico;
 import ejb.FormularioEJBLocal;
 import ejb.UsuarioEJBLocal;
 import entity.Usuario;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -20,13 +19,11 @@ import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
-import javax.faces.event.AjaxBehaviorEvent;
 import javax.servlet.http.HttpServletRequest;
-import mb.digitador.CrearFormularioMB;
 
 /**
  *
- * @author sebastian
+ * @author Aracelly
  */
 @Named(value = "crearFormularioTecnicoMB")
 @RequestScoped
@@ -38,10 +35,10 @@ public class CrearFormularioTecnicoMB {
     @EJB
     private FormularioEJBLocal formularioEJB;
 
-    static final Logger logger = Logger.getLogger(CrearFormularioMB.class.getName());
+    static final Logger logger = Logger.getLogger(CrearFormularioTecnicoMB.class.getName());
 
     //Guardamos el usuario que inicia sesion
-    private Usuario userSesion;
+    private Usuario uSesion;
 
     //Atributos del formulario
     private String ruc;
@@ -66,112 +63,70 @@ public class CrearFormularioTecnicoMB {
     private HttpServletRequest httpServletRequest1;
     private FacesContext facesContext1;
 
-    //Para enviar el nue a la otra vista
-    private HttpServletRequest httpServletRequest;
-    private FacesContext facesContext;
-
-    //Evidencias
-    private String evidencias;
-    private String codTipoEvidencia;
-    private List<String> listEvidencias = new ArrayList<>();
-
     public CrearFormularioTecnicoMB() {
         logger.setLevel(Level.ALL);
         logger.entering(this.getClass().getName(), "CrearFormularioTecnicoMB");
-        this.userSesion = new Usuario();
-
-        this.facesContext = FacesContext.getCurrentInstance();
-        this.httpServletRequest = (HttpServletRequest) facesContext.getExternalContext().getRequest();
-
+        this.uSesion = new Usuario();
         this.facesContext1 = FacesContext.getCurrentInstance();
         this.httpServletRequest1 = (HttpServletRequest) facesContext1.getExternalContext().getRequest();
         if (httpServletRequest1.getSession().getAttribute("cuentaUsuario") != null) {
             this.usuarioSis = (String) httpServletRequest1.getSession().getAttribute("cuentaUsuario");
             logger.log(Level.FINEST, "Usuario recibido {0}", this.usuarioSis);
         }
-
         logger.exiting(this.getClass().getName(), "CrearFormularioTecnicoMB");
     }
 
     @PostConstruct
-    public void loadUsuario() {
+    public void cargarDatos() {
         logger.setLevel(Level.ALL);
-        logger.entering(this.getClass().getName(), "loadUsuarioTecnico");
-        this.userSesion = (Usuario) usuarioEJB.findUsuarioSesionByCuenta(usuarioSis);
-        logger.exiting(this.getClass().getName(), "loadUsuarioTecnico");
+        logger.entering(this.getClass().getName(), "cargarDatosTecnico");
+        this.uSesion = (Usuario) usuarioEJB.findUsuarioSesionByCuenta(usuarioSis);
+
+        this.cargo = this.uSesion.getCargoidCargo().getNombreCargo();
+        this.levantadaPor = this.uSesion.getNombreUsuario();
+        this.unidad = this.uSesion.getUnidad();
+        this.rut = this.uSesion.getRutUsuario();
+
+        GregorianCalendar c = new GregorianCalendar();
+        this.fecha = c.getTime();
+
+        logger.exiting(this.getClass().getName(), "cargarDatosTecnico");
     }
 
-    public void iniciarFormulario() {
+    public String iniciarFormulario() {
         logger.setLevel(Level.ALL);
         logger.entering(this.getClass().getName(), "iniciarFormularioTecnico");
         logger.log(Level.FINEST, "formulario nue {0}", this.nue);
         logger.log(Level.FINEST, "usuario inicia rut {0}", this.rut);
         logger.log(Level.FINEST, "formulario fecha {0}", this.fecha);
         logger.log(Level.FINEST, "usuario inicia cargo {0}", this.cargo);
-        String resultado = formularioEJB.crearFormulario(ruc, rit, nue, parte, cargo, delito, direccionSS, lugar, unidad, levantadaPor, rut, fecha, observacion, descripcion, userSesion);
+        String resultado = formularioEJB.crearFormulario(ruc, rit, nue, parte, cargo, delito, direccionSS, lugar, unidad, levantadaPor, rut, fecha, observacion, descripcion, uSesion);
 
-        if (resultado.equals("Exito")) {
-            httpServletRequest.getSession().setAttribute("nueF", nue);
-            httpServletRequest1.getSession().setAttribute("cuentaUsuario", this.usuarioSis);
-            logger.exiting(this.getClass().getName(), "iniciarFormularioTecnico", "Formulario Creado");
-            //return "forAddTTecnico?faces-redirect=true";
+        if (resultado.equals("Exito")) {            
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, resultado, "Datos exitosos"));
+            logger.exiting(this.getClass().getName(), "iniciarFormularioTecnico", "formularioCreadoTecnico");
+            return "formularioCreadoTecnico?faces-redirect=true";
         }
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, resultado, "Datos no válidos"));
-        logger.exiting(this.getClass().getName(), "iniciarFormulario", "No se creo el formulario");
-        //return "";
-
-    }
-
-    public void cargarEvidencias(AjaxBehaviorEvent event) {
-        switch (codTipoEvidencia) {
-            case "1":
-                //biologica
-                listEvidencias.add("contenido bucal");
-                listEvidencias.add("contenido vaginal");
-                listEvidencias.add("contenido rectal");
-                listEvidencias.add("lecho ungeal");
-                listEvidencias.add("secreciones");
-                listEvidencias.add("sangre");
-                listEvidencias.add("orina");
-                listEvidencias.add("tejido");
-                listEvidencias.add("otros");
-                break;
-            case "2":
-                listEvidencias.add("vestido");
-                listEvidencias.add("blusa");
-                listEvidencias.add("camisa");
-                listEvidencias.add("pantalon");
-                listEvidencias.add("polera");
-                listEvidencias.add("chaqueta");
-                listEvidencias.add("chaleco");
-                listEvidencias.add("calzado");
-                listEvidencias.add("otros");
-                //vestuario
-                break;
-            case "3":
-                //artefactos
-                listEvidencias.add("protector");
-                listEvidencias.add("toalla higienica");
-                listEvidencias.add("armas blancas");
-                listEvidencias.add("cuchillo");
-                listEvidencias.add("sable");
-                listEvidencias.add("bala");
-                listEvidencias.add("otros");
-                break;
-            case "4":
-                //otros
-                listEvidencias.add("otros");
-                break;
-
-        }
+        logger.exiting(this.getClass().getName(), "iniciarFormularioTecnico", "");
+        return "";
     }
 
     public String salir() {
         logger.setLevel(Level.ALL);
-        logger.entering(this.getClass().getName(), "salir Tecnico");
-        logger.log(Level.FINEST, "usuario saliente {0}", this.userSesion.getNombreUsuario());
-        logger.exiting(this.getClass().getName(), "salir Tecnico", "indexListo");
-        return "indexListo?faces-redirect=true";
+        logger.entering(this.getClass().getName(), "salirTecnico");
+        logger.log(Level.FINEST, "usuario saliente {0}", this.uSesion.getNombreUsuario());
+        httpServletRequest1.removeAttribute("cuentaUsuario");
+        logger.exiting(this.getClass().getName(), "salirTecnico", "/indexListo");
+        return "/indexListo?faces-redirect=true";
+    }
+
+    public Usuario getuSesion() {
+        return uSesion;
+    }
+
+    public void setuSesion(Usuario uSesion) {
+        this.uSesion = uSesion;
     }
 
     public String getRuc() {
@@ -294,36 +249,6 @@ public class CrearFormularioTecnicoMB {
         this.parte = parte;
     }
 
-    public String getEvidencias() {
-        return evidencias;
-    }
-
-    public void setEvidencias(String evidencias) {
-        this.evidencias = evidencias;
-    }
-
-    public String getCodTipoEvidencia() {
-        return codTipoEvidencia;
-    }
-
-    public void setCodTipoEvidencia(String codTipoEvidencia) {
-        this.codTipoEvidencia = codTipoEvidencia;
-    }
-
-    public List<String> getListEvidencias() {
-        return listEvidencias;
-    }
-
-    public void setListEvidencias(List<String> listEvidencias) {
-        this.listEvidencias = listEvidencias;
-    }
-
-    public Usuario getUserSesion() {
-        return userSesion;
-    }
-
-    public void setUserSesion(Usuario userSesion) {
-        this.userSesion = userSesion;
-    }
-
 }
+
+

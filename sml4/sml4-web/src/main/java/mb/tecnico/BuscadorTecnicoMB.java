@@ -16,19 +16,15 @@ import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
-import mb.digitador.CrearFormularioMB;
-import static mb.tecnico.CrearFormularioTecnicoMB.logger;
 
 /**
  *
- * @author sebastian
+ * @author Aracelly
  */
-@Named(value = "busquedaTecnicoMB")
+@Named(value = "buscadorTecnicoMB")
 @RequestScoped
-@ManagedBean
 public class BuscadorTecnicoMB {
 
     @EJB
@@ -36,7 +32,7 @@ public class BuscadorTecnicoMB {
     @EJB
     private FormularioEJBLocal formularioEJB;
 
-    static final Logger logger = Logger.getLogger(CrearFormularioMB.class.getName());
+    static final Logger logger = Logger.getLogger(BuscadorTecnicoMB.class.getName());
 
     private Usuario usuarioSesion;
 
@@ -51,7 +47,7 @@ public class BuscadorTecnicoMB {
 
     public BuscadorTecnicoMB() {
         logger.setLevel(Level.ALL);
-        logger.entering(this.getClass().getName(), "BusquedaTecnicoMB");
+        logger.entering(this.getClass().getName(), "BuscadorTecnicoMB");
         /**/
         this.facesContext = FacesContext.getCurrentInstance();
         this.httpServletRequest = (HttpServletRequest) facesContext.getExternalContext().getRequest();
@@ -63,37 +59,34 @@ public class BuscadorTecnicoMB {
             logger.log(Level.FINEST, "Usuario recibido {0}", this.usuarioSis);
         }
 
-        logger.exiting(this.getClass().getName(), "BusquedaTecnicoMB");
+        logger.exiting(this.getClass().getName(), "BuscadorTecnicoMB");
     }
 
     @PostConstruct
-    public void loadUsuario() {
+    public void cargarDatos() {
         logger.setLevel(Level.ALL);
-        logger.entering(this.getClass().getName(), "loadUsuarioTecnico");
+        logger.entering(this.getClass().getName(), "cargarDatosTecnico");
         this.usuarioSesion = usuarioEJB.findUsuarioSesionByCuenta(usuarioSis);
-        logger.exiting(this.getClass().getName(), "loadUsuarioTecnico");
+        logger.exiting(this.getClass().getName(), "cargarDatosTecnico");
     }
 
+    //si encuentra el formulario, envía a la pagina para verlo.
     public String buscarFormulario() {
         logger.setLevel(Level.ALL);
-        logger.entering(this.getClass().getName(), "iniciarBuscadorFormulario");
-        System.out.println("NUE CAPTURADO:"+this.nue);
+        logger.entering(this.getClass().getName(), "buscarFormularioTecnico");
+        logger.log(Level.INFO, "NUE CAPTURADO:{0}", this.nue);
         Formulario formulario = formularioEJB.findFormularioByNue(this.nue);
-        
+
         if (formulario != null) {
             httpServletRequest.getSession().setAttribute("nueF", this.nue);
             httpServletRequest1.getSession().setAttribute("cuentaUsuario", this.usuarioSis);
-            if(formularioEJB.traslados(formulario) != null){
-                //Si el formulario que busco tiene traslado lo mando a la siguiente pagina
-                return "resultadoBuscadorTecnicoTraslados.xhtml";
-            }
 
-            logger.exiting(this.getClass().getName(), "iniciarFormulario", "resultadoBuscadorTecnico");
-            return "resultadoBuscadorTecnico?faces-redirect=true";
+            logger.exiting(this.getClass().getName(), "buscarFormularioTecnico", "todoTecnico");
+            return "todoTecnico.xhtml?faces-redirect=true";
         }
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "no existe", "Datos no válidos"));
-        logger.exiting(this.getClass().getName(), "iniciarBuscarFormulario", "");
-        System.out.println("no encontro el nue");
+        logger.info("formulario no encontrado");
+        logger.exiting(this.getClass().getName(), "buscarFormularioTecnico", "");
         return "";
     }
 
@@ -101,8 +94,17 @@ public class BuscadorTecnicoMB {
         logger.setLevel(Level.ALL);
         logger.entering(this.getClass().getName(), "salirTecnico");
         logger.log(Level.FINEST, "usuario saliente {0}", this.usuarioSesion.getNombreUsuario());
-        logger.exiting(this.getClass().getName(), "salirTecnico", "indexListo");
-        return "indexListo?faces-redirect=true";
+        httpServletRequest1.removeAttribute("cuentaUsuario");
+        logger.exiting(this.getClass().getName(), "salirTecnico", "/indexListo");
+        return "/indexListo?faces-redirect=true";
+    }
+
+    public int getNue() {
+        return nue;
+    }
+
+    public void setNue(int nue) {
+        this.nue = nue;
     }
 
     public String getUsuarioSis() {
@@ -121,13 +123,4 @@ public class BuscadorTecnicoMB {
         this.usuarioSesion = usuarioSesion;
     }
 
-    public int getNue() {
-        return nue;
-    }
-
-    public void setNue(int nue) {
-        this.nue = nue;
-    }
-
-    
 }

@@ -14,7 +14,7 @@
         <div class="container">
             <h:form>
                 <div class="thumbnail">
-                    <div align="center"><h:outputLabel class="input-group-lg" style=" background-color: white" value="Bienvenido(a) #{resultadoBuscadorTecnicoTMB.usuarioSesion.nombreUsuario}"></h:outputLabel></div>
+                    <div align="center"><h:outputLabel class="input-group-lg" style=" background-color: white" value="Bienvenido(a) #{todoPeritoMB.usuarioSesion.nombreUsuario}"></h:outputLabel></div>
                 </div>
             </h:form> 
 
@@ -29,16 +29,10 @@
                 <div class="col-md-9"> <!-- Barra de navegación -->
                     <ul class="nav nav-tabs nav-justified">
 
-                        <li role="presentation"><a href="#">Formulario</a></li>
-
-                        <li role="presentation"><a href="AddTraslado.xhtml">Cadena de Custodia</a></li>
-
-                        <li role="presentation" class="active"><a href="Buscador.xhtml">Buscador</a></li>
-
-                        <li role="presentation"><a href="Buscador.xhtml">Editar</a></li>
-
-                        <li role="presentation"><a href="indexListo.xhtml">Cerrar Sesion</a></li>
-
+                        <li role="presentation" class="active" ><a href="buscadorPerito.xhtml">Buscar</a></li>   
+                        <h:form>
+                            <li role="presentation"> <h:commandLink id="cs" action="#{todoPeritoMB.salir()}" value="Cerrar sesión"></h:commandLink> </li>
+                        </h:form>
 
                     </ul>
                 </div>
@@ -71,52 +65,52 @@
                                 <h:form>
                                     <h:panelGrid columns="4" cellpadding="5" class="ui-grid">
                                         <h:outputLabel  for="ruc" value="R.U.C.:" style="width:120px"></h:outputLabel>
-                                        <p:inputText id="ruc" value="#{resultadoBuscadorTecnicoTMB.formulario.ruc}" label="ruc" disabled="true" ></p:inputText>
+                                        <p:inputText id="ruc" value="#{todoPeritoMB.formulario.ruc}" label="ruc" disabled="true" ></p:inputText>
 
                                         <h:outputLabel  for="rit" value="R.I.T.:" style="width:120px"></h:outputLabel>
-                                        <p:inputText id="rit" value="#{resultadoBuscadorTecnicoTMB.formulario.rit}" label="rit" disabled="true"></p:inputText>
+                                        <p:inputText id="rit" value="#{todoPeritoMB.formulario.rit}" label="rit" disabled="true"></p:inputText>
 
                                         <h:outputLabel  for="nue" value="N.U.E.:" style="width:120px"></h:outputLabel>
-                                        <p:inputText id="nue" value="#{resultadoBuscadorTecnicoTMB.formulario.nue}" label="nue" disabled="true">
-                                            <f:validateDoubleRange minimum="10000" maximum="99999"/>
+                                        <p:inputText id="nue" value="#{todoPeritoMB.formulario.nue}" label="nue" disabled="true">
+                                            <f:validateDoubleRange minimum="1" maximum="99999"/>
                                         </p:inputText>                                   
 
                                         <h:outputLabel  for="del" value="Delito:" style="width:120px"></h:outputLabel>
-                                        <p:inputText id="del" value="#{resultadoBuscadorTecnicoTMB.formulario.delitoRef}" label="Delito" disabled="true"></p:inputText>
+                                        <p:inputText id="del" value="#{todoPeritoMB.formulario.delitoRef}" label="Delito" disabled="true"></p:inputText>
 
                                         <h:outputLabel  for="dir" value="Dirección:" style="width:120px"></h:outputLabel>
-                                        <p:inputText id="dir" value="#{resultadoBuscadorTecnicoTMB.formulario.direccionSS}" label="Dirección" disabled="true"></p:inputText>
+                                        <p:inputText id="dir" value="#{todoPeritoMB.formulario.direccionSS}" label="Dirección" disabled="true"></p:inputText>
 
                                         <h:outputLabel  for="lu" value="Lugar:" style="width:120px"></h:outputLabel>
-                                        <p:inputText id="lu" value="#{resultadoBuscadorTecnicoTMB.formulario.lugarLevantamiento}" label="Lugar" disabled="true"></p:inputText>
+                                        <p:inputText id="lu" value="#{todoPeritoMB.formulario.lugarLevantamiento}" label="Lugar" disabled="true"></p:inputText>
 
                                         <h:outputLabel  for="parte" value="N° Parte:" style="width:120px"></h:outputLabel>
-                                        <p:inputText id="parte" value="#{resultadoBuscadorTecnicoTMB.formulario.numeroParte}" label="N° Parte" disabled="true"></p:inputText>
+                                        <p:inputText id="parte" value="#{todoPeritoMB.formulario.numeroParte}" label="N° Parte" disabled="true"></p:inputText>
 
                                         <h:outputLabel  for="uni" value="Unidad:" style="width:120px"></h:outputLabel>
-                                        <p:inputText id="uni" value="#{resultadoBuscadorTecnicoTMB.formulario.usuarioidUsuario1.unidad}" label="Unidad" disabled="true"></p:inputText>
+                                        <p:inputText id="uni" value="#{todoPeritoMB.formulario.usuarioidUsuario1.unidad}" label="Unidad" disabled="true"></p:inputText>
 
                                         <h:outputLabel  for="lev" value="Levantada por:" style="width:120px"></h:outputLabel>
-                                        <p:inputText id="lev" value="#{resultadoBuscadorTecnicoTMB.formulario.usuarioidUsuario1.nombreUsuario}" label="Levantada por" disabled="true"></p:inputText>
+                                        <p:inputText id="lev" value="#{todoPeritoMB.formulario.usuarioidUsuario.nombreUsuario}" label="Levantada por" disabled="true"></p:inputText>
 
                                         <h:outputLabel  for="run" value="R.U.N.:" style="width:120px"></h:outputLabel>
-                                        <p:inputText id="run" value="#{resultadoBuscadorTecnicoTMB.formulario.usuarioidUsuario1.rutUsuario}" label="R.U.N." disabled="true"></p:inputText>            
+                                        <p:inputText id="run" value="#{todoPeritoMB.formulario.usuarioidUsuario1.rutUsuario}" label="R.U.N." disabled="true"></p:inputText>            
 
                                     </h:panelGrid> <br />
 
 
                                     <h:panelGrid columns="1" cellpadding="5" class="ui-grid">
                                         <h:outputLabel  for="fecha" value="Fecha:" style="width:120px"></h:outputLabel>
-                                        <p:inputText id="fecha" value="#{resultadoBuscadorTecnicoTMB.formulario.fechaOcurrido}" label="Fecha" disabled="true"/>
+                                        <p:inputText id="fecha" value="#{todoPeritoMB.formulario.fechaOcurrido}" label="Fecha" disabled="true"/>
 
                                         <h:outputLabel  for="obs" value="Observaciones:" style="width:120px"></h:outputLabel>
-                                        <p:inputTextarea id="Observaciones" rows="3" cols="90" value="#{resultadoBuscadorTecnicoTMB.formulario.observaciones}" queryDelay="750" minQueryLength="4" disabled="true" />
+                                        <p:inputTextarea id="Observaciones" rows="3" cols="90" value="#{todoPeritoMB.formulario.observaciones}" queryDelay="750" minQueryLength="4" disabled="true" />
 
                                         <h:outputLabel  for="des" value="Descripción:" style="width:120px"></h:outputLabel>
-                                        <p:inputTextarea id="descripcion" rows="3" cols="90" value="#{resultadoBuscadorTecnicoTMB.formulario.descripcionEspecieFormulario}" queryDelay="750" minQueryLength="4" disabled="true" />
+                                        <p:inputTextarea id="descripcion" rows="3" cols="90" value="#{todoPeritoMB.formulario.descripcionEspecieFormulario}" queryDelay="750" minQueryLength="4" disabled="true" />
                                     </h:panelGrid>  <br />
                                     <br />
-                                    <p:dataList value="#{resultadoBuscadorTecnicoTMB.trasladosList}" var="traslado" >     
+                                    <p:dataList value="#{todoPeritoMB.trasladosList}" var="traslado" emptyMessage="No se han registrado más participantes en esta cadena de custodia." >     
                                         <h:outputLabel value="Fecha: " for="feT" />
                                         <h:outputText id="feT" value="#{traslado.fechaEntrega}" />
                                         <h:outputLabel value="Motivo: " for="moT"/>
@@ -126,7 +120,7 @@
                                         <h:outputText id="nomTE" value="#{traslado.usuarioidUsuario1.nombreUsuario}" />
                                         <h:outputLabel value="Cargo: " for="carTE" />
                                         <h:outputText id="carTE" value="#{traslado.usuarioidUsuario1.cargoidCargo.nombreCargo}" />
-                                        <h:outputLabel value="R.U.N.: " for="ruTE" />
+                                        <h:outputLabel value="R.U.N.:"  for="ruTE" />
                                         <h:outputText id="ruTE" value="#{traslado.usuarioidUsuario1.rutUsuario}" />       
                                         <h4>Recibe: </h4>
                                         <h:outputLabel value="Nombre: " for="nomTR" />
@@ -140,13 +134,20 @@
                                         <hr />
                                     </p:dataList>
                                     <hr />
+                                    <h4> Mostrando Ediciones</h4>
+                                    <p:dataList value="#{todoPeritoMB.edicionesList}" var="ediciones" emptyMessage="No se han realizado ediciones en esta cadena de custodia.">     
+                                        <h:outputLabel value="Edición: " for="ed" />
+                                        <h:outputText id="ed" value="#{ediciones.observaciones}" />
+                                        <hr />
+                                    </p:dataList>
 
                                     <div align="center">
                                         <h:panelGrid columns="4">
-                                            <!-- este boton me lleva a editor.xhtml -->
-                                            <h:commandButton value="Editar" label="" ></h:commandButton>  
-                                            <!-- este boton me lleva a forAdd.xhtml -->
-                                            <h:commandButton value="Agregar Traslados" label="" action = "#{resultadoBuscadorTecnicoTMB.agregarTraslado()}" ></h:commandButton>  
+                                          
+                                           
+                                            <h:commandButton value="Nueva Cadena" label="" action = "#{todoPeritoMB.nuevaCadena()}" ></h:commandButton>  
+                                            <h:commandButton value="Editar" label="" action = "#{todoPeritoMB.editar()}"></h:commandButton>  
+
                                         </h:panelGrid>
                                     </div>
 

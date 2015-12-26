@@ -38,6 +38,7 @@ public class TipoMotivoFacade extends AbstractFacade<TipoMotivo> implements Tipo
         super(TipoMotivo.class);
     }
  
+    //@NamedQuery(name = "TipoMotivo.findByTipoMotivo", query = "SELECT t FROM TipoMotivo t WHERE t.tipoMotivo = :tipoMotivo")
     @Override
     public TipoMotivo findByTipoMotivo(String motivo) {
         logger.setLevel(Level.ALL);

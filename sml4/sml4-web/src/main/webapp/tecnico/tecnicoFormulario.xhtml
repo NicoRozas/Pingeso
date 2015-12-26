@@ -26,12 +26,11 @@
 
         <div class="container">
 
-
             <!-- Usuario logeado -->
 
             <h:form>
                 <div class="thumbnail">
-                    <div align="center"><h:outputLabel class="input-group-lg" style=" background-color: white" value="Bienvenido(a) #{crearFormularioTecnicoMB.userSesion.nombreUsuario}"></h:outputLabel></div>
+                    <div align="center"><h:outputLabel class="input-group-lg" style=" background-color: white" value="Bienvenido(a) #{crearFormularioTecnicoMB.getuSesion().nombreUsuario}"></h:outputLabel></div>
                 </div>
             </h:form> 
 
@@ -45,17 +44,13 @@
                 <div class="col-md-9"> <!-- Barra de navegación -->
                     <ul class="nav nav-tabs nav-justified">
 
-                        <li role="presentation" class="active"><a href="#">Formulario</a></li>
+                        <li role="presentation"><a href="peritoFormulario.xhtml">Iniciar nuevo formulario</a></li>
 
-                        <li role="presentation"><a href="forAddTTecnico.xhtml">Cadena de Custodia</a></li>
+                        <li role="presentation" class="active" ><a href="buscadorTecnico.xhtml">Buscar</a></li>
 
-                        <li role="presentation"><a href="Buscador.xhtml">Buscador</a></li>
-
-                        <li role="presentation"><a href="Buscador.xhtml">Editar</a></li>
-
-                        <li role="presentation"><a href="indexListo.xhtml">Cerrar Sesion</a></li>
-
-
+                        <h:form>
+                            <li role="presentation"> <h:commandLink id="cs" action="#{crearFormularioTecnicoMB.salir()}" value="Cerrar sesión"></h:commandLink> </li>
+                        </h:form>
                     </ul>
                 </div>
             </div>   	
@@ -104,7 +99,7 @@
                                         <br />
 
                                         <h:outputLabel  for="parte" value="N° Parte:" style="width:120px"></h:outputLabel>
-                                        <p:inputText id="parte" value="#{crearFormularioTecnicoMB.parte}" label="N° Parte" ></p:inputText>
+                                        <p:inputText id="parte" value="#{crearFormularioTecnicoMB.parte}" type="number" label="N° Parte" ></p:inputText>
                                         <p:message for="parte" display="text"/> 
                                         <br />
 
@@ -115,7 +110,7 @@
                                         <br />
 
                                         <h:outputLabel  for="cargo" value="Cargo:" style="width:120px"></h:outputLabel>
-                                        <p:inputText id="cargo" value="#{crearFormularioTecnicoMB.cargo}" label="Cargo" required="true" requiredMessage="Debe ingresar el cargo"></p:inputText>
+                                        <p:inputText id="cargo" value="#{crearFormularioTecnicoMB.cargo}" label="Cargo" disabled="true"></p:inputText>
                                         <p:message for="cargo" display="text"/> 
                                         <br />
 
@@ -138,48 +133,26 @@
 
 
                                         <h:outputLabel  for="uni" value="Unidad:" style="width:120px"></h:outputLabel>
-                                        <p:inputText id="uni" value="#{crearFormularioTecnicoMB.unidad}" label="Unidad" required="true" requiredMessage="Debe ingresar la unidad"></p:inputText>
+                                        <p:inputText id="uni" value="#{crearFormularioTecnicoMB.unidad}" label="Unidad" disabled="true"></p:inputText>
                                         <p:message for="uni" display="text"/> 
                                         <br />
 
                                         <h:outputLabel  for="lev" value="Levantada por:" style="width:120px"></h:outputLabel>
-                                        <p:inputText id="lev" value="#{crearFormularioTecnicoMB.levantadaPor}" label="Levantada por" required="true" requiredMessage="Debe ingresar quien levanto la evidencia"></p:inputText>
+                                        <p:inputText id="lev" value="#{crearFormularioTecnicoMB.levantadaPor}" label="Levantada por" disabled="true"></p:inputText>
                                         <p:message for="lev" display="text"/> 
                                         <br />
 
                                         <h:outputLabel  for="run" value="R.U.N.:" style="width:120px"></h:outputLabel>
-                                        <p:inputText id="run" value="#{crearFormularioTecnicoMB.rut}" label="R.U.N." required="true"  requiredMessage="Debe ingresar R.U.N." ></p:inputText>
+                                        <p:inputText id="run" value="#{crearFormularioTecnicoMB.rut}" label="R.U.N." disabled="true" ></p:inputText>
                                         <p:message for="run" display="text"/> 
                                         <br />
 
                                         <h:outputLabel for="fecha" value="Fecha: " style="width:120px" />
-                                        <p:calendar id="fecha" pattern="dd/MM/yyyy HH:mm" locale="es" value="#{crearFormularioTecnicoMB.fecha}" required="true" requiredMessage="Debe ingresar la fecha" />
+                                        <p:calendar id="fecha" pattern="dd/MM/yyyy HH:mm" locale="es" value="#{crearFormularioTecnicoMB.fecha}" disabled="true" />
                                         <p:message for="fecha" display="text"/>
                                         <br />
-                                        
-                                        
-                                            
-                                    </h:panelGrid> <hr />
-                                    
-                                    <h:panelGrid columns="3">
-                                        <h:outputLabel for="tipoEvidencia" value="Tipo de evidencia" />
-                                        <h:selectOneMenu id="tipoEvidencia" value="#{crearFormularioTecnicoMB.codTipoEvidencia}">
-                                            <f:selectItem itemValue="0" itemLabel="Seleccione" noSelectionOption="true"/>
-                                            <f:selectItem itemValue="1" itemLabel="Biológicas"/>
-                                            <f:selectItem itemValue="2" itemLabel="Vestuario"/>
-                                            <f:selectItem itemValue="3" itemLabel="Artefactos"/>
-                                            <f:selectItem itemValue="4" itemLabel="Otros"/>
-                                            
-                                            <f:ajax event="change" listener="#{crearFormularioTecnicoMB.cargarEvidencias}" render="evidencias" execute="@this"/>
-                                        </h:selectOneMenu>
-                                        <br />
-                                            
-                                        <h:outputLabel value="evidencia" />
-                                        <h:selectOneMenu id="evidencias" value="#{crearFormularioTecnicoMB.evidencias}">
-                                            <f:selectItems value="#{crearFormularioTecnicoMB.listEvidencias}" itemLabel="#{crearFormularioTecnicoMB.evidencias}"/>
-                                        </h:selectOneMenu>
-                                        <br />
-                                    </h:panelGrid>    
+
+                                    </h:panelGrid> <br />
 
 
                                     <h:panelGrid columns="1" cellpadding="5" class="ui-grid">
@@ -189,7 +162,6 @@
 
                                         <h:outputLabel  for="descripcion" value="Descripción:" style="width:120px"></h:outputLabel>
                                         <p:inputTextarea id="descripcion" rows="3" cols="90" value="#{crearFormularioTecnicoMB.descripcion}" queryDelay="750" minQueryLength="4" />
-                                        
                                     </h:panelGrid>                                
 
                                     <h:commandButton id="btnAceptar" value="Aceptar" action="#{crearFormularioTecnicoMB.iniciarFormulario()}" />
@@ -226,3 +198,4 @@
 
     </h:body>
 </html>
+

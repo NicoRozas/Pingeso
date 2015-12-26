@@ -37,7 +37,8 @@ public class AreaFacade extends AbstractFacade<Area> implements AreaFacadeLocal 
     public AreaFacade() {
         super(Area.class);
     }
- 
+    
+ //@NamedQuery(name = "Area.findByNombreArea", query = "SELECT a FROM Area a WHERE a.nombreArea = :nombreArea")
     @Override
     public Area findByArea(String nombreArea) {
         logger.setLevel(Level.ALL);

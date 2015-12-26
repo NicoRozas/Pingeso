@@ -39,6 +39,7 @@ public class TrasladoFacade extends AbstractFacade<Traslado> implements Traslado
         super(Traslado.class);
     }
  
+    //@NamedQuery(name = "Traslado.findByNue", query = "SELECT t FROM Traslado t WHERE t.formularioNUE = :nue")
     @Override
     public List<Traslado> findByNue(Formulario formulario) {
         logger.setLevel(Level.ALL);

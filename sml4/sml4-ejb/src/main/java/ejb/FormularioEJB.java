@@ -57,7 +57,23 @@ public class FormularioEJB implements FormularioEJBLocal {
 
     static final Logger logger = Logger.getLogger(FormularioEJB.class.getName());
 
+    @Override
+    public Usuario obtenerPoseedorFormulario(Formulario formulario){
+        logger.setLevel(Level.ALL);
+        logger.entering(this.getClass().getName(), "obtenerPoseedorFormulario", formulario.getNue());
+        //Busco todo slos traslados del formulario
+        List<Traslado> trasladoList = traslados(formulario);
+        Usuario usuarioPoseedor = formulario.getUsuarioidUsuario1(); //usuario que inicia el formulario
+        //Comparando fechas entre traslados
+        if (!trasladoList.isEmpty()) {
+            usuarioPoseedor = trasladoList.get(trasladoList.size() - 1).getUsuarioidUsuario();  //último usuario que recibió            
+        }        
+        logger.exiting(this.getClass().getName(), "obtenerPoseedorFormulario", usuarioPoseedor.toString());
+        return usuarioPoseedor;
+    }
+        
     //** trabajar en la consulta sql
+    // por qué es necesario tener las ediciones de un solo usuario ?
     @Override
     public List<EdicionFormulario> listaEdiciones(int nue, int idUser) {
         logger.setLevel(Level.ALL);
@@ -102,7 +118,16 @@ public class FormularioEJB implements FormularioEJBLocal {
         logger.setLevel(Level.ALL);
         logger.entering(this.getClass().getName(), "crearTraslado");
         
-        //**falta verificar que se permian ingresar mas traslado en la CC.
+        if(formulario == null){
+            logger.exiting(this.getClass().getName(), "crearTraslado", "Formulario nulo");
+            return "Imposible agregar traslado, ocurrió un problema al cargar el formulario, por favor intente más tarde.";
+        }
+        
+        //verificamos que el formulario no se encuentre bloqueado.
+        if(formulario.getBloqueado()){
+            logger.exiting(this.getClass().getName(), "crearTraslado", "Formulario bloqueado");
+            return "Imposible agregar traslado, esta cadena de custodia se encuentra cerrada.";
+        }
         
         if (usuarioEntrega == null || usuarioEntregaUnidad == null || usuarioEntregaCargo == null || usuarioEntregaRut == null || usuarioRecibe == null || usuarioRecibeUnidad == null || usuarioRecibeCargo == null || usuarioRecibeRut == null || motivo == null) {
             logger.exiting(this.getClass().getName(), "crearTraslado", "Campos null");
@@ -121,7 +146,7 @@ public class FormularioEJB implements FormularioEJBLocal {
             return "Error datos usuario recibe";
         }
 
-        //Busco todo slos traslados del formulario
+        //Busco todos los traslados del formulario
         List<Traslado> trasladoList = traslados(formulario);
 
         //Comparando fechas entre traslados
@@ -175,7 +200,12 @@ public class FormularioEJB implements FormularioEJBLocal {
                 logger.exiting(this.getClass().getName(), "crearTraslado", "Error con verificacion usuario Recibe");
                 return "Datos no corresponden al rut";
             }
-
+        }
+        
+        //verificando que usuario recibe sea distinto del usuario que entrega
+        if(usuarioEntregaP.equals(usuarioRecibeP)){ //si se trata del mismo usuario 
+            logger.exiting(this.getClass().getName(), "crearTraslado", "Usuario Entrega y Recibe son el mismo");
+            return "El usuario que recibe la cadena de custodia debe ser distinto al usuario que la entrega.";
         }
 
         //Creando traslado
@@ -187,16 +217,6 @@ public class FormularioEJB implements FormularioEJBLocal {
         nuevoTraslado.setUsuarioidUsuario(usuarioRecibeP);
         nuevoTraslado.setUsuarioidUsuario1(usuarioEntregaP);
 
-//        if (nuevoTraslado.getTipoMotivoidMotivo().getTipoMotivo().equals("Peritaje")) {
-//
-//            if (uSesion.getCargoidCargo().getNombreCargo().equals("Tecnico") || uSesion.getCargoidCargo().getNombreCargo().equals("Perito")) {
-//                logger.info("se inicia insercion del nuevo traslado y fin de la cadena");
-//                trasladoFacade.create(nuevoTraslado);
-//                logger.info("se finaliza insercion del nuevo traslado y fin de la cadena");
-//                logger.exiting(this.getClass().getName(), "crearTraslado", "Exito");
-//                return "Exito";
-//            }
-//        }
 
         logger.info("se inicia insercion del nuevo traslado");
         trasladoFacade.create(nuevoTraslado);
@@ -208,10 +228,13 @@ public class FormularioEJB implements FormularioEJBLocal {
             if (uSesion.getCargoidCargo().getNombreCargo().equals("Tecnico") || uSesion.getCargoidCargo().getNombreCargo().equals("Perito")) {
                 logger.info("se realiza peritaje, por tanto se finaliza la cc.");
                 
-                //**realizar cosas para bloquear CC.
+                formulario.setBloqueado(true);
+                logger.info("se inicia la edición del formulario para bloquearlo");
+                formularioFacade.edit(formulario);
+                logger.info("se finaliza la edición del formulario para bloquearlo");
+                
             }
-        }   
-        
+        }           
         
         logger.exiting(this.getClass().getName(), "crearTraslado", "Exito");
         return "Exito";
@@ -473,7 +496,7 @@ public class FormularioEJB implements FormularioEJBLocal {
         nuevoFormulario.setDireccionFotografia("C:");
         nuevoFormulario.setFechaIngreso(new Date(System.currentTimeMillis()));
         nuevoFormulario.setFechaOcurrido(fecha);
-        nuevoFormulario.setUltimaEdicion(nuevoFormulario.getFechaIngreso());
+        nuevoFormulario.setUltimaEdicion(nuevoFormulario.getFechaIngreso());        
         nuevoFormulario.setUsuarioidUsuario(digitador); // Usuario digitador
         nuevoFormulario.setUsuarioidUsuario1(usuarioIngresar); //Usuario inicia
         nuevoFormulario.setDescripcionEspecieFormulario(descripcion);
@@ -486,6 +509,7 @@ public class FormularioEJB implements FormularioEJBLocal {
         nuevoFormulario.setRit(rit);
         nuevoFormulario.setLugarLevantamiento(lugar);
         nuevoFormulario.setDireccionSS(direccionSS);
+        nuevoFormulario.setBloqueado(false);
 
         logger.finest("se inicia la persistencia del nuevo formulario");
         formularioFacade.create(nuevoFormulario);

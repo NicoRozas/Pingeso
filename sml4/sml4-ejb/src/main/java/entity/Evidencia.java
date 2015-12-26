@@ -11,6 +11,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -26,16 +27,17 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author sebastian
+ * @author Alan
  */
 @Entity
-@Table(name = "Evidencia")
+@Table(name = "evidencia")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Evidencia.findAll", query = "SELECT e FROM Evidencia e"),
     @NamedQuery(name = "Evidencia.findByIdEvidencia", query = "SELECT e FROM Evidencia e WHERE e.idEvidencia = :idEvidencia"),
     @NamedQuery(name = "Evidencia.findByNombreEvidencia", query = "SELECT e FROM Evidencia e WHERE e.nombreEvidencia = :nombreEvidencia")})
 public class Evidencia implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,11 +47,11 @@ public class Evidencia implements Serializable {
     @Size(max = 45)
     @Column(name = "nombreEvidencia")
     private String nombreEvidencia;
-    @JoinColumn(name = "Tipo_Evidencia_idTipo_Evidencia", referencedColumnName = "idTipoEvidencia")
-    @ManyToOne(optional = false)
-    private TipoEvidencia tipoEvidenciaidTipoEvidencia;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "evidencia")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "evidencia", fetch = FetchType.EAGER)
     private List<FormularioEvidencia> formularioEvidenciaList;
+    @JoinColumn(name = "Tipo_Evidencia_idTipo_Evidencia", referencedColumnName = "idTipoEvidencia")
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    private TipoEvidencia tipoEvidenciaidTipoEvidencia;
 
     public Evidencia() {
     }
@@ -74,14 +76,6 @@ public class Evidencia implements Serializable {
         this.nombreEvidencia = nombreEvidencia;
     }
 
-    public TipoEvidencia getTipoEvidenciaidTipoEvidencia() {
-        return tipoEvidenciaidTipoEvidencia;
-    }
-
-    public void setTipoEvidenciaidTipoEvidencia(TipoEvidencia tipoEvidenciaidTipoEvidencia) {
-        this.tipoEvidenciaidTipoEvidencia = tipoEvidenciaidTipoEvidencia;
-    }
-
     @XmlTransient
     public List<FormularioEvidencia> getFormularioEvidenciaList() {
         return formularioEvidenciaList;
@@ -89,6 +83,14 @@ public class Evidencia implements Serializable {
 
     public void setFormularioEvidenciaList(List<FormularioEvidencia> formularioEvidenciaList) {
         this.formularioEvidenciaList = formularioEvidenciaList;
+    }
+
+    public TipoEvidencia getTipoEvidenciaidTipoEvidencia() {
+        return tipoEvidenciaidTipoEvidencia;
+    }
+
+    public void setTipoEvidenciaidTipoEvidencia(TipoEvidencia tipoEvidenciaidTipoEvidencia) {
+        this.tipoEvidenciaidTipoEvidencia = tipoEvidenciaidTipoEvidencia;
     }
 
     @Override

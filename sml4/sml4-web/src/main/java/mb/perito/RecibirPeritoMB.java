@@ -3,15 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package mb.digitador;
+package mb.perito;
 
 import ejb.FormularioEJBLocal;
 import ejb.UsuarioEJBLocal;
+import entity.EdicionFormulario;
 import entity.Formulario;
 import entity.Traslado;
 import entity.Usuario;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,12 +28,12 @@ import javax.servlet.http.HttpServletRequest;
 
 /**
  *
- * @author Aracelly
+ * @author sebastian
  */
-@Named(value = "todoMB")
+@Named(value = "recibirPeritoMB")
 @RequestScoped
 @ManagedBean
-public class TodoMB {
+public class RecibirPeritoMB {
 
     @EJB
     private UsuarioEJBLocal usuarioEJB;
@@ -39,12 +41,14 @@ public class TodoMB {
     @EJB
     private FormularioEJBLocal formularioEJB;
 
+    static final Logger logger = Logger.getLogger(RecibirPeritoMB.class.getName());
+
     private HttpServletRequest httpServletRequest;
     private FacesContext facesContext;
 
     private HttpServletRequest httpServletRequest1;
     private FacesContext facesContext1;
-    
+
     private String usuarioEntrega;
     private String usuarioEntregaUnidad;
     private String usuarioEntregaCargo;
@@ -60,23 +64,23 @@ public class TodoMB {
     private String usuarioSis;
     private Usuario usuarioSesion;
     
+    private Usuario userEntrega;
+
     private int nue;
 
     private Formulario formulario;
-
-    private List<Traslado> trasladosList;
     
-    static final Logger logger = Logger.getLogger(TodoMB.class.getName());
+    private List<Traslado> trasladosList;
+    private List<EdicionFormulario> edicionesList;
 
-    public TodoMB() {
+    public RecibirPeritoMB() {
         logger.setLevel(Level.ALL);
-        logger.entering(this.getClass().getName(), "TodoMB");
-        this.trasladosList = new ArrayList<>();
+        logger.entering(this.getClass().getName(), "RecibirPeritoMB");
         facesContext = FacesContext.getCurrentInstance();
         httpServletRequest = (HttpServletRequest) facesContext.getExternalContext().getRequest();
         if (httpServletRequest.getSession().getAttribute("nueF") != null) {
             this.nue = (int) httpServletRequest.getSession().getAttribute("nueF");
-            logger.log(Level.FINEST, "todo nue recibido {0}", this.nue);
+            logger.log(Level.FINEST, "nue recibido {0}", this.nue);
         }
         this.facesContext1 = FacesContext.getCurrentInstance();
         this.httpServletRequest1 = (HttpServletRequest) facesContext1.getExternalContext().getRequest();
@@ -84,45 +88,82 @@ public class TodoMB {
             this.usuarioSis = (String) httpServletRequest1.getSession().getAttribute("cuentaUsuario");
             logger.log(Level.FINEST, "Usuario recibido {0}", this.usuarioSis);
         }
-        logger.exiting(this.getClass().getName(), "TodoMB");
+        this.usuarioSesion = new Usuario();
+        this.userEntrega = new Usuario();
+        this.trasladosList = new ArrayList<>();
+        this.edicionesList = new ArrayList<>();
+        this.formulario = new Formulario();
+        
+        logger.exiting(this.getClass().getName(), "RecibirPeritoMB");
     }
     
     @PostConstruct
     public void cargarDatos() {
         logger.setLevel(Level.ALL);
-        logger.entering(this.getClass().getName(), "cargarDatosDigitador");
-        this.usuarioSesion = usuarioEJB.findUsuarioSesionByCuenta(usuarioSis);
+        logger.entering(this.getClass().getName(), "cargarDatosPerito");
         this.formulario = formularioEJB.findFormularioByNue(this.nue);
+        this.usuarioSesion = usuarioEJB.findUsuarioSesionByCuenta(usuarioSis);
         this.trasladosList = formularioEJB.traslados(this.formulario);
-        logger.log(Level.INFO, "formulario ruc {0}", this.formulario.getRuc());
-        logger.log(Level.FINEST, "todos cant traslados {0}", this.trasladosList.size());
-        logger.exiting(this.getClass().getName(), "cargarDatosDigitador");
+        this.edicionesList = formularioEJB.listaEdiciones(nue, this.usuarioSesion.getIdUsuario());
+        
+        GregorianCalendar c = new GregorianCalendar();
+        this.fechaT = c.getTime();
+        
+        this.usuarioRecibe = usuarioSesion.getNombreUsuario();
+        this.usuarioRecibeCargo = usuarioSesion.getCargoidCargo().getNombreCargo();
+        this.usuarioRecibeRut = usuarioSesion.getRutUsuario();
+        this.usuarioRecibeUnidad = usuarioSesion.getUnidad();
+        
+        this.userEntrega = formularioEJB.obtenerPoseedorFormulario(formulario);
+        
+        this.usuarioEntrega = userEntrega.getNombreUsuario();
+        this.usuarioEntregaCargo = userEntrega.getCargoidCargo().getNombreCargo();
+        this.usuarioEntregaRut = userEntrega.getRutUsuario();
+        this.usuarioEntregaUnidad = userEntrega.getUnidad();
+        
+        logger.exiting(this.getClass().getName(), "cargarDatosPerito");
     }
 
-   public String agregarTraslado() {
+    public String agregarTraslado() {
         logger.setLevel(Level.ALL);
-        logger.entering(this.getClass().getName(), "agregarTrasladoDigitador");
+        logger.entering(this.getClass().getName(), "agregarTrasladoPerito");
         logger.log(Level.FINEST, "rut usuario entrega {0}", this.usuarioEntrega);
         logger.log(Level.FINEST, "rut usuario recibe {0}", this.usuarioRecibe);
         logger.log(Level.FINEST, "rut motivo {0}", this.motivo);
         String resultado = formularioEJB.crearTraslado(formulario, usuarioEntrega, usuarioEntregaUnidad, usuarioEntregaCargo, usuarioEntregaRut, usuarioRecibe, usuarioRecibeUnidad, usuarioRecibeCargo, usuarioRecibeRut, fechaT, observacionesT, motivo, usuarioSesion);
         if (resultado.equals("Exito")) {
             httpServletRequest.getSession().setAttribute("nueF", this.nue);
-            logger.exiting(this.getClass().getName(), "agregarTrasladoPerito", "todoHU11?faces-redirect=true");
-            return "todoHU11?faces-redirect=true";
+            logger.exiting(this.getClass().getName(), "agregarTrasladoPerito", "todoPerito?faces-redirect=true");
+            return "todoPerito?faces-redirect=true";
         }
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, resultado, "Uno o más datos inválidos"));
-        logger.exiting(this.getClass().getName(), "agregarTrasladoDigitador", "");
+        logger.exiting(this.getClass().getName(), "agregarTrasladoPerito", "");
         return "";
     }
-   
-   public String salir() {
+
+    public String salir() {
         logger.setLevel(Level.ALL);
-        logger.entering(this.getClass().getName(), "salirDigitador");
+        logger.entering(this.getClass().getName(), "salirPerito");
         logger.log(Level.FINEST, "usuario saliente {0}", this.usuarioSesion.getNombreUsuario());
         httpServletRequest1.removeAttribute("cuentaUsuario");
-        logger.exiting(this.getClass().getName(), "salirDigitador", "/indexListo");
+        logger.exiting(this.getClass().getName(), "salirPerito", "/indexListo");
         return "/indexListo?faces-redirect=true";
+    }
+
+    public Formulario getFormulario() {
+        return formulario;
+    }
+
+    public void setFormulario(Formulario formulario) {
+        this.formulario = formulario;
+    }
+
+    public int getNue() {
+        return nue;
+    }
+
+    public void setNue(int nue) {
+        this.nue = nue;
     }
 
     public String getUsuarioEntrega() {
@@ -213,14 +254,6 @@ public class TodoMB {
         this.fechaT = fechaT;
     }
 
-    public String getUsuarioSis() {
-        return usuarioSis;
-    }
-
-    public void setUsuarioSis(String usuarioSis) {
-        this.usuarioSis = usuarioSis;
-    }
-
     public Usuario getUsuarioSesion() {
         return usuarioSesion;
     }
@@ -229,20 +262,12 @@ public class TodoMB {
         this.usuarioSesion = usuarioSesion;
     }
 
-    public int getNue() {
-        return nue;
+    public Usuario getUserEntrega() {
+        return userEntrega;
     }
 
-    public void setNue(int nue) {
-        this.nue = nue;
-    }
-
-    public Formulario getFormulario() {
-        return formulario;
-    }
-
-    public void setFormulario(Formulario formulario) {
-        this.formulario = formulario;
+    public void setUserEntrega(Usuario userEntrega) {
+        this.userEntrega = userEntrega;
     }
 
     public List<Traslado> getTrasladosList() {
@@ -252,10 +277,13 @@ public class TodoMB {
     public void setTrasladosList(List<Traslado> trasladosList) {
         this.trasladosList = trasladosList;
     }
-    
 
-    
+    public List<EdicionFormulario> getEdicionesList() {
+        return edicionesList;
+    }
 
-
+    public void setEdicionesList(List<EdicionFormulario> edicionesList) {
+        this.edicionesList = edicionesList;
+    }
 
 }

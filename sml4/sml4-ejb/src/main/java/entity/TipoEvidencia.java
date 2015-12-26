@@ -11,6 +11,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -24,16 +25,17 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author sebastian
+ * @author Alan
  */
 @Entity
-@Table(name = "Tipo_Evidencia")
+@Table(name = "tipo_evidencia")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "TipoEvidencia.findAll", query = "SELECT t FROM TipoEvidencia t"),
     @NamedQuery(name = "TipoEvidencia.findByIdTipoEvidencia", query = "SELECT t FROM TipoEvidencia t WHERE t.idTipoEvidencia = :idTipoEvidencia"),
     @NamedQuery(name = "TipoEvidencia.findByNombreTipoEvidencia", query = "SELECT t FROM TipoEvidencia t WHERE t.nombreTipoEvidencia = :nombreTipoEvidencia")})
 public class TipoEvidencia implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,7 +45,7 @@ public class TipoEvidencia implements Serializable {
     @Size(max = 45)
     @Column(name = "nombreTipoEvidencia")
     private String nombreTipoEvidencia;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tipoEvidenciaidTipoEvidencia")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tipoEvidenciaidTipoEvidencia", fetch = FetchType.EAGER)
     private List<Evidencia> evidenciaList;
 
     public TipoEvidencia() {

@@ -38,10 +38,11 @@ public class UsuarioFacade extends AbstractFacade<Usuario> implements UsuarioFac
         super(Usuario.class);
     }
  
+    //@NamedQuery(name = "Usuario.findByCuentaUsuario", query = "SELECT u FROM Usuario u WHERE u.cuentaUsuario = :cuentaUsuario")s
     @Override
     public Usuario findByCuentaUsuario(String name) {
         logger.setLevel(Level.ALL);
-        logger.entering(this.getClass().getName(), "findByName", name);
+        logger.entering(this.getClass().getName(), "findByCuentaUsuario", name);
         Usuario retorno = null;
         try {
             Query q = em.createNamedQuery("Usuario.findByCuentaUsuario", Usuario.class).setParameter("cuentaUsuario", name);
@@ -76,14 +77,15 @@ public class UsuarioFacade extends AbstractFacade<Usuario> implements UsuarioFac
             retorno = null;
         }
         if (retorno == null) {
-            logger.exiting(this.getClass().getName(), "findByName", null);
+            logger.exiting(this.getClass().getName(), "findByCuentaUsuario", null);
             return null;
         } else {
-            logger.exiting(this.getClass().getName(), "findByName", retorno.toString());
+            logger.exiting(this.getClass().getName(), "findByCuentaUsuario", retorno.toString());
             return retorno;
         }
     }
  
+    //@NamedQuery(name = "Usuario.findByRutUsuario", query = "SELECT u FROM Usuario u WHERE u.rutUsuario = :rutUsuario")
     @Override
     public Usuario findByRUN(String run) {
         logger.setLevel(Level.ALL);

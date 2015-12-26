@@ -10,6 +10,7 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -25,16 +26,18 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author sebastian
+ * @author Alan
  */
 @Entity
-@Table(name = "Edicion_Formulario")
+@Table(name = "edicion_formulario")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "EdicionFormulario.findAll", query = "SELECT e FROM EdicionFormulario e"),
     @NamedQuery(name = "EdicionFormulario.findByIdEdicion", query = "SELECT e FROM EdicionFormulario e WHERE e.idEdicion = :idEdicion"),
-    @NamedQuery(name = "EdicionFormulario.findByFechaEdicion", query = "SELECT e FROM EdicionFormulario e WHERE e.fechaEdicion = :fechaEdicion")})
+    @NamedQuery(name = "EdicionFormulario.findByFechaEdicion", query = "SELECT e FROM EdicionFormulario e WHERE e.fechaEdicion = :fechaEdicion"),
+    @NamedQuery(name = "EdicionFormulario.findByObservaciones", query = "SELECT e FROM EdicionFormulario e WHERE e.observaciones = :observaciones")})
 public class EdicionFormulario implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,10 +51,10 @@ public class EdicionFormulario implements Serializable {
     @Column(name = "observaciones")
     private String observaciones;
     @JoinColumn(name = "Usuario_idUsuario", referencedColumnName = "idUsuario")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Usuario usuarioidUsuario;
     @JoinColumn(name = "Formulario_NUE", referencedColumnName = "NUE")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Formulario formularioNUE;
 
     public EdicionFormulario() {
@@ -76,7 +79,7 @@ public class EdicionFormulario implements Serializable {
     public void setFechaEdicion(Date fechaEdicion) {
         this.fechaEdicion = fechaEdicion;
     }
-    
+
     public String getObservaciones() {
         return observaciones;
     }

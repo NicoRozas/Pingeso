@@ -16,7 +16,7 @@
 
         <h:form>
             <div class="thumbnail">
-                <div align="center"><h:outputLabel class="input-group-lg" style=" background-color: white" value="Bienvenido(a) #{buscadorTecnicoMB.usuarioSesion.nombreUsuario}"></h:outputLabel></div>
+                <div align="center"><h:outputLabel class="input-group-lg" style=" background-color: white" value="Bienvenido(a) #{buscadorPeritoMB.usuarioSesion.nombreUsuario}"></h:outputLabel></div>
             </div>
         </h:form> 
 
@@ -31,12 +31,12 @@
             <div class="col-md-9"> <!-- Barra de navegación -->
                 <ul class="nav nav-tabs nav-justified">
 
-                    <li role="presentation"><a href="tecnicoFormulario.xhtml">Iniciar nuevo formulario</a></li>
+                    <li role="presentation"><a href="peritoFormulario.xhtml">Iniciar nuevo formulario</a></li>
 
-                    <li role="presentation" class="active" ><a href="buscadorTecnico.xhtml">Buscar</a></li>
+                    <li role="presentation" class="active" ><a href="buscadorPerito.xhtml">Buscar</a></li>
 
                     <h:form>
-                        <li role="presentation"> <h:commandLink id="cs" action="#{buscadorTecnicoMB.salir()}" value="Cerrar sesión"></h:commandLink> </li>
+                        <li role="presentation"> <h:commandLink id="cs" action="#{buscadorPeritoMB.salir()}" value="Cerrar sesión"></h:commandLink> </li>
                     </h:form>
                 </ul>
             </div>
@@ -51,10 +51,10 @@
                     <br />
                     <h:panelGrid columns="4" cellpadding="5" class="ui-grid">
                         <p:outputLabel for="nue" value="N.U.E.:" style="width:120px"></p:outputLabel>
-                        <h:inputText id="nue" style="margin-right:10px" rendered="true" value = "#{buscadorTecnicoMB.nue}" requiredMessage="Debe ingresar el N.U.E.">
+                        <h:inputText id="nue" style="margin-right:10px" rendered="true" value = "#{buscadorPeritoMB.nue}" requiredMessage="Debe ingresar el N.U.E.">
                             <!--<f:validateDoubleRange minimum="10000" maximum="99999"/>-->
                         </h:inputText>
-                        <h:commandButton value="Buscar" label="nue" action = "#{buscadorTecnicoMB.buscarFormulario()}" ></h:commandButton>                          
+                        <h:commandButton value="Buscar" label="nue" action = "#{buscadorPeritoMB.buscarFormulario()}" ></h:commandButton>                          
                     </h:panelGrid>
                     <br />
                     <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />

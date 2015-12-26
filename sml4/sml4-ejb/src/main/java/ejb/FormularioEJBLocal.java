@@ -31,4 +31,7 @@ public interface FormularioEJBLocal {
     public List<EdicionFormulario> listaEdiciones(int nue, int idUsuario);
     
     public String crearFormulario(String ruc, String rit, int nue, int nParte, String cargo, String delito, String direccionSS, String lugar, String unidad, String levantadoPor, String rut, Date fecha, String observacion, String descripcion, Usuario digitador);
+
+    public Usuario obtenerPoseedorFormulario(Formulario formulario);
 }
+

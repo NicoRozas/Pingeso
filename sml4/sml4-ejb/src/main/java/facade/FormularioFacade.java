@@ -37,8 +37,9 @@ public class FormularioFacade extends AbstractFacade<Formulario> implements Form
  
     public FormularioFacade() {
         super(Formulario.class);
-    }
-   
+    }   
+    
+    //@NamedQuery(name = "Formulario.findByNue", query = "SELECT f FROM Formulario f WHERE f.nue = :nue")
     @Override
     public Formulario findByNue(int nue) {
         logger.setLevel(Level.ALL);
