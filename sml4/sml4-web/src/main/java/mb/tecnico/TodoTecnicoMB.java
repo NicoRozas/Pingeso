@@ -116,8 +116,8 @@ public class TodoTecnicoMB {
         //Enviando usuario
         httpServletRequest1.getSession().setAttribute("cuentaUsuario", this.usuarioSis);
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Nueva Cadena", "Ir a nuevo formulario"));
-        logger.exiting(this.getClass().getName(), "nuevaCadena", "peritoFormulario");
-        return "peritoFormulario?faces-redirect=true";
+        logger.exiting(this.getClass().getName(), "nuevaCadena", "tecnicoFormulario");
+        return "tecnicoFormulario?faces-redirect=true";
     }
     
     //envía a la página para recibir la cadena

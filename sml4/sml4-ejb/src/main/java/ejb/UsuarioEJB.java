@@ -43,9 +43,9 @@ public class UsuarioEJB implements UsuarioEJBLocal {
                     direccion = "/chofer/choferFormulario.xhtml?faces-redirect=true";
                 } else if (foundUser.getCargoidCargo().getNombreCargo().equals("Digitador")) {
                     direccion = "/digitador/digitadorFormularioHU11.xhtml?faces-redirect=true";
-                } else if (foundUser.getCargoidCargo().getNombreCargo().equals("Técnico")) {
+                } else if (foundUser.getCargoidCargo().getNombreCargo().equals("Tecnico")) {
                     direccion = "/tecnico/buscadorTecnico.xhtml?faces-redirect=true";
-                } else if (foundUser.getCargoidCargo().getNombreCargo().equals("Jefe de área")){
+                } else if (foundUser.getCargoidCargo().getNombreCargo().equals("Jefe de area")){
                     direccion = "/jefeArea/buscadorJefeArea.xhtml?faces-redirect=true";
                 }
             }

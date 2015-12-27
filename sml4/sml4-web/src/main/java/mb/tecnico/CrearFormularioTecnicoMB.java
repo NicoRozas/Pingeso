@@ -59,6 +59,10 @@ public class CrearFormularioTecnicoMB {
     //Guardamos la cuenta del usuario que entrego la vista del login
     private String usuarioSis;
 
+    //Envio del nue
+    private HttpServletRequest httpServletRequest;
+    private FacesContext facesContext;    
+    
     //Captura al usuario proveniente del inicio de sesión
     private HttpServletRequest httpServletRequest1;
     private FacesContext facesContext1;
@@ -67,6 +71,8 @@ public class CrearFormularioTecnicoMB {
         logger.setLevel(Level.ALL);
         logger.entering(this.getClass().getName(), "CrearFormularioTecnicoMB");
         this.uSesion = new Usuario();
+        this.facesContext = FacesContext.getCurrentInstance();
+        this.httpServletRequest = (HttpServletRequest) facesContext.getExternalContext().getRequest();
         this.facesContext1 = FacesContext.getCurrentInstance();
         this.httpServletRequest1 = (HttpServletRequest) facesContext1.getExternalContext().getRequest();
         if (httpServletRequest1.getSession().getAttribute("cuentaUsuario") != null) {
@@ -102,6 +108,11 @@ public class CrearFormularioTecnicoMB {
         logger.log(Level.FINEST, "usuario inicia cargo {0}", this.cargo);
         String resultado = formularioEJB.crearFormulario(ruc, rit, nue, parte, cargo, delito, direccionSS, lugar, unidad, levantadaPor, rut, fecha, observacion, descripcion, uSesion);
 
+        //Enviando nue
+        httpServletRequest.getSession().setAttribute("nueF", this.nue);
+        //Enviando usuario
+        httpServletRequest1.getSession().setAttribute("cuentaUsuario", this.usuarioSis);
+        
         if (resultado.equals("Exito")) {            
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, resultado, "Datos exitosos"));
             logger.exiting(this.getClass().getName(), "iniciarFormularioTecnico", "formularioCreadoTecnico");
